@@ -17,7 +17,8 @@ const multer = require('multer');
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const passport = require("passport")
-
+const bodyParser = require('body-parser');
+const { exec } = require('child_process');
 
 
 
