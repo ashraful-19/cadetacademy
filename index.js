@@ -155,7 +155,7 @@ app.post('/web-hooks', (req, res) => {
 
   if (event === 'push') {
       // Modify the command to stash changes before pulling
-      exec('cd /home/missionacademy && git stash && git pull && npm install && pm2 restart bonna25', (err, stdout, stderr) => {
+      exec('cd /home/missionacademy && git stash && git pull && npm install && pm2 restart missionacademy', (err, stdout, stderr) => {
           if (err) {
               console.error(`Exec error: ${err.message}`);
               return res.status(500).send('Server Error');
