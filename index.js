@@ -1,7 +1,5 @@
 
 const express = require ("express");
-
-hello world 
 const app = express();
 require('dotenv').config();
 const path = require('path');
@@ -147,6 +145,34 @@ app.post("/upload", upload, (req, res, next) => {
   console.log(`Uploaded file path: http://localhost:8080${uploadedFilePath}`);
   res.json({ link: uploadedFilePath });
 });
+
+
+
+// Webhook route for handling GitHub events
+app.post('/web-hooks', (req, res) => {
+  const event = req.headers['x-github-event'];
+  console.log(`Received event: ${event}`);
+
+  if (event === 'push') {
+      // Modify the command to stash changes before pulling
+      exec('cd /home/missionacademy && git stash && git pull && npm install && pm2 restart bonna25', (err, stdout, stderr) => {
+          if (err) {
+              console.error(`Exec error: ${err.message}`);
+              return res.status(500).send('Server Error');
+          }
+          if (stderr) {
+              console.error(`Stderr: ${stderr}`);
+              return res.status(500).send('Server Error');
+          }
+          console.log(`Stdout: ${stdout}`);
+          res.status(200).send('Update successful');
+      });
+  } else {
+      console.log(`Unsupported event: ${event}`);
+      res.status(400).send('Event not supported');
+  }
+});
+
 
 app.listen(PORT, () => {
   console.log(`App is running on ${PORT}`);
