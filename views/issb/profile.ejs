@@ -1,0 +1,113 @@
+
+
+<%- include('../partials/header.ejs') %>
+<style>
+.update-profile-button{
+  color: white!important;
+  background-color: black;
+  margin-top: 10px!important;
+}</style>
+
+<section class="top-nav">
+  <div><h4>Profile</h4></div>
+  <svg stroke="currentColor" fill="none" stroke-width="0" viewBox="0 0 24 24" height="30" width="30" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16"></path></svg>
+</section>
+<br><br><br>
+
+
+<section class="profile">
+<div class="imgcontainer">
+      <form action="/auth/update-profilepic" method="post" id="profilePicForm" enctype="multipart/form-data">
+          <div class="avatar-upload">
+            <div class="avatar-preview">
+              <div id="imagePreview" style="<% if (user.profile_pic) { %>background-image: url('/images/<%= user.profile_pic %>');<% } %>"></div>
+
+              <input type="file" id="imageUpload" name="avatar" accept=".png, .jpg, .jpeg" />
+              <label for="imageUpload"><i class="fa-solid fa-camera"></i></label>
+            </div>
+            <button id="uploadButton"  style="display: none;">Upload My Image</button>
+          </div>
+        </form>
+    </div>
+
+<div class="profile-form">
+<form id="profile-form"	action="/auth/update-profile" method="post">
+  <label for="fname">Name of Candidate</label>
+  <input type="text" id="fname" name="name" placeholder="Name"  <% if (user && user.name) { %> value="<%= user.name %>" <% } %>>
+  <label for="lname">College/Univeristy</label>
+  <input type="text" id="lname" name="institution"  placeholder="College/University" <% if (user && user.institution) { %> value="<%= user.institution %>" <% } %>>
+  <label for="lname">Course Details</label>
+  <select id="lname" name="course" <% if (user && user.cousre) { %> selected="<%= user.course %>" <% } %>>
+    <option value="">Select One</option>
+    <option value="issb">ISSB</option>
+  <option value="Preliminary">Preliminary</option>
+  </select>
+    
+  <label for="lname">Phone Number</label>
+  <input type="text" disabled id="lname" name="lname" <% if (user && user.phone) { %> value="<%= user.phone %>" <% } %>>	
+  <label for="lname">Email Address</label>
+  <input type="text" id="lname" name="email"  placeholder="Email Address" <% if (user && user.email) { %> value="<%= user.email %>" <% } %>> 
+      <input type="submit" class="update-profile-button" value="Update">
+</form>
+</div>
+</section>
+
+
+
+<br><br><br><br>
+
+ <%- include('../partials/bottom-nav.ejs') %>
+
+ <script src="/js/script.js"></script>
+ <!-- Jquery Cnd minified -->
+ <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+   <script>
+  $(document).ready(function() {
+  // Trigger the file input field on clicking the avatar-preview div
+  $('.avatar-preview').click(function() {
+    $('#imageUpload').click();
+  });
+
+  // Show the image preview on selecting a file
+  $('#imageUpload').change(function() {
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      $('#imagePreview').css('background-image', 'url(' + e.target.result + ')');
+      $('#imagePreview').hide();
+      $('#imagePreview').fadeIn(650);
+      $('#uploadButton').show();
+    }
+    reader.readAsDataURL(this.files[0]);
+  });
+
+  // Handle the upload button click
+  $('#uploadButton').click(function(event) {
+    event.preventDefault();
+    $('#uploadButton').addClass('loading').text('Upload My photo');
+
+    const fileInput = $('#imageUpload')[0];
+    const formData = new FormData();
+    formData.append('avatar', fileInput.files[0]);
+
+    $.ajax({
+      url: '/auth/update-profilepic',
+      type: 'POST',
+      data: formData,
+      contentType: false,
+      processData: false,
+      success: function(response) {
+        console.log(response);
+        $('#uploadButton').removeClass('loading').text('Upload My photo');
+
+        $('#uploadButton').hide(); // Hide the button after a successful upload
+      },
+      error: function(error) {
+        // Handle error response
+      }
+    });
+  });
+});
+
+  
+  </script>
+     

@@ -1,0 +1,150 @@
+
+
+<%- include('../partials/header.ejs') %>
+<style>
+
+  
+  
+    .course-list-btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 20px 0px;
+    font-size: 18px;
+    background: #390d7e;
+    }
+
+</style>
+
+<section class="top-nav">
+  <div><h4>Profile</h4></div>
+  <div id="top-nav-left">
+    <svg stroke="currentColor" fill="none" stroke-width="0" viewBox="0 0 24 24" height="30" width="30" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16"></path></svg>
+   </div>
+</section>
+
+
+<div id="menulist" >
+	<a href="/"><i class="fa-solid fa-house"></i> Home</a>
+	<a href="https://www.facebook.com/mission.academy23"><i class="fa-regular fa-address-card"></i> About</a>
+	<a href="https://www.facebook.com/ashraful.ashik19"><i class="fa-regular fa-address-book"></i>Contact</a>
+	<a href="/termandcondition"><i class="fa-solid fa-fan"></i> Terms & conditions</a>
+	<a href="/privacy&policy"><i class="fa-solid fa-shield-halved"></i> Privacy and policy</a>
+    <% if (req.user) { %>
+        <a href="/auth/logout"><i class="fa-solid fa-arrow-right-from-bracket"></i>Logout</a>
+      <% } else { %>
+        <a href="/auth/login"><i class="fa-solid fa-arrow-right-to-bracket"></i>Login</a>
+      <% } %>
+      
+</div>
+<br><br><br><br>
+<style>
+
+
+</style>
+<div class="profile-container">
+  <div class="profile-details">
+    <img src="<%= user.profile_pic ? '/profilepic/' + user.profile_pic : '/img/user-review-icon.png' %>" class="profile-img">
+    <div class="profile-info">
+      <p class="profile-name"><%= user.name %></p>
+      <p class="profile-phone"><%= user.phone %></p>
+      <p class="profile-email"><%= user.email %></p>
+    </div>
+  </div>
+ <a class="edit-profile-btn" style="color:white;" href="/profile">Profile &nbsp;<i class="fa-solid fa-pen-to-square"></i></a>
+ <% if (locals.success_messages.length > 0) { %>
+  <p class="success"><%= locals.success_messages %></p>
+<% } %>
+</div>
+<br>
+
+<h3 style="color: white; font-family: sans-serif;margin-left: 8px;" >&nbsp;Dashboard</h3>
+
+  <% if (payments.length === 0) { %>
+    <div class="qcontainer" style="text-align: center;">
+      <p>কোনো কোর্স পাওয়া যায়নি, কোর্স কিনতে চিনে ক্লিক করুন</p>
+      <a href="/course"> <button class="course-list-btn">Our Courses</button></a>
+    </div>
+  <% } %>
+  
+
+
+  <% payments.forEach(function(course) { %>
+    <div class="box">
+      <% if (!course.is_banned) { %>
+        <a href="/course-lecture/<%= course.course.course_id %>">
+      <% } %>
+  
+      <img src="<%= course.course.thumbnail %>" alt="">
+  
+      <div class="course-name"><%= course.course.course_name %></div>
+  
+      <div class="course-left-right">
+        <% if (course.is_banned) { %>
+          <span>You're banned, Contact admin!</span>
+        <% } else { %>
+          <div class="left">
+            <span>Class</span>
+            <span>Exam</span>
+          </div>
+          <div class="start-now">
+            <span>Start Now</span>
+          </div>
+        <% } %>
+      </div>
+  
+      <% if (!course.is_banned) { %>
+        </a>
+      <% } %>
+    </div>
+  <% }) %>
+  
+  
+
+<br><br><br><br>
+
+ <%- include('../partials/bottom-nav.ejs') %>
+ <script>
+  $(document).ready(function() {
+    // Check if the success message exists
+    var successMessage = $('.success');
+
+    if (successMessage.length > 0) {
+      // Show the success message in green with rounded background and border-radius
+      successMessage.css({
+        'color': 'rgb(140, 209, 140)',
+        'background-color': 'rgb(67 71 66 / 30%)', // Background color
+        'border-radius': '5px',       // Border-radius
+        'padding': '10px',
+        'margin': '10px',
+        'width' : '95%'            // Padding for better visibility
+      });
+
+      // Fade out the success message after 3 seconds
+      setTimeout(function() {
+        successMessage.fadeOut(9000);
+      }, 9000);
+    }
+  });
+
+
+  $(document).ready(function() {
+      // Toggle menu when top-nav-left is clicked
+      $("#top-nav-left").click(function() {
+        $("#menulist").toggle();
+      });
+    
+      // Hide menu when user clicks anywhere on the body
+      $("body").click(function(event) {
+        if(!$(event.target).closest("#top-nav-left, #menulist").length) {
+          $("#menulist").hide();
+        }
+      });
+    });
+    
+
+</script>

@@ -1,0 +1,514 @@
+<%- include('../partials/header.ejs') %>
+<style>
+
+  .con,.course-content-list {
+  position: relative;
+  bottom: -10px;
+  height: auto;
+  border: none;
+}
+
+
+ul, ol {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+      
+.countdown-container {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            margin-top: 10px;
+            padding: 10px;
+          }
+      
+          .timer-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10px;
+            border: 1px solid rgb(63, 67, 102);
+            padding: 5px 15px;
+            border-radius: 10px;
+            margin-right: 5px;
+          }
+      
+          .countdown-time {
+            font-size: 2rem;
+            font-family: Noto Serif Bengali;
+          }
+      
+          .countdown-label {
+            font-size: 1rem;
+            font-family: Noto Serif Bengali;
+          }
+
+          .title-head{
+            font-size: 1.3rem;
+            color: #320769;
+            font-family: "Li Ador Noirrit",'SolaimanLipi', Arial, sans-serif !important;
+            font-weight: bold;
+          }
+    
+</style>
+
+<section class="top-nav">
+
+	<div id="top-nav-left">
+	<svg stroke="currentColor" fill="none" stroke-width="0" viewBox="0 0 24 24" height="30" width="30" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16"></path></svg>
+ </div>
+<div>
+	<a id="militarian"	href="/"><img height="45px" style="margin:10px 0px 0px 0px;"  src="/img/cadetacademy_logo.png" alt=""></a>
+</div>
+</section>
+
+
+
+<div id="menulist" >
+	<a href="/"><i class="fa-solid fa-house"></i> Home</a>
+	<a href="https://www.facebook.com/mission.academy23"><i class="fa-regular fa-address-card"></i> About</a>
+	<a href="https://www.facebook.com/ashraful.ashik19"><i class="fa-regular fa-address-book"></i>Contact</a>
+	<a href="/termandcondition"><i class="fa-solid fa-fan"></i> Terms & conditions</a>
+	<a href="/privacy&policy"><i class="fa-solid fa-shield-halved"></i> Privacy and policy</a>
+    <% if (req.user) { %>
+        <a href="/auth/logout"><i class="fa-solid fa-arrow-right-from-bracket"></i>Logout</a>
+      <% } else { %>
+        <a href="/auth/login"><i class="fa-solid fa-arrow-right-to-bracket"></i>Login</a>
+      <% } %>
+      
+</div>
+
+
+
+
+
+<br><br><br>
+
+
+
+<section class="course-details">
+
+    <div class="course-video">
+        <div class="course-video-container-svg">
+          <iframe id="videosvg" width="100%" height="100%" src="<%= course.course_ads %>?autoplay=0" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="image-container-svg">
+          <img class="course-slideimg" src="<%= course.thumbnail %>">
+          <svg id="play-btn" width="65" height="65" viewBox="0 0 65 65" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="32.5" cy="32.5" r="32.5" fill="white" fill-opacity="0.5" />
+            <ellipse cx="32.4991" cy="32.5011" rx="20.546" ry="20.546" fill="white" />
+            <path d="M41.0035 32.128C41.2901 32.2935 41.2901 32.7072 41.0035 32.8727L28.5673 40.0527C28.2807 40.2182 27.9223 40.0114 27.9223 39.6803L27.9223 25.3203C27.9223 24.9893 28.2807 24.7824 28.5673 24.9479L41.0035 32.128Z" fill="#EC1F27" />
+          </svg>
+        </div>
+      </div>
+      <div class="course-video">
+
+        <h2 style="margin-top: 15px;"><%= course.course_name %></h2>
+        <!-- <%- course.course_description %> -->
+        <div class="course-lectures" style="font-family: Noto Serif Bengali;">
+          <ul>
+            <li><i class="fa-solid fa-indent"></i>&nbsp;&nbsp; প্র্যাকটিস ম্যাটেরিয়ালস</li>
+            <li><i class="fas fa-file-pdf"></i>&nbsp;&nbsp; মেনটর সাপোর্ট </li>
+            <li><i class="fas fa-pen"></i>&nbsp;&nbsp; কুইক টেস্ট </li>
+            <li><i class="fas fa-clipboard-check"></i>&nbsp;&nbsp; ডিপি ভাইভা সেশন</li>
+            <li><i class="fa-solid fa-stethoscope"></i>&nbsp;&nbsp; মেন্টাল প্রিপারেশন গাইড</li>
+            <li><i class="fa-solid fa-shapes"></i>&nbsp;&nbsp; সাইকোলজিকাল ডেভেলপমেন্ট</li>
+            <li><i class="fa-solid fa-file-contract"></i>&nbsp;&nbsp; বায়োডাটা কন্সালট্যান্সি</li>
+            <li><i class="fa-solid fa-headset"></i>&nbsp;&nbsp; সাপ্তাহিক লাইভ সেশন</li>
+          </ul>
+        </div>
+      
+     
+        <div class="bar"></div>
+<div class="instructors course-content">
+  <div class="title-head">ক্লাস নিবেন যারা</div>
+  <div class="instructor-container" style="font-family: Noto Serif Bengali;">
+    <p>অভিজ্ঞ এক্স অফিস্যার ক্যাডেট ও গ্রিনকার্ড হোল্ডার তাদের মূল্যবান মতামত ও অভিজ্ঞতার আলোকে আইএসএসবি গাইডলাইন প্রদান করেছে।</p>
+  </div>
+</div>
+        </div>
+
+
+        <div class="bar"></div>
+     
+        
+        <div class="title-head">অফারটি থাকছে</div>
+        <div class="countdown-container">
+          <div class="timer-container" id="timer">
+            <div class="countdown-time" id="days">০০</div>
+            <div class="countdown-label">দিন</div>
+          </div>
+          <div class="timer-container">
+            <div class="countdown-time" id="hours">০০</div>
+            <div class="countdown-label">ঘণ্টা</div>
+          </div>
+          <div class="timer-container">
+            <div class="countdown-time" id="minutes">০০</div>
+            <div class="countdown-label">মিনিট</div>
+          </div>
+          <div class="timer-container">
+            <div class="countdown-time" id="seconds">০০</div>
+            <div class="countdown-label">সেকেন্ড</div>
+          </div>
+        </div>
+     
+        <div class="bar"></div>
+        <div class="learnings course-content">
+          <div class="title-head"> Subscription এ যা যা পাবেন</div>
+
+          যেহেতু এটা একটা অনলাইন আইএসএসবি কোর্স তাই আমরা ক্যান্ডিডেটদের সর্বোচ্চ সুবিধা প্রদান করে যাবো নিচের উল্লেখিত বিষয় সমূহে, এই ৯টি টেস্ট আপনাকে অল্প সময়ে সর্বোচ্চ আউটপুট পেতে সহযোগিতা করবে একটা সিস্টেমেটিক পদ্ধতিতে।  
+          <p>1. IQ Practice</p>
+<p>2. PPDT</p>
+<p>3. Incomplete story</p>
+<p>4. Picture story</p>
+<p>5. Incomplete sentences</p>
+<p>6. WAT</p>
+<p>7. Group Discussion</p>
+<p>8. Extempore Speech</p>
+<p>9. Essay Writing</p>
+ 
+          9 টা পরিক্ষায় আপনি অল্প সময়ে সর্বোচ্চ প্রস্তুতি নিতে পারবেন। 
+           আইএসএসবি’র ২০ টা পরিক্ষায় QNA অর্থাৎ প্রশ্নের উত্তর গুলা আপনার লার্নিং কার্ভকে আরো বাড়িয়ে দিবে। উপরের সব কিছু ছিল সেলফ লার্নিং অংশ যা আপনি এই সাবস্ক্রিপশনে পেয়ে যাবেন আমাদের ওয়েবঅ্যাপে।  
+                     </div>
+      </div>
+
+  
+    </div>
+
+
+
+
+      
+      
+        <div class="bar"></div>
+        <div class="learnings course-content">
+          <div class="title-head">সাবসক্রিপশন থেকে যা যা শিখবেন</div>
+          <div style="font-family: Noto Serif Bengali;" >
+          <p><i class="fa-solid fa-circle-arrow-right"></i> সাইকোলজি </p>
+          <p><i class="fa-solid fa-circle-arrow-right"></i> প্রফেশনাল বিহেভিয়ার </p>
+          <p><i class="fa-solid fa-circle-arrow-right"></i> পার্সনালিটি ডেভেলপমেন্ট </p>
+          <p><i class="fa-solid fa-circle-arrow-right"></i> আরো অনেক কিছু </p>
+        </div>
+      </div>
+        <div class="bar"></div>
+
+        <div class="about-details course-content">
+          <div class="title-head">সাবসক্রিপশনটি যাদের জন্য</div>
+          <div style="font-family: Noto Serif Bengali;" >
+          <p><i class="fa-solid fa-circle-arrow-right"></i> যারা আইএসএসবিতে পার্টিসিপেট করবে </p>
+          <p><i class="fa-solid fa-circle-arrow-right"></i> PAT নিয়ে সমস্যা হয় না </p>
+          <p><i class="fa-solid fa-circle-arrow-right"></i> যারা কথা বলতে গেলে নার্ভাস হয়ে যাও </p>
+          <p><i class="fa-solid fa-circle-arrow-right"></i> যারা ঢাকার বাইরে থাকো </p>
+          <p><i class="fa-solid fa-circle-arrow-right"></i> সঠিক ইনফরমেশন না পেয়ে মিসগাইড হয়ে যাও </p>
+          <p><i class="fa-solid fa-circle-arrow-right"></i> যাদের থাকা খাওয়ার সমস্যা আছে ঢাকা অফলাইন কোচিং করার ক্ষেত্রে </p>
+        </div>
+      </div> 
+        <div class="bar"></div>
+
+        <div class="lecture-details course-content">
+          <div class="title-head">লেকচার ডিটেইলস</div>
+          <div class="course-content-list">
+            <% 
+    // Sort the course syllabus array by the "order" field
+    const sortedSyllabus = course.course_syllabus.sort((a, b) => a.order - b.order);
+    
+    // Iterate through the sorted syllabus array
+    sortedSyllabus.forEach(function(syllabusItem) { 
+%>
+<div class="tabcontent hide-show" style="margin: 8px 0px;font-family: SolaimanLipi" >
+    <div class="accordion" style="padding: 15px 10px;"> 
+        <img src="<%= syllabusItem.course_content_icon_url %>" alt="">
+        <span><%= syllabusItem.course_content_title %></span>
+        <i class="fa-solid fa-angle-down angle-right"></i>
+    </div>
+    <div class="accordion-content">
+        <% const detailsArray = syllabusItem.course_content_details ? JSON.parse(syllabusItem.course_content_details) : []; %>
+        <% for (const detail of detailsArray) { %>
+            <% if (detail.type === 'video') { %>
+                <p data-link="<%= detail.link %>" class="video free-content"><i class="fa-regular fa-circle-play"></i>&nbsp;&nbsp;<%= detail.title %></ps>
+            <% } else if (detail.type === 'pdf') { %>
+                <p class="data-link" data-link="<%= detail.link %>"><i class="fa-regular fa-file-lines"></i>&nbsp;&nbsp;<%= detail.title %></p>
+            <% } else { %>
+                <p class="data-link" data-link="<%= detail.link %>"><i class="fa-regular fa-rectangle-list"></i>&nbsp;&nbsp;<%= detail.title %></p>
+            <% } %>
+        <% } %>
+    </div>
+</div>
+<% }); %>
+<button class="show-more">Show More<i class="fa-solid fa-angle-down angle-right"></i></button>      
+        </div> 
+        </div>
+
+
+      <div class="bar"></div>         
+         
+   <div class="general-asking course-content">
+          <div class="title-head">সাধারণ জিজ্ঞাসা</div>
+          <section class="course-content-list" style="font-family: Noto Serif Bengali;">
+            <div class="tabcontent hide-show" style="margin: 8px 0px;">
+                <div class="accordion" style="padding: 15px 10px;">       
+                    <span> কোর্স এক্সেস কতদিন? </span>
+                    <i class="fa-solid fa-angle-down angle-right"></i>
+                </div>
+                <div class="accordion-content">
+                   <p> ওয়েবঅ্যাপ এর এক্সেস 2 মাস পর্যন্ত পাবেন। </p>
+                </div>
+            </div>
+            
+          
+          
+          
+          <div class="tabcontent hide-show" style="margin: 8px 0px;">
+            <div class="accordion" style="padding: 15px 10px;"> 
+                <span>   কিভাবে পেমেন্ট করবো? </span>
+                <i class="fa-solid fa-angle-down angle-right"></i>
+            </div>
+            <div class="accordion-content">
+       
+              <p> কোর্সটি কিনু বাটনে ক্লিক করে বিকাশে পেমেন্ট করে কোর্সটি ক্রয় করতে পারবেন। পেমেন্ট সম্পন্ন হলে ড্যাশবোর্ডে আপনার কোর্সটি দেখাবে </p>
+            </div>
+        </div>
+    <button class="show-more">Show More<i class="fa-solid fa-angle-down angle-right"></i></button>
+  </section> 
+</div>
+
+
+<style>
+  .modal-iframe {
+    display: none;
+     position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    outline:none;
+    border:none;
+    width: 100%;
+    margin: 0px auto;
+    z-index: 133330;
+    box-shadow: 0 0 0 99999px rgb(0 0 0 / 70%);
+   background:  rgb(0 0 0 / 90%);
+  }
+  </style>
+
+<div class="modal-section">
+    <div class="modal-iframe">
+          <iframe id="video-iframe" width="100%" height="100%" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media;" allowfullscreen></iframe>
+    </div>
+  </div>
+
+
+</section>
+  <br><br><br>
+
+<div class="bottom-pay">
+  <span><strike style="color:rgb(145 22 66)">৳&nbsp;<%= course.course_discount %></strike> <br> ৳&nbsp;<%= course.course_fee %></span> <span> <a href="/bkash-payment?course_id=<%= course.course_id %>">কোর্সটি কিনুন</a></span>
+</div>
+
+
+
+<!-- Jquery Cnd minified -->
+  <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+
+
+
+
+
+<script>
+
+
+
+const playBtn = document.getElementById('play-btn');
+    const imageContainer = document.querySelector('.image-container-svg');
+    const videoContainer = document.querySelector('.course-video-container-svg');
+    const video = document.getElementById('videosvg');
+    
+    playBtn.addEventListener('click', () => {
+      imageContainer.style.display = 'none';
+      videoContainer.style.display = 'block';
+      video.src += "&autoplay=1";
+    });
+
+// Wait for 5 seconds and then add the 'animate' class to the playBtn
+setTimeout(() => {
+  playBtn.classList.add('animate');
+}, 1000);
+
+
+
+var accordions = document.getElementsByClassName("accordion");
+var contents = document.getElementsByClassName("accordion-content");
+contents[0].previousElementSibling.querySelector('.angle-right').classList.add('rotate');
+// Set the first accordion to be open by default
+accordions[0].classList.add('is-open');
+contents[0].style.maxHeight = "100%";
+for (var i = 0; i < accordions.length; i++) {
+  accordions[i].onclick = function() {
+    // Toggle open class
+    this.classList.toggle('is-open');
+
+    // Get the corresponding accordion content element
+    var content = this.nextElementSibling;
+
+    // Hide other accordion content elements
+    for (var j = 0; j < contents.length; j++) {
+      if (contents[j] !== content) {
+        contents[j].style.maxHeight = null;
+        contents[j].previousElementSibling.classList.remove('is-open');
+        var lastItem = contents[j].previousElementSibling.querySelector('.angle-right');
+        if (lastItem) {
+          lastItem.classList.remove('rotate');
+        }
+      }
+    }
+
+    // Toggle max-height and transition on the clicked accordion content element
+    if (content.style.maxHeight) {
+      content.style.maxHeight = null;
+    } else {
+      content.style.maxHeight = content.scrollHeight + "px";
+    }
+    content.style.transition = "max-height 0.2s ease-out";
+
+    // Toggle rotate class on the last item of the clicked accordion element
+    var lastItem = this.querySelector('.angle-right');
+    if (lastItem) {
+      lastItem.classList.toggle('rotate');
+    }
+  }
+}
+$(document).ready(function() {
+  let modal = $('.modal-iframe');
+
+  $('.video').each(function() {
+    $(this).click(function() {
+      let link = $(this).data('link');
+      $('.modal-iframe iframe').attr('src', link + "?autoplay=1");
+      $('.modal-iframe').fadeIn(0);
+      console.log('this is modal open');
+    });
+  });
+
+  $(document).on('mousedown', function(event) {
+    if (!$(event.target).closest(".modal-iframe").length && !$(event.target).is('.video.free-content:not(.locked)')) {
+      $('.modal-iframe').fadeOut(100);
+      $('.modal-iframe iframe').attr('src', "");
+    }
+  });
+});
+
+
+
+
+
+
+
+$(document).ready(function() {
+      // Toggle menu when top-nav-left is clicked
+      $("#top-nav-left").click(function() {
+        $("#menulist").toggle();
+      });
+    
+      // Hide menu when user clicks anywhere on the body
+      $("body").click(function(event) {
+        if(!$(event.target).closest("#top-nav-left, #menulist").length) {
+          $("#menulist").hide();
+        }
+      });
+    });
+    
+
+  	
+
+document.addEventListener('DOMContentLoaded', function () {
+  const sections = document.querySelectorAll('.course-content-list');
+console.log(sections)
+  sections.forEach(section => {
+    const subs = section.querySelectorAll('.hide-show');
+    const button = section.querySelector('.show-more');
+    const maxVisible = 2;
+
+    // hide all subs except the first one
+    for (let i = maxVisible; i < subs.length; i++) {
+      subs[i].style.display = 'none';
+    }
+
+    // toggle subs and button text on click
+    button.addEventListener('click', function() {
+      for (let i = maxVisible; i < subs.length; i++) {
+        subs[i].style.display = subs[i].style.display === 'none' ? 'block' : 'none';
+      }
+      button.textContent = button.textContent === 'Show More' ? 'Show Less' : 'Show More';
+    });
+
+    // hide the button if there is 1 or fewer subs
+    if (subs.length <= maxVisible) {
+      button.style.display = 'none';
+    }
+  });
+});
+// Set the date we're counting down to
+var countDownDate = new Date("October 30, 2024 00:00:00").getTime();
+      
+      // Update the countdown every 1 second
+      var x = setInterval(function() {
+        // Get today's date and time
+        var now = new Date().getTime();
+          
+        // Calculate the distance between now and the countdown date
+        var distance = countDownDate - now;
+          
+        // Calculate days, hours, minutes, and seconds
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        
+        // Convert English digits to Bangla digits
+        days = convertToBangla(days);
+        hours = convertToBangla(hours);
+        minutes = convertToBangla(minutes);
+        seconds = convertToBangla(seconds);
+          
+        // Display the result in the corresponding elements
+        document.getElementById("days").innerHTML = days;
+        document.getElementById("hours").innerHTML = hours;
+        document.getElementById("minutes").innerHTML = minutes;
+        document.getElementById("seconds").innerHTML = seconds;
+        
+        // If the countdown is over, display a message
+        if (distance < 0) {
+          clearInterval(x);
+          document.getElementById("timer").innerHTML = "মেয়াদ উত্তীর্ণ";
+        }
+      }, 1000);
+  
+      // Function to convert English digits to Bangla digits
+      function convertToBangla(number) {
+        var banglaDigits = ["০", "১", "২", "৩", "৪", "৫", "৬", "৭", "৮", "৯"];
+        var result = "";
+        var digits = number.toString().split("");
+        digits.forEach(function(digit) {
+          result += banglaDigits[digit];
+        });
+        return result;
+      }
+      document.addEventListener("DOMContentLoaded", function() {
+    const dataLinks = document.querySelectorAll('.data-link');
+
+    dataLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            const url = this.getAttribute('data-link');
+            if (url) {
+                window.location.href = url;
+            }
+        });
+    });
+});
+
+</script>
+

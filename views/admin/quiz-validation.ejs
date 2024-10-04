@@ -1,0 +1,204 @@
+
+
+<%- include('../partials/header.ejs') %>
+
+  <style>
+    body {
+      font-family: "SolaimanLipi", Arial, sans-serif!important;
+      margin: 0 auto;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .logo {
+      max-width: 150px;
+      margin-bottom: 10px;
+    }
+
+    .exam-name {
+      font-size: 25px;
+      margin-bottom: 15px;
+      font-weight: bold;
+      color: rgb(24, 24, 24);
+    }
+
+    .exam-instruction {
+      text-align: left;
+      box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 5px;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 7px;
+    }
+
+    .registration-label {
+      font-size: 16px;
+    }
+
+    .registration-input {
+      width: 80%;
+      padding: 10px;
+      margin: 10px 0;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    .btn-container {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      
+
+    }
+
+    .start-btn {
+      width: 48%;
+      padding: 10px;
+      box-sizing: border-box;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      
+    }
+    .start-btn a {
+   color: white;
+   font-family: "SolaimanLipi", Arial, sans-serif!important;
+    }
+
+    .start-btn{
+      background-color: rgb(7, 167, 7)
+    }
+    .start-practice-btn {
+      background-color: #7221f3; /* Blue color */
+      color: #fff;
+    }
+
+
+    .closed-section {
+      font-size: 18px;
+      margin-top: 20px;
+      box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 5px;
+      padding: 15px;
+      border-radius: 7px;
+      color: red;
+      font-weight: bold;
+    }
+
+    .date-section {
+      font-size: 16px;
+      margin-top: 10px;
+      box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 5px;
+      border-radius: 7px;
+      padding: 15px;
+      font-weight: bold;
+      color: rgb(235, 214, 255);
+    }
+    
+.course-name{
+  background-color: rgb(243 243 243);
+  color: black;
+  border-radius: 5px;
+  padding: 10px;
+}
+.btn-center{
+  text-align: center;
+  margin: 0px auto;
+  width: 48%;
+      padding: 10px;
+      box-sizing: border-box;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      background-color: rgb(7, 167, 7)
+ ;
+
+}
+.btn-center a{
+  color: white;
+}
+
+  </style>
+</head>
+
+  <body>
+    <br><br>
+    <% if (!examDetails || examDetails.active_status === 'closed') { %>
+      <div class="container">
+        <img src="/img/cadetacademy_logo.png" alt="Logo" class="logo">
+        <div class="exam-name"><%= examDetails.exam_name %></div>
+        <div class="main-components">
+          <div class="closed-section">The exam is closed</div>
+        </div>
+      </div>
+    <% } else if (examDetails.is_anyone && examDetails.active_status === 'open') { %>
+      <div class="container">
+        <img src="/img/cadetacademy_logo.png" alt="Logo" class="logo">
+        <div class="exam-name"><%= examDetails.exam_name %></div>
+        <div class="main-components">
+          <div class="exam-instruction">
+          <%- examDetails.instruction %>
+          </div>
+          <div class="btn-container">
+            <% if (!examDetails || examDetails.practice) { %>
+              <button class="start-btn start-practice-btn" ><a href="/practice/<%= examDetails.exam_code %>">Start Practice</a></button>
+            <button class="start-btn"><a href="/exam/<%= examDetails.exam_code %>">Start Exam</a></button>
+            <% }else{ %>
+              <button class="btn-center"><a href="/exam/<%= examDetails.exam_code %>">Start Exam</a></button>
+              <% } %>
+          </div>
+        </div>
+      </div>
+    <% } else if (isCoursePurchased && examDetails.active_status === 'open') { %>
+      <div class="container">
+        <img src="/img/cadetacademy_logo.png" alt="Logo" class="logo">
+        <div class="exam-name"><%= examDetails.exam_name %></div>
+        <div class="main-components">
+          <div class="exam-instruction">
+            <%- examDetails.instruction %>
+          </div>
+          
+          <div class="btn-container">
+            <% if (!examDetails || examDetails.practice) { %>
+              <button class="start-btn start-practice-btn" ><a href="/practice/<%= examDetails.exam_code %>">Start Practice</a></button>
+            <button class="start-btn"><a href="/exam/<%= examDetails.exam_code %>">Start Exam</a></button>
+            <% }else{ %>
+              <button class="btn-center"><a href="/exam/<%= examDetails.exam_code %>">Start Exam</a></button>
+              <% } %>
+          </div>
+        </div>
+      </div>
+    <% } else { %>
+      <div class="container">
+        <img src="/img/cadetacademy_logo.png" alt="Logo" class="logo">
+        <div class="exam-name"><%= examDetails.exam_name %></div>
+        <div class="available-courses">
+          <h3>This is Paid batch exam</h3>
+          <% availableExams.forEach(function(course, index) { %>
+            <div class="course-name">
+                <a href="/course-details/<%= course.course_id %>">
+                    <%= index + 1 %>. <%= course.course_name %>
+                </a>
+            </div>
+        <% }) %>
+        
+
+
+
+
+        </div>
+      </div>
+      <%- include('../partials/bottom-nav.ejs') %>
+
+    <% } %>
+  </body>
+  </html>
+  

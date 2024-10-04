@@ -1,0 +1,180 @@
+<%- include('../partials/header.ejs') %>
+<section class="top-nav">
+    <div><h4><%= practice_type %></h4></div>
+ 
+ <img src="https://www.issb-bd.org/imgs/logonew.png" id="top-nav-icon-issb">
+</section>
+
+<br><br><br>
+
+<style>
+    .list-count{
+  padding: 4px 8px!important;
+    border-radius: 10px;
+    margin-right: 15px;
+    font-size: 15px;
+    background-color: #232b47f7;
+    color: #ffffff;
+    font-size: 20px!important;
+
+}
+</style>
+<section class="iqlist-container">
+		
+    <div class="list-items">
+        <% Object.keys(data[ text_type ]).forEach(modelTest => { %>
+        <div class="list-item">
+            
+            <div class="align-list"><span class="list-count"><i class="fa-solid fa-brain"></i></span><span class="name"><%= modelTest %></span>
+     <div class="free-exam"> 
+        <a href="/issb/practice-test?practice_type=<%= practice_type %>&type=<%= modelTest %>&text_type=<%= text_type %>"><span class="startbutton loading">Start</span>  </a> 
+        <span class="free-content"></span>
+      </div>
+  </div>
+        </div>
+        <% }) %>
+    </div>
+
+</section>
+<br><br><br><br>
+
+<div id="floatingMenu">
+	<ul>
+	  <li class="<%= text_type === 'Bangla' ? 'active' : '' %>" >
+		<a href="/issb/practice_list?type=<%= practice_type %>&text_type=Bangla" >
+		  <i class="fa-regular fa-circle-play"></i>Bangla
+		</a>
+	  </li>
+	  <li class="<%= text_type === 'English' ? 'active' : '' %>">
+		<a href="/issb/practice_list?type=<%= practice_type %>&text_type=English" >
+		  <i class="fa-regular fa-circle-play"></i>English
+		</a>
+	  </li>
+	</ul>
+  </div>
+
+  
+<% if (practice_type !== 'WAT') { %>
+    <div id="menuicon">
+        <i class="fa-solid fa-list-ol"></i>
+    </div>
+<% } %>
+
+  
+
+<div class="modal-section">
+	<div class="modal-poster">
+    <img src="/img/mission-issb.jpg" width="100%" alt="">
+    <p>কোর্সটি কিনে নিলে সব গুলো প্রিমিয়াম ফিচার ব্যাবহারের সুযোগ পাবেন।</p>
+    <br>
+	<a href="/course-details/1" class="buy-btn">Enroll Now</a>
+  <br>
+</div>	
+</div>
+
+
+<div class="loadbackground">
+  <div class="load">
+    <hr/><hr/><hr/><hr/>
+  </div>
+</div>
+<style>
+      .loadbackground {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #ffffff;
+      z-index: 9999455555555;
+      display: none; /* add this line */
+    }
+    .load{position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);
+      /*change these sizes to fit into your project*/
+      width:100px;
+      height:100px;
+    }
+    .load hr{border:0;margin:0;width:40%;height:40%;position:absolute;border-radius:50%;animation:spin 2s ease infinite}
+    
+    .load :first-child{background:#19A68C;animation-delay:-1.5s}
+    .load :nth-child(2){background:#F63D3A;animation-delay:-1s}
+    .load :nth-child(3){background:#FDA543;animation-delay:-0.5s}
+    .load :last-child{background:#193B48}
+    
+    @keyframes spin{
+      0%,100%{transform:translate(0)}
+      25%{transform:translate(160%)}
+      50%{transform:translate(160%, 160%)}
+      75%{transform:translate(0, 160%)}
+    }
+</style>
+
+
+<script>
+  $(document).ready(function(){
+      $(".loading").click(function(){
+          $(".loadbackground").fadeIn();
+      });
+  });
+
+	$(document).ready(function () {
+	  // When #menuicon is clicked
+	  $("#menuicon").click(function (e) {
+		e.stopPropagation(); // Prevent the click event from reaching the document
+  
+		// Toggle fadeIn and fadeOut for #floatingMenu
+		$("#floatingMenu").fadeToggle("fast");
+	  });
+  
+	  // Close the #floatingMenu when clicking outside of it
+	  $(document).click(function (e) {
+		if (!$("#floatingMenu").is(e.target) && $("#floatingMenu").has(e.target).length === 0) {
+		  $("#floatingMenu").fadeOut("fast");
+		}
+	  });
+	});
+
+  document.addEventListener('DOMContentLoaded', function() {
+  const isPayment = <%= isPayment %>; // Set this value based on your condition
+
+  // Check if isPayment is false before executing the script
+  if (!isPayment) {
+    const listItems = document.querySelectorAll('.list-item');
+
+    listItems.forEach(function(item, index) {
+      if (index >= 2) {
+        const anchorTag = item.querySelector('a');
+        const freeContent = item.querySelector('.free-content');
+        const startButton = item.querySelector('.startbutton');
+        startButton.classList.remove('loading');
+
+        freeContent.textContent = 'Premium';
+        startButton.addEventListener('click', function() {
+          anchorTag.removeAttribute('href');
+          startButton.classList.add('show-modal');
+        });
+      }
+    });
+  }
+});
+
+
+
+let modalPoster = $('.modal-poster');
+
+$(document).on('click', '.show-modal', function() {
+  modalPoster.fadeToggle(0);
+});
+
+$(document).mousedown(function(event) {
+  // Check if the target of the click event is not the modal-poster element itself or any image within it
+  if (!$(event.target).closest(".modal-poster").length &&
+      !$(event.target).is('.show-modal')) {
+    $('.modal-poster').fadeOut(100);
+  }
+});
+
+  </script>
+
+
+    <%- include('../partials/bottom-nav.ejs') %>

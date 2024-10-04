@@ -1,0 +1,163 @@
+{
+  "IQ": [
+  {
+      "type": "video",
+      "title": "Intro to IQ Video",
+      "link": "https://player.vimeo.com/video/855932385#t=3m0s,5m0s"
+    },
+    {
+      "type": "video",
+      "title": "Advanced IQ Video",
+      "link": "https://player.vimeo.com/video/855932385#t=3m0s,5m0s"
+    },
+    {
+      "type": "pdf",
+      "title": "IQ Guide PDF",
+      "link": "https://www.example.com/iq_guide.pdf"
+    }
+    
+  ],
+  "PPDT": [
+  {
+      "type": "video",
+      "title": "PPDT Basics",
+      "link": "https://www.youtube.com/embed/iXDbt2EHOGw"
+    },
+    {
+      "type": "video",
+      "title": "PPDT Strategies",
+      "link": "https://www.youtube.com/embed/GN5-JhI4vJI"
+    },
+    {
+      "type": "pdf",
+      "title": "PPDT Tips PDF",
+      "link": "https://drive.google.com/file/d/1yvIYUPLL87CjGY_TpYimPkOy73XGabCA/view?usp=drive_link"
+    },    {
+      "type": "video",
+      "title": "PPDT Basics",
+      "link": "https://www.youtube.com/embed/GN5-JhI4vJI"
+    },
+    {
+      "type": "video",
+      "title": "PPDT Strategies",
+      "link": "https://www.youtube.com/embed/LLbSAr2pWxk"
+    },
+    {
+      "type": "pdf",
+      "title": "PPDT Tips PDF",
+      "link": "https://drive.google.com/file/d/1yvIYUPLL87CjGY_TpYimPkOy73XGabCA/view?usp=drive_link"
+    }
+  ],
+  "Essay Writing": [
+    
+  ],
+  "Incomplete Story": [
+  
+  ],
+  "Picture Story": [
+  
+  ],
+  "Incomplete Sentences": [
+  
+  ],
+  "WAT": [
+  
+  ],
+  "Memorable Bitter": [
+  
+  ],
+  "Self Criticism": [
+  
+  ],
+  "Self Assessment": [
+  
+  ],    
+  "Biodata": [
+  
+  ],
+  "Group Discussion": [
+  {
+      "type": "video",
+      "title": "Group Discussion Tips",
+      "link": "https://www.youtube.com/embed/hp9eUYicGMw"
+    },
+    {
+      "type": "video",
+      "title": "Effective Communication in GD",
+      "link": "https://player.vimeo.com/video/855932385"
+    },
+    {
+      "type": "pdf",
+      "title": "GD Handbook PDF",
+      "link": "https://www.example.com/gd_handbook.pdf"
+    },
+    {
+      "type": "exam",
+      "title": "Sample GD Exam",
+      "link": "https://www.example.com/sample_gd_exam"
+    },{
+      "type": "video",
+      "title": "Group Discussion Tips",
+      "link": "https://www.youtube.com/embed/hp9eUYicGMw"
+    },
+    {
+      "type": "video",
+      "title": "Effective Communication in GD",
+      "link": "https://www.youtube.com/gd_communication"
+    },
+    {
+      "type": "pdf",
+      "title": "GD Handbook PDF",
+      "link": "https://www.example.com/gd_handbook.pdf"
+    },
+    {
+      "type": "exam",
+      "title": "Sample GD Exam",
+      "link": "https://www.example.com/sample_gd_exam"
+    },{
+      "type": "video",
+      "title": "Group Discussion Tips",
+      "link": "https://www.youtube.com/embed/hp9eUYicGMw"
+    },
+    {
+      "type": "video",
+      "title": "Effective Communication in GD",
+      "link": "https://www.youtube.com/gd_communication"
+    }
+  
+  ],
+  "PGT": [
+  
+  ],
+  "HGT": [
+  
+  ],
+  "Extempore Speech": [
+  
+  ],
+  "PAT": [
+  
+  ],
+  "DP Viva": [
+  
+  ],
+  "Planning Exercise": [
+  
+  ],
+  "GTO Viva": [
+  
+  ],
+  "Psychometrics Test": [
+  
+  ],
+  "Command Task": [
+  
+  ],
+  "Mutual Assessment": [
+  
+  ],
+  "Medical": [
+  
+  ]
+
+}

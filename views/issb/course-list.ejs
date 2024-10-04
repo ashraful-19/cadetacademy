@@ -1,0 +1,107 @@
+
+
+<%- include('../partials/header.ejs') %>
+
+
+
+<section class="top-nav">
+  <div><h4 style="font-family: SolaimanLipi">Courses</h4></div>
+  <div id="top-nav-left">
+    <svg stroke="currentColor" fill="none" stroke-width="0" viewBox="0 0 24 24" height="30" width="30" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16"></path></svg>
+   </div>
+</section>  
+<div id="menulist" >
+<a href="/"><i class="fa-solid fa-house"></i> Home</a>
+<a href="https://www.facebook.com/mission.academy23"><i class="fa-regular fa-address-card"></i> About</a>
+<a href="https://www.facebook.com/ashraful.ashik19"><i class="fa-regular fa-address-book"></i>Contact</a>
+<a href="/termandcondition"><i class="fa-solid fa-fan"></i> Terms & conditions</a>
+<a href="/privacy&policy"><i class="fa-solid fa-shield-halved"></i> Privacy and policy</a>
+  <% if (req.user) { %>
+      <a href="/auth/logout"><i class="fa-solid fa-arrow-right-from-bracket"></i>Logout</a>
+    <% } else { %>
+      <a href="/auth/login"><i class="fa-solid fa-arrow-right-to-bracket"></i>Login</a>
+    <% } %>
+    
+</div>
+
+<br><br><br>
+
+<section class="course-list">
+  <% course.forEach(function(course) { %>
+    <div class="box">
+      <% if (!course.is_update) { %>
+        <a href="/course-details/<%= course.course_id %>" class="">
+      <% } %>
+
+      <img src="<%= course.thumbnail %>" alt="">
+      <div class="course-name"><h4><%= course.course_name %></h4></div>
+
+     
+      <div class="course-left-right">
+        <% if (course.is_update) { %>
+          <p>The course is in updating!</p>
+        <% } else { %>
+          <div class="left">
+            <span><i class="fa-solid fa-video"></i>&nbsp;&nbsp;<%= course.course_class %></span>
+            <span><i class="fa-solid fa-file-circle-check"></i>&nbsp;&nbsp;<%= course.course_exam %></span>
+          </div>
+        <% } %>
+
+        <div class="right">
+          <span>৳&nbsp;<span class="bangla-fee" style="font-family: SolaimanLipi;"><%= course.course_fee %></span></span>
+        </div>
+      </div>
+
+      <% if (!course.is_update) { %>
+        </a>
+      <% } %>
+    </div>
+  <% }) %>
+</section>
+
+
+
+ <%- include('../partials/bottom-nav.ejs') %>
+
+<script src="/js/script.js"></script>
+<!-- Jquery Cnd minified -->
+  <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+
+<script>
+
+
+// Define a function to convert an English number string to Bengali numerals
+function convertToBengaliNumerals(number) {
+  const bengaliNumerals = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+  let bengaliNumeralsString = '';
+  for (let i = 0; i < number.length; i++) {
+    const digit = parseInt(number[i]);
+    bengaliNumeralsString += bengaliNumerals[digit];
+  }
+  return bengaliNumeralsString;
+}
+
+// Convert all prices with class 'bangla-fee' to Bengali numerals
+const banglaFees = document.querySelectorAll('.bangla-fee');
+banglaFees.forEach(banglaFee => {
+  const englishPrice = banglaFee.textContent.trim();
+  const bengaliPrice = convertToBengaliNumerals(englishPrice);
+  banglaFee.textContent = bengaliPrice;
+});
+
+
+$(document).ready(function() {
+      // Toggle menu when top-nav-left is clicked
+      $("#top-nav-left").click(function() {
+        $("#menulist").toggle();
+      });
+    
+      // Hide menu when user clicks anywhere on the body
+      $("body").click(function(event) {
+        if(!$(event.target).closest("#top-nav-left, #menulist").length) {
+          $("#menulist").hide();
+        }
+      });
+    });
+    
+</script>

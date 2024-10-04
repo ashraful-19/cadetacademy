@@ -1,0 +1,242 @@
+<%- include('../partials/header.ejs') %>
+    
+<style>
+body {
+    text-align: center;
+    font-size: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* Set the body height to the full viewport height */
+    margin: 0 auto;
+}
+
+.game-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+ 
+}
+
+#start-game {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #63316d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    margin: 0 0 40px;
+}
+
+#fullscreenButton {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #eef0ff;
+    color: rgb(37, 10, 82);
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 13px;
+}
+
+.timer-wat {
+    display: inline-block;
+    background: rgb(243 243 243);
+    color: #494949;
+    padding: 4px 10px;
+    border-radius: 10px;
+    font-size: 20px;
+    box-shadow: rgb(177 177 177 / 90%) 0px 4px 12px;
+    margin-bottom: 20px;
+}
+#wordDisplay{
+    margin-bottom: 20px;
+    color: #63316d;
+}
+
+.model-name{
+    color: rgb(255, 255, 255);
+    display: block;
+    position: fixed;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 30px;
+
+}
+#militarian{
+    position: fixed;
+    top: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+
+}
+</style>
+
+<a id="militarian"	href="/"><img height="45px" style="margin:30px 0px 0px 0px;"  src="/img/cadetacademy_logo.png" alt=""></a>
+<h2 class="model-name"><%= title %></h2>
+<div class="game-box">
+    <br><br>
+    <h1 id="wordDisplay"></h1>
+
+    <div id="timer" class="timer-wat">
+        <i class="fa-solid fa-stopwatch"></i>
+        <span id="countdownDisplay"></span>
+       
+    </div>
+</div>
+
+<div><span id="start-game">Start Game</span></div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const wordString = "<%= data[0].words %>";
+    const words = wordString.split(',');
+    const wordDisplay = document.getElementById("wordDisplay");
+    const countdownDisplay = document.getElementById("countdownDisplay");
+    const startGameButton = document.getElementById("start-game");
+    const gameBox = document.querySelector(".game-box");
+    
+    let currentIndex = 0;
+    let countdown = 7;
+    let countdownInterval;
+
+    function displayWord() {
+        wordDisplay.innerHTML = words[currentIndex];
+        currentIndex++;
+
+        if (currentIndex === words.length+1) {
+            currentIndex = 0; // Reset to the first word after displaying all
+            clearInterval(countdownInterval);
+            wordDisplay.style.display = "none"; // Hide word display
+            countdownDisplay.innerHTML = ""; // Clear countdown display
+            startGameButton.textContent = "Start again"; // Change button text
+            startGameButton.style.display = "block"; // Show "Start again" button
+        } else {
+            countdown =  7;
+            updateCountdown();
+            countdownInterval = setInterval(function() {
+                countdown--;
+                updateCountdown();
+
+                if (countdown <= 0) {
+                    clearInterval(countdownInterval);
+                    playBeep();
+                    setTimeout(displayWord, 1000); // Wait for 1 second before displaying the next word
+                }
+            }, 1000);
+        }
+    }
+
+    function updateCountdown() {
+        countdownDisplay.innerHTML = `Time: ${countdown}, Words: (${currentIndex}/${words.length})`;
+    }
+
+    function playBeep() {
+        const beep = new Audio('https://www.soundjay.com/buttons/sounds/button-1.mp3');
+        beep.play();
+    }
+
+    // Add event listener to the "Start Game" button
+    startGameButton.addEventListener("click", function() {
+        playBeep() 
+        wordDisplay.style.display = "block"; // Hide word display
+
+        startGameButton.style.display = "none";
+        gameBox.style.display = "block";
+        // Set up the initial display
+        displayWord();
+    });
+});
+
+</script>
+<button id="fullscreenButton">Fullscreen</button>
+</body>
+</html>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var fullscreenButton = document.getElementById('fullscreenButton');
+
+        fullscreenButton.addEventListener('click', function () {
+            toggleFullscreen();
+        });
+
+        function toggleFullscreen() {
+            if (document.fullscreenElement) {
+                exitFullscreen();
+            } else {
+                enterFullscreen();
+            }
+        }
+
+        function enterFullscreen() {
+            var element = document.documentElement;
+            if (element.requestFullscreen) {
+                element.requestFullscreen();
+            } else if (element.mozRequestFullScreen) {
+                element.mozRequestFullScreen();
+            } else if (element.webkitRequestFullscreen) {
+                element.webkitRequestFullscreen();
+            } else if (element.msRequestFullscreen) {
+                element.msRequestFullscreen();
+            }
+        }
+
+        function exitFullscreen() {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            } else if (document.msExitFullscreen) {
+                document.msExitFullscreen();
+            }
+        }
+
+        // Handle orientation change when in fullscreen mode on mobile
+        document.addEventListener('fullscreenchange', function () {
+            if (isMobile() && document.fullscreenElement) {
+                handleOrientationChange();
+            }
+        });
+
+        function handleOrientationChange() {
+            if (window.orientation === 90 || window.orientation === -90) {
+                // Landscape mode
+                console.log('Landscape mode!');
+                // You can perform additional actions here
+            }
+        }
+
+        function isMobile() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        }
+
+        // Update button text based on fullscreen state
+        document.addEventListener('fullscreenchange', function () {
+            updateButtonText();
+        });
+
+        function updateButtonText() {
+            if (document.fullscreenElement) {
+                fullscreenButton.innerText = 'Close Fullscreen';
+            } else {
+                fullscreenButton.innerText = 'Fullscreen';
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

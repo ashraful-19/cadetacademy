@@ -1,0 +1,521 @@
+
+
+<%- include('../partials/header.ejs') %>
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+<section class="top-nav">
+    <div><h4>Doubts</h4></div>
+    <div id="top-nav-left">
+      <svg stroke="currentColor" fill="none" stroke-width="0" viewBox="0 0 24 24" height="30" width="30" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16"></path></svg>
+     </div>
+</section>
+<div id="menulist" >
+	<a href="/"><i class="fa-solid fa-house"></i> Home</a>
+	<a href="https://www.facebook.com/mission.academy23"><i class="fa-regular fa-address-card"></i> About</a>
+	<a href="https://www.facebook.com/ashraful.ashik19"><i class="fa-regular fa-address-book"></i>Contact</a>
+	<a href="/termandcondition"><i class="fa-solid fa-fan"></i> Terms & conditions</a>
+	<a href="/privacy&policy"><i class="fa-solid fa-shield-halved"></i> Privacy and policy</a>
+    <% if (req.user) { %>
+        <a href="/auth/logout"><i class="fa-solid fa-arrow-right-from-bracket"></i>Logout</a>
+      <% } else { %>
+        <a href="/auth/login"><i class="fa-solid fa-arrow-right-to-bracket"></i>Login</a>
+      <% } %>
+      
+</div>
+
+
+
+<br><br><br>
+<style>
+    .fr-dii{
+    max-width: 100%;
+  height: auto;
+  }
+  #no-data-found {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#no-data-found img {
+  width: 200px;
+}
+
+#no-data-found h2 {
+  margin-top: 20px; /* Add some top margin for better spacing */
+}
+
+
+.q-serial {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 25px; 
+    height: 25px;
+    background-color: #081521; 
+    color: white; 
+    border-radius: 50%;
+    font-size: 12px; 
+    padding: 0 8px; 
+    margin-bottom: 7px;
+}
+.options {
+        display: flex;
+        flex-direction: row;
+        justify-content: start;
+        align-items: center;
+        gap: 5px;
+        margin-bottom: 10px;
+        padding: 5px;
+        border-radius: 5px;
+        background-color: rgb(88 77 77 / 18%);
+    }
+
+    .green {
+    background-color: #4179412b; /* Green background color */
+}
+</style>
+
+
+
+<div  id="slide-menu">
+  <div class="item-menu active-doubts" data-category="ALL">ALL</div>
+  <div class="item-menu" data-category="SSC">SSC</div>
+  <div class="item-menu" data-category="HSC">HSC</div>
+  <div class="item-menu" data-category="ADMISSION">ADMISSION</div>
+  <div class="item-menu" data-category="ISSB">ISSB</div>
+  <div class="item-menu" data-category="BCS">BCS</div>
+</div>
+
+<section class="questions-box">
+    <% let counter = currentSerial %>
+
+
+  <% data.forEach(function(exam) { %>
+    <div class="qcontainer" data-category="<%= exam.exam_type %>" id="question<%= counter %>">
+         <p>
+            <span class="q-serial"><%= counter %></span>
+            <%- exam.question %>
+         </p>
+         <br>
+         <% let optionCounter = 1; %>
+         
+         <% exam.option.forEach((option, index) => { %>
+         <div class="options <%= exam.answer == index + 1 ? 'green' : '' %>">
+             <input
+                 type="radio"
+                 id="option<%= optionCounter %><%= counter %>"
+                 name="<%= exam._id %>"
+                 value="<%= index + 1 %>"
+                 <%= exam.answer == index + 1 ? 'checked class="green"' : 'disabled' %>
+             />
+             <label for="option<%= optionCounter %><%= counter %>"><%- option %></label>
+         </div>
+         <% optionCounter++; %>
+         <% }) %>
+         
+      
+        <div class="explainer">
+          <div class="explain">
+             <p>Explanation</p>
+          </div>
+
+          <a class="love" href="/doubt/<%= exam.exam_code %>?id=<%= exam._id %>">
+            <p><%= exam.doubts_count %></p>
+            <i class="<%= exam.doubt == 0 ? 'fa-regular fa-heart' : 'fa-solid fa-heart' %>"></i>
+         </a>
+       </div>
+
+        <div class="explain-toggle-show">
+          <p><%- exam.explanation %></p>
+        </div>
+    </div>
+    <% counter++ %>
+  <% }) %>
+ 
+</section>
+
+<div id="no-data-found"> 
+  <img width="200px" src="https://streamnow.appswamy.com/assets/img/no-data-found.png" alt="">
+  <br>
+  <h3>কোন ডাউট প্রশ্ন পাওয়া যায়নি!</h3>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const itemMenus = document.querySelectorAll('.item-menu');
+  const questionContainers = document.querySelectorAll('.qcontainer');
+  const noDataFound = document.getElementById('no-data-found');
+  const menuicon = document.getElementById('menuicon');
+  const eyeOpenClose = document.getElementById('eye-open-close');
+  const pagination = document.querySelector('.pagination');
+  
+
+  
+  itemMenus.forEach(itemMenu => {
+    itemMenu.addEventListener('click', function () {
+      const selectedCategory = this.dataset.category;
+
+      itemMenus.forEach(item => item.classList.remove('active-doubts'));
+      this.classList.add('active-doubts');
+
+      let found = false;
+
+      questionContainers.forEach(container => {
+        const containerCategory = container.dataset.category;
+
+        if (selectedCategory === 'ALL' || selectedCategory === containerCategory) {
+          container.style.display = 'block';
+          found = true;
+        } else {
+          container.style.display = 'none';
+          pagination.style.display = 'none';
+
+        }
+      });
+      
+      noDataFound.style.display = found ? 'none' : 'flex';
+    });
+  });
+
+  // Initial check for "ALL" category
+  const initialCategory = 'ALL';
+  let initialFound = false;
+
+  questionContainers.forEach(container => {
+    const containerCategory = container.dataset.category;
+
+    if (initialCategory === 'ALL' || initialCategory === containerCategory) {
+      container.style.display = 'block';
+      initialFound = true;
+    } else {
+      container.style.display = 'none';
+    }
+  });
+  menuicon.style.display = !initialFound ? 'none' : 'flex';
+  eyeOpenClose.style.display = !initialFound ? 'none' : 'flex';
+  pagination.style.display = !initialFound ? 'none' : 'flex';
+  noDataFound.style.display = initialFound ? 'none' : 'flex';
+});
+
+</script>
+
+
+<div class="pagination">
+  <% if (currentPage > 1) { %>
+    <p><a href="/doubts?page=<%= currentPage - 1 %>">Prev</a></p>
+  <% } %>
+  
+  <% for (let i = Math.max(currentPage - 5, 1); i <= Math.min(currentPage + 5, totalPages); i++) { %>
+    <% if (i === currentPage) { %>
+    <p class="pagination-active" ><span><%= i %></span></p>
+    <% } else { %>
+    <p><a href="/doubts?page=<%= i %>"><%= i %></a></p>
+    <% } %>
+  <% } %>
+  
+  <% if (currentPage < totalPages) { %>
+  <p><a href="/doubts?page=<%= currentPage + 1 %>">Next</a></p>
+  <% } %>
+  </div>
+  <br><br><br>
+
+
+
+<div id="floatingMenu">
+    <div class="">
+        <div>
+        <p><b>Questions Navigation</b></p>
+        </div>
+        <div class="easynav-float">
+        
+            <% for (var i = 1; i <= data.length; i++) { %>
+                <p id="<%= i %>" class="scroll scroll<%= i %>"><%= i %></p>
+            <% } %>
+        </div>
+    </div>
+</div>
+
+<div id="menuicon">
+    <i class="fa-solid fa-list-ol"></i>
+</div>
+
+
+<!-- eye seciton -->
+<div id="eye-open-close">
+    <p>Hide Explain</p>&nbsp;
+    <i class="fa-solid fa-eye-slash"></i>
+    </div>
+
+
+
+
+<!-- bottom nagivatoin section  -->
+
+
+<%- include('../partials/bottom-nav.ejs') %>
+
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script>
+
+$(document).ready(function(){
+  $("#menuicon").on("click", function(event){
+    event.stopPropagation(); // Prevent the click event from reaching the document
+    $("#floatingMenu").fadeToggle(100);
+  });
+
+  $("#floatingMenu").on("click", function(event) {
+    event.stopPropagation(); // Prevent the click event from reaching the document
+  });
+
+  $(document).on("click", function(event) {
+    // Check if the clicked element is not a descendant of #floatingMenu or #menuicon
+    if (!$(event.target).closest("#floatingMenu, #menuicon").length) {
+      $("#floatingMenu").fadeOut(0);
+    }
+  });
+});
+
+
+</script>
+
+<script>
+
+
+
+
+
+$(document).ready(function() {
+// Scroll to section when a p tag is clicked
+$(".scroll").click(function(event) {
+event.preventDefault(); // prevent the default behavior of the click event
+var id = $(this).attr("id"); // get the id of the clicked p tag
+
+var section = $("#question" + id); // get the corresponding section using the id
+var divPosition = $(section).offset().top;
+$('html, body').animate({ scrollTop: divPosition - 250
+}, 1000);
+});
+});
+
+
+
+
+$(document).ready(function() {
+    $('.explain').click(function() {
+  $(this).closest('.qcontainer').find('.explain-toggle-show').slideToggle();
+});
+
+});
+
+
+
+
+$(document).ready(function() {
+  $('#eye-open-close').click(function() {
+    var $explainToggle = $('.explain-toggle-show');
+    var $eyeIcon = $(this).find('i');
+    var $toggleText = $(this).find('p');
+
+    if ($toggleText.text() === 'Show Explain') {
+      // If the text is 'Show Explain', slide open
+      $explainToggle.slideDown();
+    } else {
+      // If the text is 'Hide Explain', slide close
+      $explainToggle.slideUp();
+    }
+
+    // Toggle the eye icon
+    $eyeIcon.toggleClass('fa-eye');
+
+    // Toggle the text
+    $toggleText.text(function(_, text) {
+      return text === 'Show Explain' ? 'Hide Explain' : 'Show Explain';
+    });
+  });
+});
+
+
+
+
+
+// Get all radio buttons
+const radioButtons = document.querySelectorAll('input[type="radio"]');
+
+// Add event listener to each radio button
+radioButtons.forEach(radio => {
+radio.addEventListener('click', function() {
+// Check if the radio button is checked
+if (this.checked) {
+  // Find the closest parent div with class "qcontainer"
+  const qContainer = this.closest('.qcontainer');
+  // Get the class ID from the qContainer
+  const classId = qContainer.getAttribute('id');
+  // Remove the "question" prefix from the class ID
+  const questionId = classId.replace('question', '');
+  // Find all p tags with the same class as the matching question
+  const pTags = document.querySelectorAll(`.scroll${questionId}`);
+  // Set the color of each p tag to red
+  pTags.forEach(pTag => {
+    pTag.style.background = 'rgb(171, 255, 219)';
+  });
+}
+});
+});
+
+$(document).ready(function() {
+      // Toggle menu when top-nav-left is clicked
+      $("#top-nav-left").click(function() {
+        $("#menulist").toggle();
+      });
+    
+      // Hide menu when user clicks anywhere on the body
+      $("body").click(function(event) {
+        if(!$(event.target).closest("#top-nav-left, #menulist").length) {
+          $("#menulist").hide();
+        }
+      });
+    });
+    
+
+
+</script>
+<script>
+    
+
+
+
+
+
+// Get all the radio buttons
+const radioBtns = document.querySelectorAll('input[type="radio"]');
+
+// Add event listener for each radio button
+radioBtns.forEach(radioBtn => {
+radioBtn.addEventListener('change', function() {
+if (this.checked) {
+  // Get the label element that is a sibling of this radio button
+  const label = this.parentNode;
+  
+  // Get the parent label element of the sibling label
+  const parentLabel = label.parentNode;
+  
+  // Add the "checked" class to the parent label
+  parentLabel.classList.add('checked');
+} else {
+  // If the radio button is unchecked, remove the "checked" class from the parent label
+  const label = this.parentNode;
+  const parentLabel = label.parentNode;
+  parentLabel.classList.remove('checked');
+}
+});
+});
+
+
+
+
+</script>
+<script>
+$(document).on('click', '.love', function(event) {
+  event.preventDefault(); // prevent the default behavior of the link
+
+  var form = $(this);
+  var url = form.attr("href"); // add "/remove" to the end of the URL
+  
+  var icon = form.find('i'); // get the heart icon inside the clicked element
+  var count = form.find('p'); // get the p tag inside the clicked element
+  if (icon.hasClass('fa-solid')) { // if the icon is solid
+    icon.removeClass('fa-solid').addClass('fa-regular'); // remove the solid class and add the regular class
+    count.text(parseInt(count.text()) - 1); // decrement the doubts_count value by 1
+  } else { // if the icon is regular
+    icon.removeClass('fa-regular').addClass('fa-solid'); // remove the regular class and add the solid class
+    count.text(parseInt(count.text()) + 1); // increment the doubts_count value by 1
+  }
+  icon.addClass('shake'); // add the shake class to the heart icon
+  setTimeout(function() {
+    icon.removeClass('shake'); // remove the shake class from the heart icon after 500ms
+  }, 500);
+  icon.addClass('wave'); // add the wave class to the heart icon
+  setTimeout(function() {
+    icon.removeClass('wave'); // remove the wave class from the heart icon after 800ms
+  }, 800);
+
+  let doubtsItems = form.closest('.qcontainer');
+let pTag = document.createElement('p');
+pTag.classList.add('deleted-doubts');
+pTag.textContent = 'আমার প্রশ্নের উত্তর পেয়ে গেছি!';
+doubtsItems.replaceWith(pTag);
+
+// Add CSS transitions
+pTag.style.opacity = 0;
+pTag.style.transition = 'opacity 0.5s ease-in-out';
+
+setTimeout(function() {
+  pTag.style.opacity = 1;
+}, 100);
+
+setTimeout(function() {
+  pTag.style.opacity = 0;
+  setTimeout(function() {
+    pTag.remove();
+  }, 500);
+}, 5000);
+
+
+  $.ajax({
+    type: "get",
+    url: url,
+    success: function(value) {
+      console.log('data updated successfully');
+    },
+    error: function(error) {
+      console.log(error);
+    }
+  });
+});
+
+
+</script>
+
+
+
+<script>
+  // Wait for the DOM to be ready
+  document.addEventListener('DOMContentLoaded', function () {
+    // Get all <p> tags with data-f-id="pbf"
+    const elementsToRemove = document.querySelectorAll('p[data-f-id="pbf"]');
+
+    // Iterate through the selected elements and remove them
+    elementsToRemove.forEach(element => {
+      element.remove();
+    });
+  });
+</script>
+
+<script>
+  MathJax.Hub.Config({
+    jax: ["input/AsciiMath", "output/CommonHTML"],
+    extensions: ["asciimath2jax.js"],
+    asciimath2jax: {
+      delimiters: [["`", "`"]],
+      skipTags: ["script", "noscript", "style", "textarea", "pre", "code"]
+    },
+    "CommonHTML": {
+      scale: 90,
+      linebreaks: { automatic: true },
+      font: "STIX-Web" // Replace with your desired font
+    }
+  });
+  // Find all elements with the class "mathy"
+  const mathjaxEquationElements = document.querySelectorAll('.mathy');
+  
+  // Loop through each element and wrap its inner HTML in backticks
+  mathjaxEquationElements.forEach(element => {
+   const innerHTML = element.innerHTML;
+   element.innerHTML = '`' + innerHTML + '`';
+  });
+  </script>
+
+

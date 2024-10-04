@@ -1,0 +1,275 @@
+
+  <%- include('../partials/header.ejs') %>
+  <style>
+	  
+  .fr-dib,.fr-fic,.fr-dii {
+	width: 100%!important;
+	height: auto;
+  }
+
+	 .blog-card {
+		display: flex;
+    flex-direction: column;
+    margin: 10px auto;
+    width: 95%;
+    background-color: #fcfcfc;
+    border-radius: 5px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    overflow: hidden;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+    border: 1px solid #dfdfdf;  }
+  
+  .blog-card-heading-container {
+	  background-color: #f0f0f0;
+	  padding: 10px;
+  }
+  
+  .blog-card-content {
+	  padding: 20px;
+
+  }
+
+  .blog-card-heading {
+	  margin: 0;
+	  font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
+  }
+  
+  .see-more-button {
+	  display: inline-block;
+	  margin-top: 10px;
+	  text-decoration: none;
+	  background-color: #633db3;
+	  color: #fff!important;
+	  padding: 5px 15px;
+	  border-radius: 5px;
+  }
+  
+  .main-card {
+	  margin-top: 10px;
+	  font-family: "SolaimanLipi", Arial, sans-serif!important;
+
+  }
+  .see-more-button:hover {
+      background-color: #2e2e43 ;
+	  cursor: pointer;
+    }
+
+	#floatingMenu ul>li:hover,.active{
+	background-color: rgb(6 14 24 / 48%);
+}
+	</style>
+	<style>
+		[data-f-id="pbf"] {
+			display: none;
+		}
+		</style> 
+<script>
+			$(document).ready(function() {
+			$('[data-f-id="pbf"]').remove();
+		});
+
+</script>		
+  
+  
+  <section class="top-nav">
+		  <div><h4><%= title %></h4></div>
+	   
+	   <img src="https://www.issb-bd.org/imgs/logonew.png" id="top-nav-icon-issb">
+	  </section>
+  
+  
+  
+  <br><br><br>
+  
+  
+		  
+  <% content.forEach(function(data) { %>
+  <div class="blog-card">
+	  <%- data.question %>
+	  <div class="blog-card-content">
+
+		  <% data.option.forEach(function(option) { %>
+			  
+		<h1 class="blog-card-heading" style="font-family: SolaimanLipi!important"><%- option %></h1>
+		<% }) %>
+		<div class="main-card">
+			<%- data.explanation %>
+	  </div>
+	<a class="link" href="/issb/card_content/details?type=<%= type %>&id=<%= data._id %>" >
+		<div class="see-more-button">See More</div>
+	</a>
+	<span style="margin-left: 5px;"></span>
+
+	</div>
+	</div>
+	
+	<% }) %>
+  
+  
+  
+  
+  <br>
+  <script>
+	// Get all elements with the class '.main-card'
+	var mainCards = document.querySelectorAll('.main-card');
+	
+	// Loop through each main card
+	mainCards.forEach(function(mainCard) {
+	  // Get the first paragraph and its text content
+	  var firstParagraph = mainCard.querySelector('p');
+	  var content = firstParagraph.textContent.trim();
+	  
+	  // Show only the first 10 words
+	  var words = content.split(/\s+/);
+	  var first20Words = words.slice(0, 20).join(' ');
+	  
+	  // Add "..." if there are more than 10 words
+	  if (words.length > 20) {
+		first20Words += '...';
+	  }
+	  
+	  // Update the paragraph text
+	  firstParagraph.textContent = first20Words;
+	  
+	  // Remove all child elements from main-card except the first paragraph
+	  while (mainCard.children.length > 1) {
+		mainCard.removeChild(mainCard.lastChild);
+	  }
+	});
+	</script>
+	
+  
+  <div id="floatingMenu">
+	<ul>
+	  <li class="<%= text_type === 'Bangla' ? 'active' : '' %>" >
+		<a href="/issb/practice?type=<%= type %>&text_type=Bangla" >
+		  <i class="fa-regular fa-circle-play"></i>Bangla
+		</a>
+	  </li>
+	  <li class="<%= text_type === 'English' ? 'active' : '' %>">
+		<a href="/issb/practice?type=<%= type %>&text_type=English" >
+		  <i class="fa-regular fa-circle-play"></i>English
+		</a>
+	  </li>
+	</ul>
+  </div>
+  
+  
+  <% if (title !== 'Extempore Speech' && title !== 'Planning Exercise') { %>
+	<div id="menuicon">
+	  <i class="fa-solid fa-list-ol"></i>
+	</div>
+  <% } %>
+  
+	  <div class="pagination">
+		  <% if (currentPage > 1) { %>
+			<p><a href="/issb/practice?type=<%= type %>&text_type=<%= text_type %>&page=<%= currentPage - 1 %>">Prev</a></p>
+		  <% } %>
+		
+		  <% for (let i = Math.max(currentPage - 5, 1); i <= Math.min(currentPage + 5, totalPages); i++) { %>
+			<% if (i === currentPage) { %>
+			<p class="pagination-active" ><span><%= i %></span></p>
+			<% } else { %>
+			<p><a href="/issb/practice?type=<%= type %>&text_type=<%= text_type %>&page=<%= i %>"><%= i %></a></p>
+			<% } %>
+		  <% } %>
+		
+		  <% if (currentPage < totalPages) { %>
+		  <p><a href="/issb/practice?type=<%= type %>&text_type=<%= text_type %>&page=<%= currentPage + 1 %>">Next</a></p>
+		  <% } %>
+		</div>
+  <br><br><br><br>
+ 
+  <div class="modal-section">
+	<div class="modal-poster">
+    <img src="/img/mission-issb.jpg" width="100%" alt="">
+    <p style="font-family: Noto Serif Bengali;" >কোর্সটি কিনে নিলে সব গুলো প্রিমিয়াম ফিচার ব্যাবহারের সুযোগ পাবেন।</p>
+    <br>
+	<a href="/course-details/1" class="buy-btn">Enroll Now</a>
+  <br>
+</div>	
+</div>
+
+  
+  
+  
+  <%- include('../partials/bottom-nav.ejs') %>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+  
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  
+  
+  <script>
+	  $(document).ready(function () {
+		// When #menuicon is clicked
+		$("#menuicon").click(function (e) {
+		  e.stopPropagation(); // Prevent the click event from reaching the document
+	
+		  // Toggle fadeIn and fadeOut for #floatingMenu
+		  $("#floatingMenu").fadeToggle("fast");
+		});
+	
+		// Close the #floatingMenu when clicking outside of it
+		$(document).click(function (e) {
+		  if (!$("#floatingMenu").is(e.target) && $("#floatingMenu").has(e.target).length === 0) {
+			$("#floatingMenu").fadeOut("fast");
+		  }
+		});
+	  });
+
+
+	  
+	</script>
+  
+  <script>
+// Function to check the URL query parameters and modify anchor tags
+function modifyAnchorTags() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const pageQueryParam = urlParams.get('page');
+
+    const blogCards = document.querySelectorAll('.blog-card-content');
+    blogCards.forEach((card, index) => {
+        if ((!pageQueryParam || pageQueryParam === '1') && index < 2) return;
+        const blogCard = card.closest('.blog-card');
+        const spanElement = card.querySelector('span');
+        const anchorTag = card.querySelector('a.link');
+        if ((!pageQueryParam || (pageQueryParam === '1')) || (pageQueryParam && parseInt(pageQueryParam) > 1)) {
+            anchorTag.remove();
+            blogCard.classList.add('show-modal');
+            spanElement.textContent = 'Join Now';
+            spanElement.style.color = '#ffbf00';
+            spanElement.style.background = 'rgb(255 152 0 / 14%)';
+            spanElement.style.padding = '5px 15px';
+            spanElement.style.borderRadius = '5px';
+            spanElement.style.cursor = 'pointer';
+        }
+    });
+}
+
+// Call the function to modify anchor tags when the DOM is ready, only if isPayment is false
+document.addEventListener('DOMContentLoaded', function() {
+    const isPayment = <%= isPayment %>; // Set isPayment to true or false based on your condition
+    if (!isPayment) {
+        modifyAnchorTags();
+    }
+});
+
+	let modalPoster = $('.modal-poster');
+
+$(document).on('click', '.show-modal', function() {
+  modalPoster.fadeToggle(0);
+});
+
+$(document).mousedown(function(event) {
+  // Check if the target of the click event is not the modal-poster element itself or any image within it
+  if (!$(event.target).closest(".modal-poster").length &&
+  $(event.target).is(".blog-card") &&
+      !$(event.target).is('.show-modal')) {
+    $('.modal-poster').fadeOut(100);
+  }
+});
+
+</script>

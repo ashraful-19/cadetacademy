@@ -1,0 +1,97 @@
+
+
+
+
+<%- include('../partials/admin_sidenav.ejs') %>
+
+<style>
+  table.course-history {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+table.course-history th, table.course-history td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+table.course-history th {
+  background-color: #f2f2f2;
+}
+
+table.course-history tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+table.course-history input[type="radio"] {
+  margin-right: 8px;
+}
+
+</style>
+
+
+<table class="course-history">
+  <thead>
+    
+    <tr>
+      <th>Course ID</th>
+      <th>Course Name</th>
+      <th>Student Name</th>
+      <th>Student Phone</th>
+      <th>Payment Phone</th>
+      <th>Transaction ID</th>
+      <th>Active</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% payments.forEach(payment => { %>
+      <tr> 
+        <td><%= payment.course.course_id %> </td>
+        <td><%= payment.course.course_name %></td>
+        <td><%= payment.user.name %></td>
+        <td><%= payment.user.phone %></td>
+        
+        <td><%= payment.paymentPhone %></td>
+        <td><%= payment.transactionId %></td>
+        <td>
+          <select name="is_active" data-user="<%= payment.user._id %>" data-course="<%= payment.course._id %>">
+            <option value="false" <% if (!payment.is_active) { %> selected <% } %>>No</option>
+            <option value="true" <% if (payment.is_active) { %> selected <% } %>>Yes</option>
+          </select>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
+
+
+</body>
+</html>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+  $(document).on('change', '.course-history select', function() {
+  var isActive = $(this).val();
+  var userId = $(this).data('user');
+  var courseId = $(this).data('course');
+  var data = {
+    userId: userId,
+    courseId: courseId,
+    isActive: isActive
+  };
+  $.ajax({
+    type: 'POST',
+    url: '/admin/payment-history',
+    data: data,
+    success: function(result) {
+      // Handle successful response from server
+    },
+    error: function(error) {
+      // Handle error response from server
+    }
+  });
+});
+
+</script>

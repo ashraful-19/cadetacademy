@@ -1,0 +1,340 @@
+<%- include('../partials/header.ejs') %>
+<style>
+	
+
+.process{
+	text-align: center;
+	color: green;
+	font-size: 15px;
+	margin-top: 10px;
+}
+.paid-content{
+  color: rgb(255, 191, 0);
+    background: rgb(255 227 11 / 21%);
+    padding: 5px 15px;
+    border-radius: 5px;
+    margin: 10px auto;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+  [data-f-id="pbf"] {
+    display: none;
+  }
+  </style> 
+<script>
+    $(document).ready(function() {
+    $('[data-f-id="pbf"]').remove();
+  });
+
+</script>		
+
+	<section class="top-nav">
+		<div><h4><%= title %></h4></div>
+	 
+	 <img src="https://www.issb-bd.org/imgs/logonew.png" id="top-nav-icon-issb">
+	</section>
+
+
+
+<br><br><br>
+
+<section class="ppdt">
+	<% content.forEach(function(data) { %>
+	  <div class="ppdt_items">
+		<div class="ppdt_practice" >
+		  <div class="blur" style="padding: 10px; filter: blur(8px); transition: 0.2s; width: 100%;font-family: SolaimanLipi"  class="ppdtimg"><%- data.question %></div>
+		  <div class="process"></div>
+		</div>
+
+		<div class="ppdtcontrols">
+		  <div class="start start-timer"><i class="fa-regular fa-circle-play"></i>&nbsp;&nbsp;Start</div>
+		  <div class="start"><i class="fa-solid fa-stopwatch"></i>&nbsp;&nbsp; <span class="time">30 sec</span></div>
+		  <div class="start ideaIcon"><i class="fa-regular fa-lightbulb"></i>&nbsp;&nbsp;Idea</div>
+		</div>
+		<div class="ppdtIdea" style="font-family: SolaimanLipi">
+			<% data.option.forEach(function(option) { %>
+
+				<%- option %>
+		  <% }) %>
+		  <div class="details">Details</div>
+		  <div class="details-story" style="font-family: SolaimanLipi">
+			  <%- data.explanation %>
+		  </div>
+
+		</div>
+    
+    <span class="paid-content"></span>
+	  </div>
+    
+	<% }) %>
+  </section>
+
+
+
+<div id="floatingMenu">
+	<ul>
+	  <li class="<%= text_type === 'Bangla' ? 'active' : '' %>" >
+		<a href="/issb/practice?type=<%= type %>&text_type=Bangla" >
+		  <i class="fa-regular fa-circle-play"></i>Bangla
+		</a>
+	  </li>
+	  <li class="<%= text_type === 'English' ? 'active' : '' %>">
+		<a href="/issb/practice?type=<%= type %>&text_type=English" >
+		  <i class="fa-regular fa-circle-play"></i>English
+		</a>
+	  </li>
+	</ul>
+  </div>
+  
+<% if (title !== 'PPDT') { %>
+    <div id="menuicon">
+        <i class="fa-solid fa-list-ol"></i>
+    </div>
+<% } %>
+
+	
+	<div class="pagination">
+		<% if (currentPage > 1) { %>
+		  <p><a href="/issb/practice?type=<%= type %>&text_type=<%= text_type %>&page=<%= currentPage - 1 %>">Prev</a></p>
+		<% } %>
+	  
+		<% for (let i = Math.max(currentPage - 5, 1); i <= Math.min(currentPage + 5, totalPages); i++) { %>
+		  <% if (i === currentPage) { %>
+		  <p class="pagination-active" ><span><%= i %></span></p>
+		  <% } else { %>
+		  <p><a href="/issb/practice?type=<%= type %>&text_type=<%= text_type %>&page=<%= i %>"><%= i %></a></p>
+		  <% } %>
+		<% } %>
+	  
+		<% if (currentPage < totalPages) { %>
+		<p><a href="/issb/practice?type=<%= type %>&text_type=<%= text_type %>&page=<%= currentPage + 1 %>">Next</a></p>
+		<% } %>
+	  </div>
+<br><br><br><br>
+
+
+
+
+
+<div class="modal-section">
+  <div class="modal-poster">
+    <img src="/img/mission-issb.jpg" width="100%" alt="">
+    <p style="font-family: Noto Serif Bengali;" >কোর্সটি কিনে নিলে সব গুলো প্রিমিয়াম ফিচার ব্যাবহারের সুযোগ পাবেন।</p>
+    <br>
+  <a href="/course-details/1" class="buy-btn">Enroll Now</a>
+  <br>
+</div>	
+</div>
+
+
+
+
+<%- include('../partials/bottom-nav.ejs') %>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+	$(document).ready(function () {
+	  // When #menuicon is clicked
+	  $("#menuicon").click(function (e) {
+		e.stopPropagation(); // Prevent the click event from reaching the document
+  
+		// Toggle fadeIn and fadeOut for #floatingMenu
+		$("#floatingMenu").fadeToggle("fast");
+	  });
+  
+	  // Close the #floatingMenu when clicking outside of it
+	  $(document).click(function (e) {
+		if (!$("#floatingMenu").is(e.target) && $("#floatingMenu").has(e.target).length === 0) {
+		  $("#floatingMenu").fadeOut("fast");
+		}
+	  });
+	});
+</script>
+
+
+  
+  
+<script>
+ $(document).ready(function() {
+  $(".start-timer").on("click", function() {
+    var parent = $(this).closest(".ppdt_items");
+    var countdown = parent.find(".time");
+    const blur = parent.find(".blur");
+    var process = parent.find(".process");
+	playBeep()
+
+    // Now 'getInitialValue' contains the initial value, and it's set only on the first click
+
+    if ($(this).text().includes("Start")) {
+
+      startCountdown(parent, countdown, blur, 30, "Stop", "timer1", function() {
+        process.html("Please start writing your story.");
+        blur.css('filter', 'blur(8px)');
+		playBeep()
+
+        startCountdown(parent, countdown, blur, 210, "Stop", "timer2", function() {
+		process.html("Time is Over, Hope you did well!");
+		playBeep()
+        });
+      });
+    } else {
+      resetCountdown(parent, countdown, blur, process);
+    }
+  });
+
+  $('.ideaIcon').click(function() {
+    $(this).closest('.ppdt_items').find('.ppdtIdea').slideToggle();
+  });
+});
+
+function startCountdown(parent, countdown, blur, duration, buttonText, timer, onComplete) {
+  $(parent).data("countdownInterval", setInterval(function() {
+    var minutes = Math.floor(duration / 60);
+    var seconds = duration % 60;
+
+    if (duration >= 60) {
+      countdown.text(minutes + " min " + seconds + " sec");
+    } else {
+      countdown.text(seconds + " sec");
+    }
+
+    duration--;
+
+    if (duration < 0) {
+      clearInterval($(parent).data("countdownInterval"));
+      countdown.text("00 min 00 sec");
+
+      parent.find(".start-timer").html('<i class="fa-regular fa-circle-play"></i>&nbsp;&nbsp;Start');
+      onComplete();
+    }
+  }, 1000));
+
+  parent.find(".start-timer").html('<i class="fa-regular fa-circle-pause"></i>&nbsp;&nbsp;' + buttonText);
+
+  // Check if the timer is 'timer1' and apply the blur effect accordingly
+  if (timer == 'timer1') {
+    blur.css('filter', 'none');
+  }
+}
+
+
+function resetCountdown(parent, countdown, blur, process) {
+
+  clearInterval(parent.data("countdownInterval"));
+  countdown.text("30 sec");
+  parent.find(".start-timer").html('<i class="fa-regular fa-circle-play"></i>&nbsp;&nbsp;Start');
+  process.html("");
+  blur.css('filter', 'blur(8px)');
+}
+
+// Function to play a beep sound
+function playBeep() {
+  var audio = new Audio('https://www.soundjay.com/buttons/sounds/button-1.mp3');
+  audio.play();
+}
+
+
+  
+
+
+const detailsElements = document.querySelectorAll('.details');
+
+$(document).ready(function() {
+    $('.details').click(function() {
+      const detailsStory = $(this).closest('.ppdtIdea').find('.details-story');
+
+      if (detailsStory.length) {
+        detailsStory.slideToggle();
+      }
+    });
+  });
+  document.addEventListener('DOMContentLoaded', function() {
+        // Find all elements with the .fr-dii class
+        var elements = document.querySelectorAll('.fr-dib');
+
+        // Loop through each element and remove the style attribute
+        elements.forEach(function(element) {
+            element.removeAttribute('style');
+        });
+    });
+
+
+    function modifyPPDT(isPayment) {
+  // Check if isPayment is true, if so, do not execute the script
+  if (isPayment) {
+    return;
+  }
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const pageQueryParam = urlParams.get('page');
+
+  // Get all ppdt_items
+  const ppdtItems = document.querySelectorAll('.ppdt_items');
+
+  // Loop through each ppdt_items
+  ppdtItems.forEach((item, index) => {
+    // Skip the first two ppdt_items only on the first page
+    if ((!pageQueryParam || pageQueryParam === '1') && index < 2) return;
+
+    // Get the anchor tag within the ppdt_items
+    const spanElement = item.querySelector('span.paid-content');
+    const anchorTag = item.querySelector('.ppdtcontrols .start.ideaIcon');
+    const ppdtIdea = item.querySelector('.ppdtIdea');
+    const storyDetails = item.querySelector('.details-story');
+
+    // Clear ppdtIdea and storyDetails content
+    ppdtIdea.textContent = '';
+    storyDetails.textContent = '';
+
+    const anchorTag1 = item.querySelector('.ppdtcontrols .start.start-timer');
+    
+    // Check conditions and modify the anchor tag
+    if ((!pageQueryParam || (pageQueryParam === '1' && !isPayment)) || (pageQueryParam && parseInt(pageQueryParam) > 1 && !isPayment)) {
+      // Remove href attribute
+      anchorTag.removeAttribute('class');
+      anchorTag1.removeAttribute('class');
+      
+      // Add class for showModal
+      anchorTag.classList.add('show-modal');
+      anchorTag1.classList.add('show-modal');
+      
+      // Set text content for spanElement
+      spanElement.textContent = 'Paid Content';
+      
+      // Add style for span element
+      spanElement.style.display = 'flex';
+    }
+  });
+}
+
+// Call the function to modify anchor tags when the DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+  // Set isPayment value based on your condition
+  const isPayment = <%= isPayment %>;
+  modifyPPDT(isPayment);
+});
+
+let modalPoster = $('.modal-poster');
+
+$(document).on('click', '.show-modal', function() {
+  modalPoster.fadeToggle(0);
+});
+
+$(document).mousedown(function(event) {
+  // Check if the target of the click event is not the modal-poster element itself or any image within it
+  if (!$(event.target).closest(".modal-poster").length &&
+    !$(event.target).is('.show-modal')) {
+    $('.modal-poster').fadeOut(100);
+  }
+});
+</script>
+
+<style>
+.fr-dib,.fr-fic,.fr-dii {
+  width: 100%!important;
+  height: auto;
+}
+</style>

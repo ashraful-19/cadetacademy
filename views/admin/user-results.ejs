@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Student Results</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+    <style>
+      .table-container {
+          position: relative;
+          overflow-x: auto;
+          margin: 20px;
+          max-height: 800px;
+      }
+
+      table {
+          width: 100%;
+          border-collapse: collapse;
+          table-layout: auto;
+      }
+
+      thead {
+          background-color: #f4f4f4;
+          position: sticky;
+          top: 0;
+      }
+
+      th, td {
+          padding: 10px;
+          border: 1px solid #ddd;
+          text-align: center;
+          white-space: nowrap;
+      }
+
+      th {
+          background-color: #e10000;
+          color: white;
+      }
+
+      td a {
+          text-decoration: none;
+          color: inherit;
+          font-weight: normal;
+      }
+
+      tbody tr:nth-child(even) {
+          background-color: #f9f9f9;
+      }
+
+      tbody tr:hover {
+          background-color: #e0e0e0;
+      }
+    </style>
+</head>
+<body>
+<button id="download-excel">Download Excel</button>
+
+<div class="table-container">
+<table>
+  <thead>
+    <tr>
+      <th>Merit</th>
+      <th>Name</th>
+      <th>Institution</th>
+      <th>Total Marks</th>
+      <th>Negative Marks</th>
+      <th>Right Answers</th>
+      <th>Wrong Answers</th>
+      <th>Skipped</th>
+      <th>Total MCQs</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if (userResults && userResults.length > 0) { %>
+      <% 
+        // Sort userResults by totalMarks in descending order for merit ranking
+        userResults.sort((a, b) => b.totalMarks - a.totalMarks);
+
+        // Assign merit based on sorted position
+        userResults.forEach(function(result, index) { 
+      %>
+        <tr>
+          <td><%= index + 1 %></td> <!-- Display merit -->
+          <td><%= result.name %></td>
+          <td><%= result.institution %></td>
+          <td><%= result.totalMarks %></td>
+          <td><%= result.negativeMarks %></td>
+          <td><%= result.right %></td>
+          <td><%= result.wrong %></td>
+          <td><%= result.skipped %></td>
+          <td><%= result.totalMCQ %></td>
+        </tr>
+      <% }) %>
+    <% } else { %>
+      <tr>
+        <td colspan="9">No results available</td>
+      </tr>
+    <% } %>
+  </tbody>
+</table>
+
+</div>
+
+
+<script>
+const examCode = "<%= examCode %>";
+  document.getElementById('download-excel').addEventListener('click', function() {
+    // Extract the table data
+    const table = document.querySelector('table');
+    const data = [];
+
+    // Get the header row
+    const headers = [];
+    table.querySelectorAll('thead th').forEach(th => {
+      headers.push(th.innerText);
+    });
+    data.push(headers); // Add header to data array
+
+    // Get the table body data
+    table.querySelectorAll('tbody tr').forEach(tr => {
+      const row = [];
+      tr.querySelectorAll('td').forEach(td => {
+        row.push(td.innerText);
+      });
+      data.push(row);
+    });
+
+    // Create a new workbook and worksheet
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.aoa_to_sheet(data); // Convert the data array to a sheet
+
+    // Append the worksheet to the workbook
+    XLSX.utils.book_append_sheet(wb, ws, 'User Results');
+
+    // Use examCode as the filename
+    const filename = `${examCode}_user_results.xlsx`;
+
+    // Create and download the Excel file
+    XLSX.writeFile(wb, filename);
+  });
+ 
+</script>
+
+</body>
+</html>

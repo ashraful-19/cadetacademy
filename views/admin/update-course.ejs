@@ -1,0 +1,374 @@
+
+
+<%- include('../partials/admin_sidenav.ejs') %>
+  <style>
+
+
+
+    form {
+            min-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        input[type="text"],input[type="number"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        input[type="radio"] {
+            margin-right: 5px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .syllabus_item {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: start; /* Updated to justify-content */
+  padding: 15px 40px;
+  white-space: nowrap;
+  border: 1px solid #ccc; /* Adding border for better visibility, you can remove this */
+  margin: 10px; /* Adding margin for spacing, you can adjust as needed */
+  border-radius: 8px; /* Adding border-radius for a rounded look, you can adjust as needed */
+  box-sizing: border-box; /* Ensure padding and border are included in width */
+  background-color: white;
+}
+.syllabus_item input {
+  width: 100%;
+  border-radius: 5px;
+  padding: 5px;
+border: none;
+  box-sizing: border-box; 
+  margin-bottom: 5px; 
+  background-color:#e0e0e053;
+
+}
+        #add_more {
+            cursor: pointer;
+            color: #007bff;
+            margin-top: 10px;
+        }
+
+        .remove_item a {
+            text-decoration: none;
+            color: rgba(253, 0, 0, 0.681);
+
+
+        }
+
+        .remove_item a:hover {
+            text-decoration: underline;
+        }
+    #main-sortable{
+
+    }
+
+    
+.sidenav-items{
+ 
+  
+}
+.sidenav-items:hover{
+  background-color: rgb(83, 78, 211);
+}
+.sidenav-items p{
+  margin-left: 10px;
+}
+
+.subitems{
+  padding-left: 18px;
+}
+.sidenav-items > p > a{
+color:white;
+}
+
+  </style>
+ 
+  <form method="POST" action="/admin/course/create_course?course_id=<%= courseId %>">
+    <h1>Update Course</h1> <br>
+    <div>
+      <label for="course_name">Course Name</label>
+      <input type="text" id="course_name" name="course_name" value="<%= course.course_name %>">
+    </div>
+    <div>
+      <label for="thumbnail">Thumbnail URL</label>
+      <input type="text" id="thumbnail" name="thumbnail" value="<%= course.thumbnail %>">
+    </div>
+    <div>
+      <label for="course_ads">Course Promo Video</label>
+      <input type="text" id="course_ads" name="course_ads" value="<%= course.course_ads %>">
+    </div>
+  
+    <div>
+      <div>
+        <label for="course_class">Course Class</label>
+        <input type="text" id="course_class" name="course_class" value="<%= course.course_class %>">
+    </div>
+    <div>
+      <label for="course_exam">Course Exam</label>
+      <input type="text" id="course_exam" name="course_exam" value="<%= course.course_exam %>">
+  </div>
+  <div>
+      <label for="course_note">Course Note</label>
+      <input type="text" id="course_note" name="course_note" value="<%= course.course_note %>">
+  </div>
+  <div>
+    <label for="course_fee">Course Fee</label>
+    <input type="number" id="course_fee" name="course_fee" value="<%= course.course_fee %>">
+  </div>
+  <div>
+    <label for="course_discount">Course Discount</label>
+    <input type="number" id="course_discount" name="course_discount" value="<%= course.course_discount %>">
+  </div>
+  <div>
+    <label for="course_fb_group">Facebook Group</label>
+    <input type="text" id="course_fb_group" name="course_fb_group" value="<%= course.course_fb_group %>">
+</div>
+<div>
+  <label for="validityDate">Course Duration</label>
+  <input type="number" id="validityDate" name="validityDate" value="<%= course.validityDate %>">
+</div>
+
+<div>
+  <label for="course_description">Course Description</label>
+  <textarea id="course_description" name="course_description"><%= course.course_description %></textarea>
+</div>
+
+<div>
+  <label for="is_active">Active:</label>
+  <span>Yes</span>
+  <input type="radio" id="is_active_yes" name="is_active" value="true" <% if (course.is_active === true) { %>checked<% } %>>
+  <span>No</span>
+  <input type="radio" id="is_active_no" name="is_active" value="false" <% if (course.is_active === false) { %>checked<% } %>>
+</div>
+
+<div>
+  <label for="is_update">Update:</label>
+  <span>Yes</span>
+  <input type="radio" id="is_update_yes" name="is_update" value="true" <% if (course.is_update === true) { %>checked<% } %>>
+  <span>No</span>
+  <input type="radio" id="is_update_no" name="is_update" value="false" <% if (course.is_update === false) { %>checked<% } %>>
+</div>
+
+    <div>
+      <button type="submit">Update Course</button>
+    </div>
+  </form>
+
+<br><br><br>
+<h1>Course Syllabus</h1>
+<form action="/admin/course/update/<%= courseId %>" method="post">
+  <div  id="main-sortable" data-sortlink="/admin/course/order/<%= courseId %>">
+    <% 
+    // Sort the course syllabus array by the "order" field
+    const sortedSyllabus = course.course_syllabus.sort((a, b) => a.order - b.order);
+    
+    // Iterate through the sorted syllabus array
+    sortedSyllabus.forEach(function(syllabus) { 
+    %>
+ 
+    <div class="syllabus_item" id="id_<%= syllabus._id %>">
+      <%= syllabus.order %>
+      <input type="text" hidden name="id[]" value="<%= syllabus._id %>">
+      <label>Subject Name</label>
+      <input name="course_content_type[]" value="<%= syllabus.course_content_type %>">
+      <label>Icon</label>
+      <input name="course_content_icon_url[]" value="<%= syllabus.course_content_icon_url %>">
+      <label>Course Chapter</label>
+      <input name="course_content_title[]" value="<%= syllabus.course_content_title %>">
+      <div class="remove_item"><a href="/admin/course/<%= courseId %>/syllabus/<%= syllabus._id %>/">Remove</a></div>
+    </div>
+    <% }) %>
+  </div>
+  <div>
+    <div id="add_more">Add More</div>
+  </div>
+  <div>
+    <button type="submit">Update Course</button>
+  </div>
+</form>
+
+
+
+
+<style>
+  .progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 5px;
+    background-color: rgb(255, 0, 0);
+    transition: width 0.3s ease-in-out;
+    z-index: 9999;
+  }
+</style>
+
+<div class="progress-bar"></div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+<script>
+  // HTML markup for the progress bar
+const progressBar = document.createElement('div');
+progressBar.classList.add('progress-bar');
+
+// Function to update the progress bar
+function updateProgressBar(percentage) {
+  progressBar.style.width = `${percentage}%`;
+}
+
+// Function to show the progress bar
+function showProgressBar() {
+  document.body.appendChild(progressBar);
+}
+
+// Function to hide the progress bar
+function hideProgressBar() {
+  document.body.removeChild(progressBar);
+}
+
+// State variable for loading status
+let loading = false;
+
+// Event listener for page loading
+window.addEventListener('load', () => {
+  loading = false;
+  hideProgressBar();
+});
+
+// Event listener for page redirecting
+window.addEventListener('beforeunload', () => {
+  loading = true;
+  showProgressBar();
+});
+
+// Event listener for content loading
+document.addEventListener('readystatechange', () => {
+  if (document.readyState === 'loading') {
+    if (loading) {
+      updateProgressBar(20); // Set initial progress bar percentage
+      showProgressBar();
+    }
+  } else if (document.readyState === 'interactive') {
+    if (loading) {
+      updateProgressBar(50); // Set intermediate progress bar percentage
+    }
+  } else if (document.readyState === 'complete') {
+    if (loading) {
+      updateProgressBar(100); // Set final progress bar percentage
+      setTimeout(() => hideProgressBar(), 1000); // Hide the progress bar after 1 second
+    }
+  }
+});
+
+// Animate the progress bar while loading
+setInterval(() => {
+  if (loading) {
+    const currentWidth = parseFloat(progressBar.style.width) || 0;
+    const newWidth = currentWidth + 1;
+    if (newWidth <= 99) {
+      updateProgressBar(newWidth);
+    }
+  }
+}, 20);
+
+
+</script>
+
+
+
+
+
+<script>
+const addMoreButton = document.getElementById("add_more");
+const syllabusContainer = document.getElementById("main-sortable");
+
+addMoreButton.addEventListener("click", function() {
+  const newSyllabusItem = document.createElement("div");
+  newSyllabusItem.classList.add("syllabus_item");
+  newSyllabusItem.innerHTML = `
+    <input type="text" hidden name="id">
+    <label>Subject Name</label>
+    <input name="course_content_type[]" >
+    <label>Course Syllabus Icon</label>
+    <input name="course_content_icon_url[]">
+    <label>Course Syllabus</label>
+    <input  name="course_content_title[]">
+    <div class="remove_item">Remove</div>
+  `;
+
+  newSyllabusItem.querySelector(".remove_item").addEventListener("click", function() {
+    newSyllabusItem.remove();
+  });
+
+  syllabusContainer.appendChild(newSyllabusItem);
+});
+
+// Remove button click event
+document.addEventListener('click', function(event) {
+  if (event.target && event.target.className === 'remove_item') {
+    event.target.closest('.syllabus_item').remove();
+  }
+});
+</script>
+
+<!-- ... Previous HTML content ... -->
+
+<!-- Load jQuery and jQuery UI -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<script>
+
+
+$(document).ready(function() {
+    const formAction = $("#main-sortable").data("sortlink"); // Get the form action URL
+  
+    $("#main-sortable").sortable({
+      placeholder: "sortable-placeholder", // Add a placeholder class for styling
+      update: function() {
+        const sortableElement = document.getElementById("main-sortable");
+        const ids = $(sortableElement).sortable('serialize');
+        console.log(ids);
+        console.log(formAction)
+        $.post(formAction, ids, function(res) {
+          console.log(res);
+        });
+      }
+    });
+    });
+  </script>
+  
+<!-- ... Rest of your HTML content ... -->
+

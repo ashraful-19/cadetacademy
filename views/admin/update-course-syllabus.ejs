@@ -1,0 +1,358 @@
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<%- include('../partials/admin_sidenav.ejs') %>
+<style>
+  .syllabus-details {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 20px;
+  }
+
+  .syllabus-container {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 5px 0;
+    background-color: #f9f9f9;
+  }
+
+  .syllabus-item {
+    display: flex;
+    align-items: center;
+  }
+
+  .syllabus-item label {
+    margin-right: 10px;
+  }
+
+  .syllabus-title {
+    font-size: 20px;
+    margin: 10px 0;
+  }
+
+  .add-items-container {
+    margin-top: 10px;
+  }
+
+  .add-more {
+    cursor: pointer;
+    color: #007bff;
+    margin-top: 10px;
+  }
+
+  .added-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-top: 10px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+}
+
+.added-item select {
+  width: 100px;
+  box-sizing: border-box; /* Ensure padding and border are included in width */
+  margin-right: 10px; /* Add margin to create spacing between select and input */
+  background-color:#e0e0e0;
+  font-size: 15px;
+}
+
+.added-item input {
+  flex: 1; /* Takes up the remaining available width */
+  box-sizing: border-box;
+  padding: 8px;
+  margin: 5px;
+  border-radius: 5px;
+  outline: none;
+  border: none;
+  background-color:#e0e0e0;
+}
+
+/* Additional styling for other types of input elements if needed */
+
+
+  .remove-items {
+    color: rgba(253, 0, 0, 0.681);
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .remove-items a:hover {
+    text-decoration: underline;
+  }
+
+  .added-item{
+    display: flex;
+  }
+</style>
+
+
+<div class="syllabus-details">
+ 
+  <h1><%= course.course_name %></h1>
+
+  <% for (const syllabusItem of course.course_syllabus) { %>
+
+  <form action="/admin/course/update-syllabus/<%= courseId %>" method="post"  class="auto-submit-form">
+    <div class="syllabus-container">
+      <div class="syllabus-item" >
+        <input type="text" hidden name="id" value="<%= syllabusItem._id %>">
+        <p>Chapter: <%= syllabusItem.course_content_title %></p>
+
+      </div>
+      <div class="add-items-container">
+        <div class="add-more">Add More</div>
+        <% 
+        const detailsArray = syllabusItem.course_content_details ? JSON.parse(syllabusItem.course_content_details) : [];%>
+        
+       
+        <div class="add-items sortable-parent"  >
+          <% for (const detail of detailsArray) { %>
+          <div  class="added-item sortable-child">
+            <label for="">Type</label><br>
+            <select name="type[]" data-selected="<%= detail.type %>">
+              <option value="video" <%= detail.type === 'video' ? 'selected' : '' %> >Video</option>
+              <option value="pdf" <%= detail.type === 'pdf' ? 'selected' : '' %> >PDF</option>
+              <option value="exam" <%= detail.type === 'exam' ? 'selected' : '' %>>Exam</option>
+            </select><br>
+            <label for="">Link</label><br>
+            <input type="text" name="link[]" value="<%= detail.link %>"><br>
+            <label for="">Title</label><br>
+            <input type="text" name="title[]" value="<%= detail.title %>">
+            <div class="remove-items">
+              <span>Remove</span>
+            </div>
+          </div>
+          <% } %>
+        </div>
+     
+      </div>
+      
+    </div>
+  </form>
+  <% } %>
+  
+</div>
+
+
+
+
+<script>
+  $(document).ready(function() {
+    // Add a click event listener to the "Add More" button
+    $('.add-more').on('click', function() {
+      // Get the parent "add-items" container
+      var addItems = $(this).siblings('.add-items');
+
+      // Create a new "added-item" element
+      var newItem = $('<div class="added-item">' +
+        '<label for="">Type</label><br>' +
+        '<select name="type[]">' +
+        '<option value="video">Video</option>' +
+        '<option value="pdf">PDF</option>' +
+        '<option value="exam">Exam</option>' +
+        '</select><br>' +
+        '<label for="">Link</label><br>' +
+        '<input type="text" name="link[]" value=""><br>' +
+        '<label for="">Title</label><br>' +
+        '<input type="text" name="title[]" value="">' +
+        '<div class="remove-items">Remove</div>' +
+        '</div>');
+
+      // Insert the new element
+      addItems.append(newItem);
+    });
+
+  });
+</script>
+<script>
+  $(document).ready(function() {
+    // Event delegation for blur on inputs within elements with the auto-submit-form class
+    $(document).on('blur', '.auto-submit-form input', function() {
+      submitForm($(this));
+    });
+
+    // Event delegation for change on select within elements with the auto-submit-form class
+    $(document).on('change', '.auto-submit-form select', function() {
+      submitForm($(this));
+    });
+
+    // Event delegation for clicks on elements with the class remove-items
+    $(document).on('click', '.remove-items', function() {
+      // Find the closest form element to the clicked remove-items
+      const closestForm = $(this).closest('form');
+
+      // Fade out the closest parent element of the clicked remove-items
+      $(this).parent().fadeOut(500, function() {
+        // After fade out, remove the element and submit the closest form
+        $(this).remove();
+        submitForm(closestForm);
+      });
+    });
+
+    // Event delegation for clicks on elements with the class add-more
+    $(document).on('click', '.add-more', function() {
+      // Find the closest form element to the clicked add-more
+      const closestForm = $(this).closest('form');
+
+      // Your logic for adding more elements goes here
+
+      // After adding more elements, submit the closest form
+      submitForm(closestForm);
+    });
+
+    // Function to handle form submission
+    function submitForm(element) {
+      // Find the closest form element to the changed input, clicked remove-items, or clicked add-more
+      const closestForm = element.closest('form');
+
+      // Serialize the form data
+      const formData = closestForm.serialize();
+
+      // Get the form action URL
+      const formAction = closestForm.attr('action');
+
+      // Send an AJAX request to submit the form data
+      $.ajax({
+        type: 'POST',
+        url: formAction,
+        data: formData,
+        success: function(response) {
+          console.log('Form submitted successfully');
+        },
+        error: function(error) {
+          console.error('Error submitting form:', error);
+        }
+      });
+    }
+  });
+</script>
+
+
+
+<style>
+  .progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 5px;
+    background-color: rgb(255, 0, 0);
+    transition: width 0.3s ease-in-out;
+    z-index: 9999;
+  }
+</style>
+
+<div class="progress-bar"></div>
+
+
+
+
+<script>
+  // HTML markup for the progress bar
+const progressBar = document.createElement('div');
+progressBar.classList.add('progress-bar');
+
+// Function to update the progress bar
+function updateProgressBar(percentage) {
+  progressBar.style.width = `${percentage}%`;
+}
+
+// Function to show the progress bar
+function showProgressBar() {
+  document.body.appendChild(progressBar);
+}
+
+// Function to hide the progress bar
+function hideProgressBar() {
+  document.body.removeChild(progressBar);
+}
+
+// State variable for loading status
+let loading = false;
+
+// Event listener for page loading
+window.addEventListener('load', () => {
+  loading = false;
+  hideProgressBar();
+});
+
+// Event listener for page redirecting
+window.addEventListener('beforeunload', () => {
+  loading = true;
+  showProgressBar();
+});
+
+// Event listener for content loading
+document.addEventListener('readystatechange', () => {
+  if (document.readyState === 'loading') {
+    if (loading) {
+      updateProgressBar(20); // Set initial progress bar percentage
+      showProgressBar();
+    }
+  } else if (document.readyState === 'interactive') {
+    if (loading) {
+      updateProgressBar(50); // Set intermediate progress bar percentage
+    }
+  } else if (document.readyState === 'complete') {
+    if (loading) {
+      updateProgressBar(100); // Set final progress bar percentage
+      setTimeout(() => hideProgressBar(), 1000); // Hide the progress bar after 1 second
+    }
+  }
+});
+
+// Animate the progress bar while loading
+setInterval(() => {
+  if (loading) {
+    const currentWidth = parseFloat(progressBar.style.width) || 0;
+    const newWidth = currentWidth + 1;
+    if (newWidth <= 99) {
+      updateProgressBar(newWidth);
+    }
+  }
+}, 20);
+
+
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+  $(document).ready(function() {
+    // Initialize sortable for all elements with the class 'sortable-parent' within forms with the class 'auto-submit-form'
+    $('.sortable-parent').sortable({
+      connectWith: ".sortable-parent", // Allow sorting across different parents
+      items: ".sortable-child",
+      update: function(event, ui) {
+        // Handle the sortable update here
+        submitSortableOrder(ui.item.closest('form'));
+      }
+    });
+
+    // Function to handle sortable order submission
+    function submitSortableOrder(form) {
+      // Serialize the form data
+      const formData = form.serialize();
+
+      // Get the form action URL
+      const formAction = form.attr('action');
+
+      // Send an AJAX request to submit the form data
+      $.ajax({
+        type: 'POST',
+        url: formAction,
+        data: formData,
+        success: function(response) {
+          console.log('Sortable order submitted successfully');
+        },
+        error: function(error) {
+          console.error('Error submitting sortable order:', error);
+        }
+      });
+    }
+  });
+</script>

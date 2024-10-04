@@ -1,0 +1,153 @@
+
+<%- include('../partials/header.ejs') %>
+<style>
+    .content-box {
+        background-color: #ffffff;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+        margin: 10px;
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 10px;
+        font-family: Noto Serif Bengali;
+        color: rgb(0, 0, 0);
+        line-height: 2;
+
+    }
+    .content-box ul {
+        list-style-type: none;
+        padding: 0;
+    }
+    .solution {
+        display: none;
+
+    }
+    #button-result {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #4d28ad;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    margin: 0 auto; /* Center the button horizontally */
+}
+.button-results{
+    text-align: center;
+}
+.timer-right{
+    position: fixed;
+    bottom: 85px;
+    right: 22px;
+    background: rgb(249 249 249 / 80%);
+    color: #080808;
+    padding: 4px 10px;
+    border-radius: 10px;
+    font-size: 14px;
+    box-shadow: rgb(195 195 195 / 90%) 0px 4px 12px;   
+}
+</style>
+
+<section class="top-nav">
+    <div><h2><%= title %></h2></div>
+ 
+ <img src="https://www.issb-bd.org/imgs/logonew.png" id="top-nav-icon-issb">
+</section>
+<br><br><br>
+<!-- stopwatch section -->
+<div id="timer" class="timer-right">
+    <span id="countdown"></span>
+    <i class="fa-solid fa-stopwatch"></i>
+</div>
+<% data.forEach(item => { %>
+    <div class="content-box" id="problem">
+        <h3>Problem</h3>
+        <ul>
+            <% item.Problem.forEach((problem, index) => { %>
+                <li><%= index + 1 %>. <%= problem %></li>
+            <% }) %>
+        </ul>
+    </div>
+
+    <div class="content-box solution" id="solution">
+        <h3>Solution</h3>
+        <ul>
+            <% item.Solve.forEach((solution, index) => { %>
+                <li><%= index + 1 %>. <%= item.Problem[index] %> <%= solution %></li>
+            <% }) %>
+        </ul>
+    </div>
+<% }) %>
+
+<div class="button-results">
+<span id="button-result" style=" text-align: center;">Show Result</span>
+</div>
+<br><br>
+<br><br><br>
+<script>
+    let startingTimeInMinutes = 5; // Set the timer duration in minutes
+    let time = startingTimeInMinutes * 60; // Convert minutes to seconds
+    let refreshIntervalId;
+
+    // Function to update the countdown timer
+    function updateCountdown() {
+        const countdownEl = document.getElementById("countdown");
+        const timerEl = document.getElementById("timer");
+        const problemEl = document.getElementById("problem");
+        const solutionEl = document.getElementById("solution");
+        const buttonEl = document.getElementById("button-result");
+
+        if (!countdownEl || !timerEl || !problemEl || !solutionEl || !buttonEl) {
+            console.error("Elements not found");
+            clearInterval(refreshIntervalId);
+            return;
+        }
+
+        let minutes = Math.floor(time / 60);
+        let seconds = time % 60;
+
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        countdownEl.innerHTML = `${minutes} min : ${seconds} sec`;
+
+        if (time <= 0) {
+            // Time's up, hide the timer and problem, and show the solution
+            playBeep(); // Play beep sound
+            timerEl.style.display = "none";
+            problemEl.style.display = "none";
+            solutionEl.style.display = "block";
+            buttonEl.style.display = "none";
+        }
+
+        time--;
+
+        if (time < 0) {
+            clearInterval(refreshIntervalId);
+        }
+    }
+
+    // Function to show the result
+    function showResult() {
+        clearInterval(refreshIntervalId);
+        document.getElementById("timer").style.display = "none";
+        document.getElementById("problem").style.display = "none";
+        const solutionEl = document.getElementById("solution");
+        solutionEl.style.display = "block";
+        document.getElementById("button-result").style.display = "none";
+        playBeep(); // Play beep sound
+    }
+
+    // Function to play a beep sound
+    function playBeep() {
+        var audio = new Audio('https://www.soundjay.com/buttons/sounds/button-1.mp3');
+        audio.play();
+    }
+
+    // Add click event listener to the button
+    document.getElementById("button-result").addEventListener("click", showResult);
+
+    // Start the countdown timer
+    refreshIntervalId = setInterval(updateCountdown, 1000);
+</script>
+
+    <%- include('../partials/bottom-nav.ejs') %>

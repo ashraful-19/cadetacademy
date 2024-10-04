@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QuizPoll - Test Yourself</title>
+    <link rel="stylesheet" href="admin.css" />
+
+    <link
+      href="https://fonts.maateen.me/solaiman-lipi/font.css"
+      rel="stylesheet"
+    />
+
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.6.1.min.js"
+      integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <div class="main-container">
+      <div class="top-nav"><h2>MISSION ISSB</h2></div>
+      <div class="container">
+        <div class="right-nav">
+          <div class="category">
+            <p><b>Dashboard</b></p>
+            <p>
+              <b><a href="/dashboard/iq_admin">Iq Test</a></b>
+            </p>
+            <p>
+              <b><a href="/psychometrics_admin">Psychometrics</a></b>
+            </p>
+            <p>
+              <b><a href="/practice_admin">Practice</a></b>
+            </p>
+            <p>
+              <b><a href="/video_admin">Video Content</a></b>
+            </p>
+            <p>
+              <b><a href="/ppdt_admin">PPDT Content</a></b>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+       <div class="left-side">
+        <div class="left-1">
+          <p><b>Insert new questions here</b></p>
+          <br />
+
+          <form action="/dashboard/ppdt/video" method="POST">
+            <p>Select Your Model Test:</p>
+            <select name="type" class="lname">
+              <option value="video">Video</option>
+              <option value="exam">Exam</option>
+              <option value="pdf">Pdf</option>
+            </select>
+            <br />
+            <label for="qname">Title: </label>
+            <input
+              class="lname"
+              type="text"
+              id="qname"
+              name="title"
+              autocompete="off"
+            />
+            <br />
+            <label for="qname">SET Link: </label>
+            <input
+              class="lname"
+              type="text"
+              id="qname"
+              name="qname"
+              autocompete="off"
+            />
+            <br />
+            <input type="submit" value="Save" id="button" />
+          </form>
+        </div>
+        <div class="left-1">
+          <p><b>Added Questions:</b></p>
+          <br />
+          <% if(locals.content) { content.forEach(Content => {
+          if(Content.type=="video"){%>
+          <div class="qcontainer">
+            <div
+              onclick="changeVideo('<%= Content.link %>')" >
+              <%= Content.title %>
+            </div>
+          </div>
+          <%} else if (Content.type=="exam"){%>
+          <div class="qcontainer">
+            <a href="<%= Content.link %>"><%= Content.title %></a>
+          </div>
+          <%} else {%>
+          <div class="qcontainer">
+            <a href="<%= Content.link %>"><%= Content.title %></a>
+          </div>
+          <%}})%> <%}%>
+        </div>
+      <button onclick="myFunction();">Click me</button>
+   <br><br><br>
+  </div>
+        </div>
+      </div>
+    </div>
+   
+  </body>
+</html>
+<script>
+  let a;
+  function changeVideo(a) {
+    console.log(a);
+    let imgDiv = document.getElementById("videolink");
+    imgDiv.src = a; // replace the image on button click.
+  }
+</script>
+<script type = "text/javascript"   
+src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-  
+3.2.1.min.js">  
+      </script>  
+
+
+<script>
+function myFunction() {
+
+  var divsToHide = document.getElementsByClassName("ytp-chrome-top-buttons"); //divsToHide is an array
+  console.log(divsToHide)
+  for(var i = 0; i < divsToHide.length; i++){
+      // divsToHide[i].style.visibility = "hidden"; // or
+      divsToHide[i].style.display = "none"; // depending on what you're doing
+  }
+}
+</script>

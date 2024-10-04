@@ -1,0 +1,184 @@
+
+<%- include('../partials/header.ejs') %>
+<style>
+.loadbackground {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff;
+  z-index: 9999;
+  display: none; /* add this line */
+}
+.load{position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);
+  /*change these sizes to fit into your project*/
+  width:100px;
+  height:100px;
+}
+.load hr{border:0;margin:0;width:40%;height:40%;position:absolute;border-radius:50%;animation:spin 2s ease infinite}
+
+.load :first-child{background:#19A68C;animation-delay:-1.5s}
+.load :nth-child(2){background:#F63D3A;animation-delay:-1s}
+.load :nth-child(3){background:#FDA543;animation-delay:-0.5s}
+.load :last-child{background:#193B48}
+
+@keyframes spin{
+  0%,100%{transform:translate(0)}
+  25%{transform:translate(160%)}
+  50%{transform:translate(160%, 160%)}
+  75%{transform:translate(0, 160%)}
+}
+
+
+</style>
+    <!-- TOP section -->
+    <link href="https://vjs.zencdn.net/8.0.4/video-js.css" rel="stylesheet" />
+    <script src="https://vjs.zencdn.net/8.0.4/video.min.js"></script>
+    <section class="top-nav">
+
+      <div id="top-nav-left">
+      <svg stroke="currentColor" fill="none" stroke-width="0" viewBox="0 0 24 24" height="30" width="30" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16"></path></svg>
+     </div>
+    <div>
+      <a id="militarian"	href="/"><img height="45px" style="margin:10px 0px 0px 0px;"  src="/img/cadetacademy_logo.png" alt=""></a>
+    </div>
+    </section>
+    
+    <div id="menulist" >
+      <a href="/"><i class="fa-solid fa-house"></i> Home</a>
+      <a href="https://www.facebook.com/mission.academy23"><i class="fa-regular fa-address-card"></i> About</a>
+      <a href="https://www.facebook.com/ashraful.ashik19"><i class="fa-regular fa-address-book"></i>Contact</a>
+      <a href="/termandcondition"><i class="fa-solid fa-fan"></i> Terms & conditions</a>
+      <a href="/privacy&policy"><i class="fa-solid fa-shield-halved"></i> Privacy and policy</a>
+        <% if (req.user) { %>
+            <a href="/auth/logout"><i class="fa-solid fa-arrow-right-from-bracket"></i>Logout</a>
+          <% } else { %>
+            <a href="/auth/login"><i class="fa-solid fa-arrow-right-to-bracket"></i>Login</a>
+          <% } %>
+          
+    </div>
+<style>
+  .registration-user>input{
+
+    margin-top: 10px;
+  }
+  .registration-user{
+  display: none;
+  }
+
+</style>
+
+    <br><br>
+    <section class="login-container">         
+     
+        <section class="login-container">         
+        
+      
+      <br>
+          <div class="phone-info">
+            <div  class="login-center">
+            <h2 style="color:rgb(19, 3, 111)">লগইন করুন</h2>
+          </div>
+          <br>
+            <h5 style="font-family: SolaimanLipi" class="login-width">আপনার ফোন নাম্বার দিনঃ</h5>
+            <form id="login-form" method="post" action="/auth/sendotp">
+            <input class="login-input login-width" type="text" name="phone" placeholder="017XXXXXXXX" required autofocus />
+        
+         <div class="registration-user">
+            <input class="login-input login-width" type="text" id="fname" name="name" placeholder="Name">
+            <input class="login-input login-width" type="text" id="lname" name="institution"  placeholder="College/University">  
+          </div>
+          <p class="error"></p>
+      
+            <button type="submit" class="login-btn">
+              Send OTP          
+            </button>
+              
+          </form>
+            
+         </div>
+     
+    </section>
+<div class="loadbackground">
+  <div class="load">
+    <hr/><hr/><hr/><hr/>
+  </div>
+</div>
+   
+    
+  </body>
+
+  <script
+    src="https://code.jquery.com/jquery-3.6.3.min.js"
+    integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU="
+    crossorigin="anonymous"
+  ></script>
+</html>
+
+
+
+<script>
+  $(document).ready(function() {
+    // Handle form submission
+    $("#login-form").submit(function(event) {
+        // Prevent the default form submission
+        event.preventDefault();
+        $(".login-btn").html(' OTP Sending...<i class="fa-solid fa-spinner fa-spin"></i>').css('color', 'write');
+
+        // Get form data
+        var formData = {
+            phone: $("input[name='phone']").val(),
+            name: $("input[name='name']").val(),
+            institution: $("input[name='institution']").val()
+        };
+
+        // Send AJAX POST request
+        $.ajax({
+            type: "POST",
+            url: "/auth/sendotp",
+            data: formData,
+            success: function(response) {
+                if (response.message === 'register') {
+                    // Show the element with class .resigration-mesage
+                    $(".registration-user").css("display", "block");
+                    $(".error").text('Please Register!').css('color','green');
+                    $(".login-btn").html('Send OTP');
+                } else if (response.message === "UserExists") {
+                    console.log(response.phoneNumber)
+                    window.location.href = '/auth/sendotp?phone='+response.phoneNumber;
+                } else if (response.message === "invalid") {
+                    $(".error").text('Invalid Phone Number!').css('color','red');
+                    $(".login-btn").html('Send OTP');
+                }
+            },
+            error: function(error) {
+                // Handle error, including invalid phone number case
+                console.log(error.responseText); // Log the responseText to the console
+            }
+        });
+    });
+});
+
+</script>
+
+
+</script>
+
+<script>
+  $(document).ready(function() {
+  // Toggle menu when top-nav-left is clicked
+  $("#top-nav-left").click(function() {
+    $("#menulist").toggle();
+  });
+
+  // Hide menu when user clicks anywhere on the body
+  $("body").click(function(event) {
+    if(!$(event.target).closest("#top-nav-left, #menulist").length) {
+      $("#menulist").hide();
+    }
+  });
+});
+
+</script>
+

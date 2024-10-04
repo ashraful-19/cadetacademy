@@ -1,0 +1,296 @@
+<%- include('../partials/admin_sidenav.ejs') %>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/froala/css/froala_editor.css">
+  <link rel="stylesheet" href="/froala/css/froala_style.css">
+  <link rel="stylesheet" href="/froala/css/plugins/code_view.css">
+  <link rel="stylesheet" href="/froala/css/plugins/colors.css">
+  <link rel="stylesheet" href="/froala/css/plugins/emoticons.css">
+  <link rel="stylesheet" href="/froala/css/plugins/image_manager.css">
+  <link rel="stylesheet" href="/froala/css/plugins/image.css">
+  <link rel="stylesheet" href="/froala/css/plugins/line_breaker.css">
+  <link rel="stylesheet" href="/froala/css/plugins/quick_insert.css">
+  <link rel="stylesheet" href="/froala/css/plugins/table.css">
+  <link rel="stylesheet" href="/froala/css/plugins/file.css">
+  <link rel="stylesheet" href="/froala/css/plugins/char_counter.css">
+  <link rel="stylesheet" href="/froala/css/plugins/video.css">
+  <link rel="stylesheet" href="/froala/css/plugins/emoticons.css">
+  <link rel="stylesheet" href="/froala/css/plugins/fullscreen.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.css">
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- https://www.youtube.com/watch?v=egPiNXf4B3s this is the referencing video  -->
+
+
+<!-- Jquery Cnd minified -->
+<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/3.2.6/css/froala_editor.pkgd.min.css">
+   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/3.2.6/js/froala_editor.pkgd.min.js"></script>
+
+<style>
+
+.rightside {
+    float: right;
+    width: 60%; /* Adjust the width as needed */
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+h1 {
+    color: #333;
+}
+
+.create-show {
+    margin-top: 20px;
+}
+
+.setting_inputs {
+    width: 100%;
+}
+
+.setting_input,
+textarea {
+    width: 100%;
+    margin-bottom: 10px;
+    background-color: rgb(242, 242, 242);
+}
+
+.setting_inputs div {
+    margin-bottom: 15px;
+}
+
+.setting_inputs h4 {
+    margin-top: 15px;
+}
+
+.export {
+    margin-top: 20px;
+}
+
+.export div {
+    margin-bottom: 10px;
+}
+
+button {
+    background-color: #007BFF;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+/* Add more styles as needed */
+
+
+</style>
+<section class="rightside">
+    <h1>Verbal Model Test Dashboard</h1>
+    <br>
+    <div class="clone-exam">
+      <form action="/admin/quiz/<%= content.exam_code %>/clone" method="post">
+        <button type="submit">Clone Exam</button>
+        <a href="/"><button>Result</button></a>
+      </form>
+    </div>
+
+  <div class="create-show">
+    <form action="/iq/create/<%= content.exam_code %>/settings" method="POST" class="setting_inputs" id="setting_form">
+      <label for="exam_name">Exam Name:</label>
+      <input class="setting_input" type="text" name="exam_name"  value="<%= content.exam_name %>">
+      <label for="Instruction">Instruction:</label> 
+      <textarea class="setting_input edit-froala" name="instruction"><%= content.instruction %></textarea>
+      <div>
+         <div><input type="checkbox" name="randomize"   <% if (content.randomize) { %>checked<% } %>> <span>Randomize the order of the questions during the test</span></div>
+         <div><input type="checkbox" name="negative_marking"  <% if (content.negative_marking) { %>checked<% } %>> <span> Penalize incorrect answers (negative marking)</span></div>
+         <div><input type="checkbox" name="custom_message"  <% if (content.custom_message) { %>checked<% } %>> <span>Show a custom message if the student passed or failed</span></div>
+         <div>
+            <h4>What is the passing score 1?</h4>
+            <input type="number" min="0" max="100" name="passing_score1" value="<%= content.passing_score1 %>">%
+            <h4>Pass Message</h4>
+            <textarea name="message_on_pass1"  class="edit-froala" ><%= content.message_on_pass1 %></textarea>
+            <h4>What is the passing score 2?</h4>
+            <input type="number" min="0" max="100" name="passing_score2" value="<%= content.passing_score2 %>">%
+            <h4>Pass Message</h4>
+            <textarea name="message_on_pass2"   class="edit-froala"><%= content.message_on_pass2 %></textarea>
+            <h4>What is the failing score?</h4>
+            <input type="number" min="0" max="100" name="failing_score" value="<%= content.failing_score %>">%
+            <h4>Fail Message</h4>
+            <textarea name="message_on_fail" id=""  class="edit-froala"><%= content.message_on_fail %></textarea>
+         </div>
+         <h4>At the end of the test, display the user's:</h4>
+         <div><input type="checkbox" name="show_result" <% if (content.show_result) { %>checked<% } %>> <span>Result</span></div>
+         <div><input type="checkbox" name="show_merit"  <% if (content.show_merit) { %>checked<% } %>> <span> Merit list</span></div>
+         <div><input type="checkbox" name="practice" <% if (content.
+          practice) { %>checked<% } %>> <span> Practice</span></div>
+         <div><input type="checkbox" name="show_explanation"  <% if (content.show_explanation) { %>checked<% } %>> <span> Display the explanation</span></div>
+         <h4>How much time do test takers have to complete the test?</h4>
+         <div><input type="number" min="0" max="200" name="time" value="0"><span>minutes</span></div>
+         <h4>How many times can someone take your test?</h4>
+         <div><input type="number" min="1" max="100" name="attempt" value="1"> <span>times</span></div>
+         <h4>Conclution Text</h4>
+         <textarea name="conclusion_text"  class="edit-froala"><%= content.conclusion_text %></textarea>
+      </div>
+      <h1>Publishing the Test</h1>
+      <div>
+        <input type="radio" name="active_status" value="closed" <%= content.active_status === 'closed' ? 'checked' : '' %>>
+        <span>Closed</span>
+      </div>
+      <div>
+        <input type="radio" name="active_status" value="open" <%= content.active_status === 'open' ? 'checked' : '' %>>
+        <span>Open</span>
+      </div>      
+      <div><input type="checkbox" name="is_anyone" <% if (content.is_anyone) { %>checked<% } %>> <span>Anyone</span></div>
+
+      <h1>Selected Course</h1>
+      <% for (const course of courseList) { %>
+        <label>
+          <input 
+            type="checkbox" 
+            name="course_added" 
+            value="<%= course.course_id %>"
+            <% if (content.course_added.includes(course.course_id)) { %>checked<% } %>
+          >
+          <%= course.course_name %>
+        </label>
+      <% } %>
+      
+
+
+      <input class="setting_input" type="submit" value="Update">
+   </form>
+
+
+    
+
+
+    <h1>Export Options</h1> 
+    <div class="export">
+      <div><input type="radio" name="" id=""> <span>View/print in your browser</span></div>
+      <div><input type="radio" name="" id=""><span>Download as Word doc</span></div>
+      <div> <input type="checkbox" name="" id=""> <span>Show Answer</span></div>
+      <div><input type="checkbox" name="" id=""> <span>Show Explanation</span></div>
+      <button>View/Print/Download</button>
+      <div>  <span>Other Formats:</span> <span>CSV</span></div>
+    </div>
+  </div>
+  </section>
+</body>
+</html>
+
+
+
+<script>
+  $('.edit-froala').each(function () {
+  let isTextSelected = false; // Initialize the flag
+  const editor = new FroalaEditor(this, {
+    placeholderText: '',
+    pastePlain: true,
+    pasteDeniedTags: ['style', 'script'],
+    toolbarInline: true,
+    toolbarVisibleWithoutSelection: true,
+    toolbarButtons: [
+      ['bold', 'italic', 'underline', 'subscript', 'superscript'],
+      ['fontFamily', 'fontSize', 'textColor', 'backgroundColor'],
+      ['paragraphStyle', 'align', 'formatOL', 'formatUL'],
+      ['insertLink', 'insertImage', 'insertVideo', 'insertFile', 'insertTable', 'insertHR'],
+      ['emoticons', 'specialCharacters', 'insertCode', 'insertFormula'],
+      ['html']
+    ],
+    pasteAllowedStyleProps: [],
+    pasteDeniedStyleProps: [],
+    imageUploadParam: 'image',
+    imageUploadURL: '/upload',
+    events: {
+      'image.beforeUpload': function (images) {
+        console.log('Before image upload:', images);
+      },
+      'image.uploaded': function (response) {
+        console.log('Image uploaded:', response);
+        const img = $('img[src^="blob:"]');
+        img.each(function () {
+          $(this).attr('src', response.link);
+        });
+      },
+      'focus': function (e) {
+        // Check if e and e.target are defined
+        if (!e || !e.target) {
+          return;
+        }
+
+        const target = e.target;
+
+        if ($(target).hasClass('mathjax-equation')) {
+          const equationContent = $(target).text();
+          console.log(equationContent);
+          // You can add logic here to handle math preview if needed
+        } else {
+          // You can add logic here to handle clearing of math preview if needed
+        }
+
+        const editorElement = editor.el;
+
+        // Toggle text selection based on the flag
+        if (isTextSelected) {
+          isTextSelected = false;
+        } else {
+          if (document.body.createTextRange) {
+            const range = document.body.createTextRange();
+            range.moveToElementText(editorElement);
+            range.select();
+          } else if (window.getSelection) {
+            const selection = window.getSelection();
+            const range = document.createRange();
+            range.selectNodeContents(editorElement);
+
+            selection.removeAllRanges();
+            selection.addRange(range);
+          }
+
+          isTextSelected = true;
+        }
+      },
+    },
+  });
+});
+
+</script>
+
+  
+
+<script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js"></script>
+  <script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/xml/xml.min.js"></script>
+  <script type="text/javascript" src="/froala/js/froala_editor.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/align.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/code_beautifier.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/code_view.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/colors.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/emoticons.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/draggable.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/font_size.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/font_family.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/image.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/image_manager.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/line_breaker.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/quick_insert.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/link.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/lists.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/paragraph_format.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/paragraph_style.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/video.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/table.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/url.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/emoticons.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/file.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/entities.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/inline_style.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/save.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/fullscreen.min.js"></script>
+  <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>

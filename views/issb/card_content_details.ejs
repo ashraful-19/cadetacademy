@@ -1,0 +1,163 @@
+<%- include('../partials/header.ejs') %>
+
+<style>
+	
+	
+.fr-dib,.fr-fic,.fr-dii {
+  width: 100%!important;
+  height: auto;
+}
+  .active{
+	background-color: rgb(231, 231, 231);
+	color: black;
+}
+
+
+	</style>
+<style>
+	[data-f-id="pbf"] {
+		display: none;
+	}
+	#floatingMenu ul>li:hover{
+	background-color: rgb(6 14 24 / 48%);
+}
+	</style> 
+	<script>
+				$(document).ready(function() {
+			$('[data-f-id="pbf"]').remove();
+		});
+
+	</script>		
+
+	<section class="top-nav">
+		<div><h4><%= title %></h4></div>
+	 
+	 <img src="https://candidatelogin.issb-bd.org/asset/img/logonew.png" id="top-nav-icon-issb">
+	</section>
+<br><br><br>
+
+	<div style="padding:15px" class="content-details">
+		
+<div><%- content.question %></div>
+<% content.option.forEach(function(option) { %>				
+	<h3><%- option %></h3>
+<% }) %>
+
+<div style="font-family: SolaimanLipi">
+	<%- content.explanation %>
+</div>
+
+
+
+
+	</div>
+
+
+
+
+
+<br><br>
+	
+		
+	
+	
+  
+
+<div id="floatingMenu">
+	<ul>
+	  <li class="<%= text_type === 'Bangla' ? 'active' : '' %>" >
+		<a href="/issb/practice?type=<%= title %>&text_type=Bangla" >
+		  <i class="fa-regular fa-circle-play"></i>Bangla
+		</a>
+	  </li>
+	  <li class="<%= text_type === 'English' ? 'active' : '' %>">
+		<a href="/issb/practice?type=<%= title %>&text_type=English" >
+		  <i class="fa-regular fa-circle-play"></i>English
+		</a>
+	  </li>
+	</ul>
+  </div>
+  <% if (title !== 'Extempore Speech' && title !== 'Planning Exercise') { %>
+	<div id="menuicon">
+	  <i class="fa-solid fa-list-ol"></i>
+	</div>
+  <% } %>
+	
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	
+	<script>
+	$(document).ready(function() {
+		$("#menuicon").click(function() {
+			$("#floatingMenu").fadeToggle(100);
+			event.stopPropagation(); // Prevent click event from propagating to document
+		});
+	
+		// Click event on document to hide the menu when clicked outside
+		$(document).click(function(event) {
+			if (!$(event.target).closest("#floatingMenu, #menuicon").length) {
+				$("#floatingMenu").fadeOut(100);
+			}
+		});
+	});
+	</script>
+	
+	<!-- hide andshow  -->
+	
+
+	
+<br><br><br>
+ <!-- bottom nagivatoin section  -->
+
+ <%- include('../partials/bottom-nav.ejs') %>
+  </body>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+ 
+ 
+</html>
+<script>
+	$(document).ready(function() {
+  // Hide the solve and hint content initially for all .qcontainer elements
+  $('.qcontainer .solve-content, .qcontainer .hint-content').hide();
+
+  // Attach click event listeners to all .qcontainer elements
+  $('.qcontainer').each(function() {
+    var container = $(this);
+    var solveButton = container.find('.solve');
+    var hintButton = container.find('.hint');
+    var solveContent = container.find('.solve-content');
+    var hintContent = container.find('.hint-content');
+
+    // Toggle the solve content when clicked on the solve button
+    solveButton.click(function() {
+      solveContent.slideToggle(500);
+      hintContent.hide(300); // hide the hint content
+    });
+
+    // Toggle the hint content when clicked on the hint button
+    hintButton.click(function() {
+      hintContent.slideToggle(500);
+      solveContent.hide(300); // hide the solve content
+    });
+  });
+});
+
+
+
+
+$(document).ready(function() {
+  $('#eye-open-close').click(function() {
+    $('.hint-content').slideToggle(500);
+	$('.solve-content').hide(300);
+    $(this).find('i').toggleClass('fa-eye-slash fa-eye');
+    $(this).find('p').text(function(_, text) {
+      return text === 'Hide Hints' ? 'Show Hints' : 'Hide Hints';
+    });
+  });
+});
+
+
+
+
+</script>
+
+

@@ -1,0 +1,82 @@
+
+<%- include('../partials/header.ejs') %>
+    <!-- TOP section -->
+
+    <section class="top-nav">
+
+      <div id="top-nav-left">
+      <svg stroke="currentColor" fill="none" stroke-width="0" viewBox="0 0 24 24" height="30" width="30" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16"></path></svg>
+     </div>
+    <div>
+      <a id="militarian"	href="/"><img height="45px" style="margin:10px 0px 0px 0px;"  src="/img/cadetacademy_logo.png" alt=""></a>
+    </div>
+    </section>
+    
+    <div id="menulist" >
+      <a href="/"><i class="fa-solid fa-house"></i> Home</a>
+      <a href="https://www.facebook.com/mission.academy23"><i class="fa-regular fa-address-card"></i> About</a>
+      <a href="https://www.facebook.com/ashraful.ashik19"><i class="fa-regular fa-address-book"></i>Contact</a>
+      <a href="/termandcondition"><i class="fa-solid fa-fan"></i> Terms & conditions</a>
+      <a href="/privacy&policy"><i class="fa-solid fa-shield-halved"></i> Privacy and policy</a>
+        <% if (req.user) { %>
+            <a href="/auth/logout"><i class="fa-solid fa-arrow-right-from-bracket"></i>Logout</a>
+          <% } else { %>
+            <a href="/auth/login"><i class="fa-solid fa-arrow-right-to-bracket"></i>Login</a>
+          <% } %>
+          
+    </div>
+    <section class="login-container">
+      <br><br><br>
+          <div class="phone-info">
+      <div style="color:rgb(19, 3, 111)" class="login-center">
+        <h1>লগইন করুন</h1><br>
+        <h2>OTP পাঠানো হয়েছে</h2>
+      </div>
+      <br>
+        <h5 class="login-width" style="font-family: Noto Serif Bengali">SMS এ পাঠানো OTP:</h5>
+        <form id="login-form" method="post" action="/auth/login">
+        <input type="text" name="phone" hidden value="<%- phoneNumber %>"/>
+        <input type="text" class="login-input login-width" name="otp" placeholder="Enter OTP Code" required autofocus />
+       
+         <% if (locals.error_messages) { %>
+           <p style="color:rgb(255 129 0)!important;" class="error"><%= locals.error_messages %></p>
+         <% } %>
+         
+        <button class="login-btn" type="submit">
+          Login &nbsp;
+          <i class="fa-solid fa-arrow-right"></i>
+      
+        </button>
+          
+      </form>
+    </div>
+    </section>
+  </body>
+
+  <script src="./script.js"></script>
+  <!-- Jquery Cnd minified -->
+  <script
+    src="https://code.jquery.com/jquery-3.6.3.min.js"
+    integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU="
+    crossorigin="anonymous"
+  ></script>
+</html>
+
+<script>
+      $(document).ready(function() {
+      // Toggle menu when top-nav-left is clicked
+      $("#top-nav-left").click(function() {
+        $("#menulist").toggle();
+      });
+    
+      // Hide menu when user clicks anywhere on the body
+      $("body").click(function(event) {
+        if(!$(event.target).closest("#top-nav-left, #menulist").length) {
+          $("#menulist").hide();
+        }
+      });
+    });
+    
+</script>
+
+

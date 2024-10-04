@@ -1,0 +1,1774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css">
+  <link rel="stylesheet" href="/css/admin.css">
+  <link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+/>
+<link rel="icon" type="image/png" href="/img/favicon_favicon.png">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/froala/css/froala_editor.css">
+  <link rel="stylesheet" href="/froala/css/froala_style.css">
+  <link rel="stylesheet" href="/froala/css/plugins/code_view.css">
+  <link rel="stylesheet" href="/froala/css/plugins/colors.css">
+  <link rel="stylesheet" href="/froala/css/plugins/emoticons.css">
+  <link rel="stylesheet" href="/froala/css/plugins/image_manager.css">
+  <link rel="stylesheet" href="/froala/css/plugins/image.css">
+  <link rel="stylesheet" href="/froala/css/plugins/line_breaker.css">
+  <link rel="stylesheet" href="/froala/css/plugins/quick_insert.css">
+  <link rel="stylesheet" href="/froala/css/plugins/table.css">
+  <link rel="stylesheet" href="/froala/css/plugins/file.css">
+  <link rel="stylesheet" href="/froala/css/plugins/char_counter.css">
+  <link rel="stylesheet" href="/froala/css/plugins/video.css">
+  <link rel="stylesheet" href="/froala/css/plugins/emoticons.css">
+  <link rel="stylesheet" href="/froala/css/plugins/fullscreen.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.css">
+  <link href="https://fonts.cdnfonts.com/css/noto-serif-bengali" rel="stylesheet">
+
+
+
+
+<script>
+  // Function to hide specific <a> tags using CSS
+  function hideSpecificATags() {
+    // Select all anchor tags with the specified href
+    var specificAnchorTags = document.querySelectorAll('a[href="https://www.froala.com/wysiwyg-editor?k=u"]');
+
+    // Iterate through each matching anchor tag
+    specificAnchorTags.forEach(function(anchorTag) {
+      // Set the display property to none
+      anchorTag.style.display = 'none';
+    });
+  }
+
+  // Initial hiding of specific <a> tags
+  hideSpecificATags();
+</script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- https://www.youtube.com/watch?v=egPiNXf4B3s this is the referencing video  -->
+
+<!-- Jquery Cnd minified -->
+<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/3.2.6/css/froala_editor.pkgd.min.css">
+   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/3.2.6/js/froala_editor.pkgd.min.js"></script>
+   <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+</head>
+<body>
+  
+<style>
+      
+
+      #sortable-list{
+        font-family: Noto Serif Bengali!important;
+      }
+      /* Style for the modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 3331;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+}
+
+.modal-content {
+  background-color: rgb(245, 116, 116);
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%;
+  position: relative;
+}
+
+/* Style for the math preview area */
+.mathjax-preview {
+  margin-top: 10px;
+}
+.mathy {
+  display: inline-block;
+  position: relative;
+  padding: 2px 5px;
+  border-radius: 4px;
+  margin: 0 2px;
+  border: 1px dotted black;
+}
+
+.mathy::before{
+  content: 'AsciiMath:';
+  margin-right: 5px;
+  background-color: aquamarine;
+}
+
+#mathPreview{
+  position: fixed;
+  bottom: 0px;
+  right: 0px;
+  padding: 20px;
+  font-size: 20px;
+}
+
+.question-row {
+  display: flex;
+  align-items: center; 
+
+            }
+.question-nav {
+  display: none;
+  justify-content: space-between; 
+  width: 100%; 
+  align-items: center; 
+}
+
+.selection1{
+  display: none;
+}
+
+.hidden-add-question{
+  display: none;
+}
+.clone-form {
+    display: none;
+    position: relative;
+    top: 0px; /* Adjust the distance based on your preference */
+  }
+  .highlight{
+    background-color: rgba(136, 255, 186, 0.134);
+  }
+
+  .single-option{
+
+display:flex;
+align-items: center;
+}
+
+.single-option label{
+
+width: 80px;
+font-size:14px;
+}
+
+.field-section select, .changed-field{
+border: none;
+outline: none;
+margin: 5px;
+border-radius: 5px;
+background-color: rgb(250 250 250 / 67%);
+font-size: 12px;
+padding: 5px;
+width:100%;
+}
+
+#delete-many{
+  display: none;
+}
+     </style>
+ 
+
+
+<div id="mathPreview"></div>
+ 
+  <script>
+    $(document).ready(function () {
+      MathJax.Hub.Config({
+    extensions: ["asciimath2jax.js"],
+    jax: ["input/TeX", "output/CommonHTML"],
+    asciimath2jax: {
+      delimiters: [['`','`']]
+    }
+  });
+
+  FroalaEditor.DefineIcon('insertMath', { NAME: 'insert', SVG_KEY: 'insert' });
+  FroalaEditor.RegisterCommand('insertMath', {
+    title: 'Insert Math',
+    focus: true,
+    undo: true,
+    refreshAfterCallback: true,
+    callback: function () {
+      let editor = this; // Store editor instance
+      
+      editor.html.insert(`&nbsp;<span class="mathy">  </span>&nbsp;`);
+    
+    }
+  });
+
+
+
+  
+  
+  $('.edit-froala').each(function () {
+  let isTextSelected = false; // Initialize the flag
+
+  const editor = new FroalaEditor(this, {
+    placeholderText: '',
+    pastePlain: true,
+    pasteDeniedTags: ['style', 'script'],
+    toolbarInline: true, 
+    attribution: false,
+    toolbarInline: true,
+    toolbarVisibleWithoutSelection: false,
+    toolbarButtons: [
+      ['bold', 'italic', 'underline', 'subscript', 'superscript'],
+      ['fontFamily', 'fontSize', 'textColor', 'backgroundColor'],
+      ['paragraphStyle', 'align', 'formatOL', 'formatUL'],
+      ['insertLink', 'insertImage', 'insertMath', 'insertVideo', 'insertFile', 'insertTable', 'insertHR'],
+      ['emoticons', 'specialCharacters', 'insertCode', 'insertFormula'],
+      ['html']
+    ],
+    pastePlain: true,
+    'paste.afterCleanup': function (e, editor, clipboard_html) {
+      var plainText = yourCustomCleanupFunction(clipboard_html);
+      editor.html.set(plainText);
+      e.preventDefault();
+    },
+    pastePlainOptions: {
+      cleanSpaces: true,
+      forcePlainText: true
+    },
+    pasteAllowedStyleProps: [],
+    pasteDeniedStyleProps: [],
+    imageUploadParam: 'image',
+    imageUploadURL: '/upload',
+    events: {
+      'image.beforeUpload': function (images) {
+        console.log('Before image upload:', images);
+      },
+      'image.uploaded': function (response) {
+        console.log('Image uploaded:', response);
+        const img = $('img[src^="blob:"]');
+        img.each(function () {
+          $(this).attr('src', response.link);
+        });
+      },
+      'click': function (e) {
+        const target = e.target;
+
+        if ($(target).hasClass('mathy')) {
+          const equationContent = $(target).text();
+          console.log(equationContent);
+          showMathPreview(equationContent);
+        } else {
+          clearMathPreview();
+        }
+      },
+      'focus': function (e) {
+  // Check if e and e.target are defined
+  if (!e || !e.target) {
+    return;
+  }
+
+  const target = e.target;
+
+  if ($(target).hasClass('mathy')) {
+    const equationContent = $(target).text();
+    console.log(equationContent);
+    showMathPreview(equationContent);
+  } else {
+    clearMathPreview();
+  }
+
+  const editorElement = editor.el;
+
+  // Toggle text selection based on the flag
+  if (isTextSelected) {
+    isTextSelected = false;
+  } else {
+    if (document.body.createTextRange) {
+      const range = document.body.createTextRange();
+      range.moveToElementText(editorElement);
+      range.select();
+    } else if (window.getSelection) {
+      const selection = window.getSelection();
+      const range = document.createRange();
+      range.selectNodeContents(editorElement);
+
+      selection.removeAllRanges();
+      selection.addRange(range);
+    }
+
+    isTextSelected = true;
+  }
+},
+      'blur': function () {
+        const closestForm = $(this.$oel[0]).closest('form');
+
+        closestForm.on('submit', function (event) {
+          event.preventDefault();
+
+          const form = $(this);
+          const formValues = form.serialize();
+
+          $.ajax({
+            type: 'POST',
+            url: form.attr('action'),
+            data: formValues,
+            success: function(response) {
+              console.log(response)
+              showMessage(form, 'Saved!');
+            },
+            error: function(error) {
+              console.log('Question saving error:', error);
+            }
+          });
+        });
+
+        closestForm.submit();
+      }
+    }
+  })
+  });
+});
+
+
+
+
+
+
+  function showMathPreview(equation) {
+  const mathPreviewDiv = $('#mathPreview');
+  mathPreviewDiv.empty();
+  mathPreviewDiv.append('<p>Math Preview:</p>');
+  mathPreviewDiv.append('<div id="previewEquation"></div>');
+  
+  const previewEquationDiv = $('#previewEquation');
+  previewEquationDiv.text('`'+equation+'`');
+  MathJax.Hub.Queue(['Typeset', MathJax.Hub, previewEquationDiv[0]]);
+}
+
+function clearMathPreview() {
+  const mathPreviewDiv = $('#mathPreview');
+  mathPreviewDiv.empty();
+}
+
+function showMessage(form, message) {
+   var messageDiv = form.find(".message");
+   messageDiv.html(message);
+   
+   messageDiv.slideDown();
+
+   setTimeout(function() {
+      messageDiv.slideUp(function() {
+         messageDiv.html("");  
+      });
+   }, 2000);
+}
+
+</script>
+
+
+
+   <div id="mathModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Insert Math Equation</h2>
+      <input type="text" id="equationInput" placeholder="Enter ASCIIMath equation...">
+      <div id="equationPreview" class="mathjax-preview"></div>
+      <button id="insertEquationBtn" class="modal-btn">Insert</button>
+      <button id="cancelEquationBtn" class="modal-btn">Cancel</button>
+    </div>
+  </div>
+  
+   
+<section class="rightside" style="width: 70%; margin:0px auto;">
+   <div class="right-question-section">
+        <h1>Questions</h1>
+      
+        <input type="file" id="jsonFileInput" accept=".json">
+    <button onclick="handleFile()">Read JSON</button>
+
+        
+        <h3 class="selection-hide"><i class="fas fa-eye-slash"></i> Show Categories</h3> <input type="checkbox" id="selectAll"><span>&nbsp;Select All</span> <span id="delete-many"><i class="fa-solid fa-trash-can"></i></span><div id="deleted-message" style="display: none;"></div>
+        <br><br>
+       <form action="/admin/exam/create/quiz/<%= data.exam_code %>/update?type=save" method="post" class="options-form"> 
+          
+          <div class="hidden-add-question">
+          <div id="choice">
+             <div class="selection selection1">
+                <label for="exam_type">Exam Type:</label>
+                <select id="exam_type" name="exam_type" class="exam_type">
+                   <option value="">Select Exam Type</option>
+                   <option value="HSC">HSC</option>
+                   <option value="SSC">SSC</option>
+                   <option value="ADMISSION">ADMISSION</option>
+                   <option value="ISSB">ISSB</option>
+                </select>
+                <label for="subject">Subject:</label>
+                <select id="subject" name="subject" class="subject">
+                   <option value="">Select Subject</option>
+                </select>
+                <label for="chapter">Chapter:</label>
+                <select id="chapter" name="chapter" class="chapter">
+                   <option value="">Select Chapter</option>
+                </select>
+                <label for="topic">Topic:</label>
+                <select id="topic" name="topic" class="topic">
+                   <option value="">Select Topic</option>
+                </select>
+                <label for="board">Board:</label>
+                <select id="board" name="board" class="board">
+                   <option value="">Select Board</option>
+                </select>
+                <label for="year">Year:</label>
+                <select id="year" name="year" class="year">
+                   <option value="">Select Year</option>
+                </select>
+                <label for="version">Version:</label>
+                <select id="version" name="version" class="version">
+                   <option value="">Select Version</option>
+                </select>
+             </div>
+             <div class="addquestion">
+            
+                 <textarea name="question" rows="1" class="edit-froala">Question</textarea>
+            
+              <div class="options-container">
+                 <div class="options">
+                     <input type="radio" name="answer" value="1" checked>
+                     <textarea name="option[]"  rows="1" class="edit-froala">Choice 1</textarea>
+                     <button type="button" class="remove-option">Remove</button>
+                 </div>
+                 <div class="options">
+                     <input type="radio" name="answer" value="2">
+                     <textarea name="option[]"  rows="1" class="edit-froala">Choice 2</textarea>
+                     <button type="button" class="remove-option">Remove</button>
+                 </div>
+                 <div class="options">
+                     <input type="radio" name="answer" value="3">
+                     <textarea name="option[]"  rows="1" class="edit-froala">Choice 3</textarea>
+                     <button type="button" class="remove-option">Remove</button>
+                 </div>
+                 <div class="options">
+                     <input type="radio" name="answer" value="4">
+                     <textarea name="option[]"  rows="1" class="edit-froala">Choice 4</textarea>
+
+                     <div class="remove-option"> <i class="fa-solid fa-trash-can"></i></div>
+                    </div>
+              </div>
+              <button type="button" class="add-option">Add Option</button>
+                 <textarea name="explanation"  rows="1" class="edit-froala"></textarea>
+            </div>
+          </div>
+         
+          <select id="change" name="field_type">
+             <option value="choice">Choice</option>
+             <option value="textblock">Textblock</option>
+             <option value="short_answer">Short Answer</option>
+          </select>
+
+      </div>
+          <div class="buttons">
+             <input type="submit" value="Add Question" class="button">
+          </div>
+        
+        </form>   
+
+      
+        <h1>Edit Question Here</h1>
+  
+       <div id="sortable-list" >
+        <% let serial = 1; %>
+        <% content.forEach(function(question) { %>
+        <form class="block-shadow ajaxForm options-form" action="/admin/exam/create/quiz/<%= data.exam_code %>/update?id=<%= question.id %>" method="post" data-id="<%= question._id %>">
+
+          <input type="text" hidden name="order" value="<%= question.order %>">
+          <div class="question-row">
+            <input type="checkbox" class="single-checkbox" value="<%= question._id %>">&nbsp;<h3><b class="serial"></b></h3>&nbsp;&nbsp;<i class="fas fa-eye open-close"></i>
+            <div class="question-nav">
+              <i class="fa-solid fa-arrows-up-down sortable-icon"></i>
+              <div class="delete-button">
+                <a href="/admin/exam/create/quiz/<%= data.exam_code %>/question?delete=<%= question.id %>">
+                  <i class="fa-solid fa-trash-can"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+            <div class="field-section">
+                <div class="selection selection1" data-selectedFromDatabase='{
+                      "examType": "<%= question.exam_type %>",
+                      "subject": "<%= question.subject %>",
+                      "chapter": "<%= question.chapter %>",
+                      "topic": "<%= question.topic %>",
+                      "board": "<%= question.board %>",
+                      "year": "<%= question.year %>",
+                      "version": "<%= question.version %>"
+                      }'>
+                  <div class="single-option">
+                    <label for="exam_type">Exam Type:</label>
+                    <select name="exam_type" class="exam_type">
+                        <option value="">Select Exam Type</option>
+                        <option value="HSC">HSC</option>
+                        <option value="SSC">SSC</option>
+                        <option value="ADMISSION">ADMISSION</option>
+                        <option value="ISSB">ISSB</option>
+                    </select>
+                  </div>
+                  <div class="single-option">
+                    <label for="subject">Subject:</label>
+                    <select name="subject" class="subject">
+                        <option value="">Select Subject</option>
+                    </select>
+                  </div>
+
+                    <div class="single-option">
+                    <label for="chapter">Chapter:</label>
+                    <select name="chapter" class="chapter">
+                        <option value="">Select Chapter</option>
+                    </select>
+                  </div>
+
+                    <div class="single-option">
+                    <label for="topic">Topic:</label>
+                    <select name="topic" class="topic">
+                        <option value="">Select Topic</option>
+                    </select>
+                  </div>
+
+                    <div class="single-option">
+                    <label for="board">Board:</label>
+                    <select name="board" class="board">
+                        <option value="">Select Board</option>
+                    </select>
+                  </div>
+
+                    <div class="single-option">
+                    <label for="year">Year:</label>
+                    <select name="year" class="year">
+                        <option value="">Select Year</option>
+                    </select>
+                  </div>
+
+                    <div class="single-option">
+                    <label for="version">Version:</label>
+                    <select name="version" class="version">
+                        <option value="">Select Version</option>
+                    </select>
+                    </div>
+                </div>
+                <br>
+                <textarea name="question" class="edit-froala"><%= question.question %></textarea>
+
+                <div class="addquestion">
+    
+                  <div class="ques-exp">
+                  </div>
+                  <div class="options-container">
+                      <% let counter = 1; %>
+                      <% question.option.forEach((option) => { %>
+      
+                      <div class="options">
+                          <input type="radio" name="answer" value="<%= counter %>" <%= question.answer === String(counter) ? 'checked' : '' %>>
+                          <textarea name="option[]" rows="1" class="edit-froala"><%= option %></textarea>
+                          <div class="remove-option"> <i class="fa-solid fa-trash-can"></i></div>
+
+                      </div>
+
+                      <% counter++; %>
+                      <% }) %>
+                      <div class="add-option"><i class="fa-regular fa-square-plus"></i></div>
+                      <textarea name="explanation" rows="1" class="edit-froala"><%= question.explanation %></textarea>
+
+                  </div>
+      
+                 
+                 
+              </div>
+            </div>
+    
+    
+           
+    <div class="question-nav question-row">
+    
+            <select class="change-field" name="field_type" style="width: 200px;">
+                <option value="choice" <% if (question.field_type === 'choice') { %> selected <% } %>>Choice</option>
+                <option value="textblock" <% if (question.field_type === 'textblock') { %> selected <% } %>>Textblock</option>
+                <option value="short_answer" <% if (question.field_type === 'short_answer') { %> selected <% } %>>Short Answer</option>
+            </select>
+            <div class="insert-question"> <a href="/admin/exam/create/quiz/<%= data.exam_code %>/edit"><i class="fa-regular fa-square-plus"></i></a></div>
+          </div>
+        
+            <div class="message"></div>
+        </form>
+    
+        <% serial++; %>
+        <% }) %>
+    
+    
+    </div>
+  </div>
+</section>
+
+
+</body>
+
+<script>
+
+
+document.addEventListener('DOMContentLoaded', function () {
+     // Update serial numbers initially when the page loads
+  updateSerialNumbers();
+
+// Add event listeners to Insert Question and Delete buttons
+document.querySelectorAll('.insert-question, .delete-button').forEach(function (button) {
+  button.addEventListener('click', function () {
+    // Update serial numbers after Insert or Delete is clicked
+    updateSerialNumbers();
+
+    // Delay the second update by 3 seconds
+    setTimeout(function () {
+      updateSerialNumbers();
+    }, 800);
+  });
+});
+
+// Function to update serial numbers based on position
+function updateSerialNumbers() {
+  const serialElements = document.querySelectorAll('.serial');
+
+  serialElements.forEach((serialElement, index) => {
+    // Update the serial number based on the current position in the DOM
+    serialElement.innerText = (index + 1) + '.';
+  });
+}
+
+
+
+
+// Add change event listener to elements with the class .change-field
+var changeFieldElements = document.querySelectorAll('.change-field');
+
+// Function to handle visibility based on selected value
+function handleVisibility(element) {
+  var selectedValue = element.value;
+
+  // Check if the current element has the class .ajaxForm
+  var isAjaxForm = element.classList.contains('ajaxForm');
+
+  // Find the closest .ajaxForm element if not already an .ajaxForm
+  var fieldSection = isAjaxForm ? element : element.closest('.ajaxForm');
+
+  // Check if .ajaxForm is found
+  if (fieldSection) {
+    // Find the .options-container and .selection1 elements inside .ajaxForm
+    var optionsContainer = fieldSection.querySelector('.options-container');
+    var selection1 = fieldSection.querySelector('.selection1');
+    var boldTag = fieldSection.querySelector('b');
+    // Check the selected value and toggle visibility accordingly
+    if (selectedValue === 'choice') {
+      optionsContainer.style.display = 'block';
+      selection1.style.display = 'block';
+      boldTag.classList.add('serial');
+      updateSerialNumbers();
+    } else {
+      optionsContainer.style.display = 'none';
+      selection1.style.display = 'none';
+      boldTag.classList.remove('serial');
+      boldTag.innerText = '';
+      updateSerialNumbers();
+    }
+  }
+}
+
+// Call the function on page load for each element
+changeFieldElements.forEach(function (element) {
+  handleVisibility(element);
+});
+
+// Add change event listener
+changeFieldElements.forEach(function (element) {
+  element.addEventListener('change', function () {
+    handleVisibility(element);
+  });
+});
+
+  });
+
+
+
+
+  
+   const selectionData = {
+     examTypes: {
+       HSC: {
+         subjects: {
+           Physics: {
+             topics: {
+               Wave: ["Wave Properties", "Wave Behavior"],
+               Vector: ["Vector Addition", "Vector Components"],
+             },
+           },
+           Chemistry: {
+             topics: {
+               Organic: ["Organic Compounds", "Organic Reactions"],
+               "Qualitative Analysis": ["Qualitative Analysis Techniques", "Identification of Ions"],
+             },
+           },
+           Biology: {
+             topics: {
+               Botany: ["Plant Anatomy", "Photosynthesis"],
+               Zoology: ["Animal Physiology", "Genetics"],
+             },
+           },
+           Mathematics: {
+             topics: {
+               Algebra: ["Linear Equations", "Quadratic Equations"],
+               Calculus: ["Differentiation", "Integration"],
+             },
+           },
+         },
+         boards: ["Dhaka", "Chittagong", "Rajshahi"],
+         years: [2023, 2022, 2025],
+         versions: ["Bangla", "English"],
+       },
+       SSC: {
+         subjects: {
+           Physics: {
+             topics: {
+               Mechanics: ["Motion", "Forces"],
+               Thermodynamics: ["Heat Transfer", "Laws of Thermodynamics"],
+             },
+           },
+           Chemistry: {
+             topics: {
+               Inorganic: ["Chemical Bonding", "Periodic Table"],
+               Organic: ["Hydrocarbons", "Alcohols"],
+               Physical: ["Chemical Equilibrium", "Chemical Kinetics"],
+             },
+           },
+           Biology: {
+             topics: {
+               Botany: ["Plant Anatomy", "Plant Reproduction"],
+               Zoology: ["Animal Tissues", "Nervous System"],
+             },
+           },
+           Mathematics: {
+             topics: {
+               Algebra: ["Polynomials", "Rational Expressions"],
+               Geometry: ["Triangles", "Circles"],
+             },
+           },
+         },
+         boards: ["Dhaka", "Chittagong", "Rajshahi"],
+         years: [2023, 2022, 2024],
+         versions: ["Bangla", "English"],
+       },
+       ADMISSION: {
+         subjects: {
+           English: {
+             topics: {
+               Grammar: ["Parts of Speech", "Tenses"],
+               Composition: ["Essay Writing", "Letter Writing"],
+             },
+           },
+           Mathematics: {
+             topics: {
+               Algebra: ["Equations", "Inequalities"],
+               Calculus: ["Limits", "Derivatives"],
+             },
+           },
+           "General Knowledge": {
+             topics: {
+               History: ["Ancient History", "Modern History"],
+               Geography: ["Physical Geography", "Human Geography"],
+               Politics: ["Government Systems", "International Relations"],
+             },
+           },
+           "Analytical Skills": {
+             topics: {
+               "Logical Reasoning": ["Deductive Reasoning", "Inductive Reasoning"],
+               "Critical Thinking": ["Problem Solving", "Decision Making"],
+             },
+           },
+         },
+         boards: ["Dhaka", "Chittagong", "Rajshahi"],
+         years: [2023, 2022, 2011],
+         versions: ["Bangla", "English"],
+       },
+       ISSB: {
+    subjects: {
+      "IQ": {
+        topics: {
+          "Verbal Test": ["Word Analogy", "Sentence Completion"],
+          "Non-Verbal Test": ["Pattern Recognition", "Spatial Visualization"],
+        },
+      },
+      "PPDT": {
+        topics: {
+          "Picture Perception": ["PPDT"],
+        },
+      },
+      "Essay Writing": {
+        topics: {
+          "Essay Writing": ["Essay Writing"],
+        },
+      },
+      "Incomplete Story": {
+        topics: {
+          "Incomplete Story": ["Incomplete Story"],
+        },
+      },
+      "Picture Story": {
+        topics: {
+          "Picture Story": ["Picture Story"],
+        },
+      },
+      "Incomplete Sentences": {
+        topics: {
+          "Incomplete Sentences": ["Incomplete Sentences"],
+        },
+      },
+      "WAT": {
+        topics: {
+          "Word Association": ["WAT"],
+        },
+      },
+      "Mutual Assessment": {
+        topics: {
+          "Mutual Assessment": ["Mutual Assessment"],
+        },
+      },
+      "Self Criticism": {
+        topics: {
+          "Self Criticism": ["Self Criticism"],
+        },
+      },
+      "Self Assessment": {
+        topics: {
+          "Self Assessment": ["Self Assessment"],
+        },
+      },
+      "Biodata": {
+        topics: {
+          "Biodata": ["Biodata"],
+        },
+      },
+      "Group Discussion": {
+        topics: {
+          "Group Discussion": ["Group Discussion"],
+        },
+      },
+      "PGT": {
+        topics: {
+          "Progressive Group Task": ["PGT"],
+        },
+      },
+      "HGT": {
+        topics: {
+          "Half Group Task": ["HGT"],
+        },
+      },
+      "Extempore Speech": {
+        topics: {
+          "Extempore Speech": ["Extempore Speech"],
+        },
+      },
+      "PAT": {
+        topics: {
+          "Personal Appearance": ["PAT"],
+        },
+      },
+      "Medical": {
+        topics: {
+          "Medical Examination": ["Medical"],
+        },
+      },
+      "DP Viva": {
+        topics: {
+          "Directing Staff Interview": ["DP Viva"],
+        },
+      },
+      "Planning Exercise": {
+        topics: {
+          "Planning Exercise": ["Planning Exercise"],
+        },
+      },
+      "GTO Viva": {
+        topics: {
+          "Group Testing Officer Interview": ["GTO Viva"],
+        },
+      },
+      "Command Task": {
+        topics: {
+          "Command Task": ["Command Task"],
+        },
+      },
+      "Before ISSB": {
+        topics: {
+          "Before ISSB": ["Before ISSB"],
+        },
+      },
+      // ... Add more subjects as needed ...
+    },
+    boards: ["Practice","QNA"],
+    years: [2023, 2022, 2021],
+    versions: ["Bangla", "English"],
+  },
+   
+}
+};
+   
+   function updateDropdown(select, options) {
+     select.innerHTML = '<option value="">Select...</option>';
+     options.forEach(function (option) {
+       select.innerHTML += `<option value="${option}">${option}</option>`;
+     });
+   }
+   
+   function populateDropdown(select, data) {
+     updateDropdown(select, Object.keys(data));
+   }
+   
+   function updateDropdownWithOptions(select, options) {
+     select.innerHTML = '<option value="">Select...</option>';
+     options.forEach(function (option) {
+       select.innerHTML += `<option value="${option}">${option}</option>`;
+     });
+   }
+   
+   function resetDependentDropdowns(selectionDiv) {
+     const dependentDropdowns = selectionDiv.querySelectorAll('.dependent');
+     dependentDropdowns.forEach(function (dropdown) {
+       dropdown.innerHTML = '<option value="">Select...</option>';
+     });
+   }
+   
+   function handleExamTypeChange(event) {
+     const selectionDiv = event.target.closest('.selection');
+     if (selectionDiv) {
+       const examTypeSelect = selectionDiv.querySelector('.exam_type');
+       const subjectSelect = selectionDiv.querySelector('.subject');
+       const chapterSelect = selectionDiv.querySelector('.chapter');
+       const topicSelect = selectionDiv.querySelector('.topic');
+       const boardSelect = selectionDiv.querySelector('.board');
+       const yearSelect = selectionDiv.querySelector('.year');
+       const versionSelect = selectionDiv.querySelector('.version');
+   
+       const examType = examTypeSelect.value;
+   
+       // Handle dependent dropdowns
+       if (examType === '') {
+         resetDependentDropdowns(selectionDiv);
+         boardSelect.innerHTML = '<option value="">Select...</option>';
+      yearSelect.innerHTML = '<option value="">Select...</option>';
+      versionSelect.innerHTML = '<option value="">Select...</option>';
+   
+      // Clear selected values
+      boardSelect.value = '';
+      yearSelect.value = '';
+      versionSelect.value = '';
+       } else {
+         const examTypeData = selectionData.examTypes[examType];
+         populateDropdown(subjectSelect, examTypeData.subjects);
+         populateDropdown(chapterSelect, {}); // Reset chapter and topic dropdowns
+         populateDropdown(topicSelect, {}); // Reset topic dropdown
+         updateDropdownWithOptions(boardSelect, examTypeData.boards); // Update board dropdown with options
+         updateDropdownWithOptions(yearSelect, examTypeData.years.map(String)); // Update year dropdown with options
+         updateDropdownWithOptions(versionSelect, examTypeData.versions); // Update version dropdown with options
+       }
+   
+       // Reset subjects, chapters, and topics
+       subjectSelect.value = '';
+       chapterSelect.innerHTML = '<option value="">Select...</option>';
+       topicSelect.innerHTML = '<option value="">Select...</option>';
+       boardSelect.value = '';
+       yearSelect.value = '';
+       versionSelect.value = '';
+     }
+   }
+   
+   function handleSubjectChange(event) {
+     const selectionDiv = event.target.closest('.selection');
+     if (selectionDiv) {
+       const subjectSelect = selectionDiv.querySelector('.subject');
+       const chapterSelect = selectionDiv.querySelector('.chapter');
+       const topicSelect = selectionDiv.querySelector('.topic');
+   
+       const examType = selectionDiv.querySelector('.exam_type').value;
+       const subject = subjectSelect.value;
+   
+       // Handle dependent dropdowns
+       if (subject === '') {
+         resetDependentDropdowns(selectionDiv);
+       } else {
+         const examTypeData = selectionData.examTypes[examType];
+         const subjectData = examTypeData.subjects[subject];
+         populateDropdown(chapterSelect, subjectData.topics);
+       }
+   
+       // Reset chapters and topics
+       chapterSelect.value = '';
+       topicSelect.innerHTML = '<option value="">Select...</option>';
+     }
+   }
+   
+   function handleChapterChange(event) {
+    
+     const selectionDiv = event.target.closest('.selection');
+     if (selectionDiv) {
+       const chapterSelect = selectionDiv.querySelector('.chapter');
+       const topicSelect = selectionDiv.querySelector('.topic');
+   
+       const examType = selectionDiv.querySelector('.exam_type').value;
+       const subject = selectionDiv.querySelector('.subject').value;
+       const chapter = chapterSelect.value;
+   
+       // Handle dependent dropdowns
+       if (chapter === '') {
+         topicSelect.innerHTML = '<option value="">Select...</option>';
+       } else {
+         const examTypeData = selectionData.examTypes[examType];
+         const subjectData = examTypeData.subjects[subject];
+         const chapterData = subjectData.topics[chapter];
+         updateDropdown(topicSelect, chapterData);
+       }
+   
+       // Reset topics
+       topicSelect.value = '';
+     }
+   }
+   
+   // Event listeners
+   const examTypeSelects = document.querySelectorAll('.exam_type');
+   examTypeSelects.forEach(function (examTypeSelect) {
+     examTypeSelect.addEventListener('change', handleExamTypeChange);
+   });
+   
+   const subjectSelects = document.querySelectorAll('.subject');
+   subjectSelects.forEach(function (subjectSelect) {
+     subjectSelect.addEventListener('change', handleSubjectChange);
+   });
+   
+   const chapterSelects = document.querySelectorAll('.chapter');
+   chapterSelects.forEach(function (chapterSelect) {
+     chapterSelect.addEventListener('change', handleChapterChange);
+   });
+   
+   
+   
+   
+   
+   
+   
+   // Function to load the user's selected options from localStorage for the first selection class
+   function loadUserSelection() {
+   const savedSelection = JSON.parse(localStorage.getItem('userSelection'));
+   if (savedSelection) {
+    const { examType, subject, chapter, topic, board, year, version } = savedSelection;
+   
+    document.querySelector('.selection:first-child .exam_type').value = examType;
+    handleExamTypeChange({ target: document.querySelector('.selection:first-child .exam_type') });
+   
+    document.querySelector('.selection:first-child .subject').value = subject;
+    handleSubjectChange({ target: document.querySelector('.selection:first-child .subject') });
+   
+    document.querySelector('.selection:first-child .chapter').value = chapter;
+    handleChapterChange({ target: document.querySelector('.selection:first-child .chapter') });
+   
+    document.querySelector('.selection:first-child .topic').value = topic;
+   
+    document.querySelector('.selection:first-child .board').value = board;
+    document.querySelector('.selection:first-child .year').value = year;
+    document.querySelector('.selection:first-child .version').value = version;
+   }
+   }
+   
+   // Save user's selection to localStorage for the first selection class
+   function saveUserSelection(event) {
+   const selectionDiv = document.querySelector('.selection:first-child'); // Select the first "selection" class explicitly
+   if (selectionDiv) {
+    const examTypeSelect = selectionDiv.querySelector('.exam_type');
+    const subjectSelect = selectionDiv.querySelector('.subject');
+    const chapterSelect = selectionDiv.querySelector('.chapter');
+    const topicSelect = selectionDiv.querySelector('.topic');
+    const boardSelect = selectionDiv.querySelector('.board');
+    const yearSelect = selectionDiv.querySelector('.year');
+    const versionSelect = selectionDiv.querySelector('.version');
+   
+    const userSelection = {
+      examType: examTypeSelect.value,
+      subject: subjectSelect.value,
+      chapter: chapterSelect.value,
+      topic: topicSelect.value,
+      board: boardSelect.value,
+      year: yearSelect.value,
+      version: versionSelect.value,
+    };
+   
+    localStorage.setItem('userSelection', JSON.stringify(userSelection));
+   }
+   }
+   
+   // Load user's selected options for the first selection class when the page loads
+   window.addEventListener('DOMContentLoaded', loadUserSelection);
+   
+   // Remove the event listeners from other "selection" elements
+   const selects = document.querySelectorAll('.selection:not(:first-child) select');
+   selects.forEach(select => {
+   select.removeEventListener('change', saveUserSelection);
+   });
+   
+   // Add the event listener to save user's selection for the first selection class whenever there's a change
+   const firstSelects = document.querySelectorAll('.selection:first-child select');
+   firstSelects.forEach(select => {
+   select.addEventListener('change', saveUserSelection);
+   });
+   
+   
+   
+   
+   
+   
+$(document).ready(function() {
+    var selectedIds = [];
+
+    // Handle click on single-checkbox
+    $('.single-checkbox').click(function() {
+      var checkboxValue = $(this).val();
+
+      // Update selectedIds array based on checkbox state
+      if ($(this).prop('checked')) {
+        selectedIds.push(checkboxValue);
+      } else {
+        selectedIds = selectedIds.filter(id => id !== checkboxValue);
+      }
+
+      // Update visibility of delete-many based on selectedIds
+      updateDeleteManyVisibility();
+    });
+
+    // Handle click on Select All checkbox
+    $('#selectAll').click(function() {
+      // Update state of all single-checkboxes based on Select All state
+      $('.single-checkbox').prop('checked', $(this).prop('checked'));
+
+      // Update selectedIds array based on Select All state
+      if ($(this).prop('checked')) {
+        selectedIds = $('.single-checkbox').map(function() {
+          return $(this).val();
+        }).get();
+      } else {
+        selectedIds = [];
+      }
+
+      // Update visibility of delete-many based on selectedIds
+      updateDeleteManyVisibility();
+      
+    });
+
+
+
+
+    
+    // Handle click on delete-many
+    $('#delete-many').click(function() {
+      // Perform AJAX POST request to the server with selectedIds
+      
+      $.ajax({
+        type: 'GET',
+        url: '/admin/exam/create/quiz/<%= data.exam_code %>/question', // Replace with your server endpoint
+        data: { ids: selectedIds },
+        success: function(response) {
+                // Display success message for 5 seconds
+               
+                const deleteIds = response.deleteIds;
+                $('#deleted-message').text(response.data).fadeIn(300).delay(5000).fadeOut(300);
+
+                // Iterate through deletedIds and update corresponding .ajaxForm elements
+                deleteIds.forEach(function(deletedId) {
+                    var ajaxForm = $('.ajaxForm[data-id="' + deletedId + '"]');
+                    ajaxForm.fadeOut(200, function() {
+                        // Replace the content of .ajaxForm with the success message
+                        $(this).html("<p>Deleted data successfully</p>").fadeIn(200);
+
+                        // Remove the success message after a delay
+                        setTimeout(function() {
+                            ajaxForm.fadeOut(200, function() {
+                                $(this).remove(); // Remove the parent div
+                            });
+                        }, 500);
+                    });
+                });
+            },
+        error: function(error) {
+          console.error('Error:', error);
+        }
+      });
+    });
+
+    // Function to update visibility of delete-many based on selectedIds
+    function updateDeleteManyVisibility() {
+      if (selectedIds.length > 0) {
+        $('#delete-many').show();
+      } else {
+        $('#delete-many').hide();
+      }
+    }
+  });
+
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   // Function to load the user's selected options from data-selectedFromDatabase attribute for all selection classes except the first one
+   function loadUserSelectionForAllSelections() {
+   const selectionDivs = document.querySelectorAll('.selection1');
+   selectionDivs.forEach((selectionDiv, index) => {
+    const savedSelection = JSON.parse(selectionDiv.getAttribute('data-selectedFromDatabase'));
+   
+    if (savedSelection) {
+      const { examType, subject, chapter, topic, board, year, version } = savedSelection;
+   
+   
+   
+    
+   
+      selectionDiv.querySelector('.exam_type').value = examType;
+      handleExamTypeChange({ target: selectionDiv.querySelector('.exam_type') });
+   
+      selectionDiv.querySelector('.subject').value = subject;
+      handleSubjectChange({ target: selectionDiv.querySelector('.subject') });
+   
+      selectionDiv.querySelector('.chapter').value = chapter;
+      handleChapterChange({ target: selectionDiv.querySelector('.chapter') });
+   
+   
+   
+      
+      selectionDiv.querySelector('.topic').value = topic;
+     
+   
+      
+      selectionDiv.querySelector('.board').value = board;
+      selectionDiv.querySelector('.year').value = year;
+      selectionDiv.querySelector('.version').value = version;
+    }
+   });
+   }
+   
+   
+   // Load user's selected options for all selection classes (except the first one) after a 5-second delay
+   loadUserSelectionForAllSelections();
+   
+   // Alternatively, you can use the DOMContentLoaded event as before, but make sure this code comes after the event listener registration for 'change'.
+   // window.addEventListener('DOMContentLoaded', loadUserSelectionForAllSelections);
+   
+$(document).ready(function() {
+    $(".delete-button").click(function(event) { // Added 'event' parameter here
+        event.preventDefault();
+        var button = $(this); // Store the button reference
+
+        var link = $(this).find("a").attr("href");
+
+        $.ajax({
+            url: link,
+            method: "GET",
+            success: function(data) {
+
+                var ajaxForm = button.closest(".ajaxForm");
+                ajaxForm.fadeOut(200, function() {
+                    // Replace the content of .ajaxForm with the success message
+                    $(this).html("<p>Deleted Question successfully</p>").fadeIn(200);
+
+                    // Remove the success message after a delay
+                    setTimeout(function() {
+                        ajaxForm.fadeOut(200, function() {
+                            $(this).remove(); // Remove the parent div
+                        });
+                    }, 500);
+                });
+            },
+            error: function(xhr, status, error) {
+                console.log("An error occurred:", error);
+            }
+        });
+    });
+});
+
+
+</script>
+
+
+
+
+
+<script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js"></script>
+  <script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/xml/xml.min.js"></script>
+  <script type="text/javascript" src="/froala/js/froala_editor.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/align.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/code_beautifier.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/code_view.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/colors.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/emoticons.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/draggable.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/font_size.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/font_family.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/image.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/image_manager.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/line_breaker.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/quick_insert.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/link.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/lists.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/paragraph_format.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/paragraph_style.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/video.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/table.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/url.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/emoticons.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/file.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/entities.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/inline_style.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/save.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/fullscreen.min.js"></script>
+
+ 
+
+
+<script>
+   function handleFile() {
+            const fileInput = document.getElementById('jsonFileInput');
+            
+            if (fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+
+                if (file.type === 'application/json') {
+                    const reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        try {
+                            const jsonData = JSON.parse(e.target.result);
+                            console.log('Parsed JSON data:', jsonData);
+
+                            // Send JSON data to the server
+                            sendJsonToServer(jsonData);
+                        } catch (error) {
+                            console.error('Error parsing JSON:', error);
+                        }
+                    };
+
+                    reader.readAsText(file);
+                } else {
+                    console.error('Selected file is not a JSON file.');
+                }
+            } else {
+                console.error('No file selected.');
+            }
+        }
+
+        function sendJsonToServer(jsonData) {
+            // Replace with the actual endpoint URL and method
+            const endpointUrl = '  /admin/exam/update-json-question?exam_code=<%= data.exam_code %>';
+            
+            fetch(endpointUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(jsonData),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Server response:', data);
+                // Handle the server response as needed
+            })
+            .catch(error => {
+                console.error('Error sending JSON data to the server:', error);
+            });
+        }
+
+
+
+   $(document).ready(function () {
+  // Add click event listener to elements with the class .ajax-form
+  $('.block-shadow').on('click', function () {
+    // Slide down all .question-nav elements inside the clicked form
+    $(this).find('.question-nav,.remove-option').slideDown().css('display', 'flex');
+
+    // Slide up all other .question-nav elements outside the clicked form
+    $('.question-nav,.remove-option').not($(this).find('.question-nav,.remove-option')).slideUp();
+  });
+});
+
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  // Update serial numbers initially when the page loads
+  updateSerialNumbers();
+
+  // Add event listeners to Insert Question and Delete buttons
+  document.querySelectorAll('.insert-question, .delete-button').forEach(function (button) {
+    button.addEventListener('click', function () {
+      // Update serial numbers after Insert or Delete is clicked
+      updateSerialNumbers();
+
+      // Delay the second update by 3 seconds
+      setTimeout(function () {
+        updateSerialNumbers();
+      }, 800);
+    });
+  });
+
+  // Function to update serial numbers based on position
+  function updateSerialNumbers() {
+    const serialElements = document.querySelectorAll('.serial');
+
+    serialElements.forEach((serialElement, index) => {
+      // Update the serial number based on the current position in the DOM
+      serialElement.innerText = (index + 1) + '.';
+    });
+  }
+});
+
+
+
+$(document).ready(function () {
+  // Remove option
+  $(document).on("click", ".remove-option", function () {
+    const optionsContainer = $(this).closest(".addquestion").find(".options-container");
+    $(this).parent().remove();
+    renumberOptions(optionsContainer);
+  });
+
+  // Add option
+  $(document).on("click", ".add-option", function () {
+    const optionsContainer = $(this).closest(".addquestion").find(".options-container");
+    const lastOption = optionsContainer.find(".options").last();
+    const highestValue = parseInt(lastOption.find('input[type="radio"]').val());
+    const newValue = highestValue + 1;
+
+    const newOption = `
+      <div class="options">
+          <input type="radio" name="answer" value="${newValue}">
+          <textarea name="option[]" rows="1" class="edit-froala"></textarea>
+          <div class="remove-option"> <i class="fa-solid fa-trash-can"></i></div>
+      </div>`;
+
+    lastOption.after(newOption);
+
+    // Initialize Froala Editor on the new textarea
+    optionsContainer.find('.options textarea.edit-froala').last().froalaEditor();
+  });
+
+  function renumberOptions(optionsContainer) {
+    const options = optionsContainer.find(".options");
+    options.each(function (index) {
+      const inputRadio = $(this).find('input[type="radio"]');
+      const textarea = $(this).find('textarea');
+      const newValue = index + 1;
+
+      inputRadio.val(newValue);
+      textarea.attr("placeholder", "Choice " + newValue);
+    });
+  }
+});
+
+
+$(document).on('change', '.ajaxForm', function() {
+  console.log('changesss')
+   var form = $(this);
+   var url = form.attr("action");
+   var formData = form.serialize();
+   $.ajax({
+      type: "POST",
+      url: url,
+      data: formData,
+      success: function(response) {
+         showMessage(form, "Saved!");
+         console.log(response);
+         // You can add code here to update the form or other UI elements based on the response
+      },
+      error: function(error) {
+         console.log(error);
+      }
+   });
+});
+
+
+   
+
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  // Get all elements with the class 'fr-element' and 'fr-view'
+  const frElementViewElements = document.querySelectorAll('.fr-element.fr-view');
+
+  // Add click event listener to each 'fr-element fr-view' element
+  frElementViewElements.forEach(function (frElementViewElement) {
+    frElementViewElement.addEventListener('click', function () {
+      // Select all text within the clicked 'fr-element fr-view' element
+      selectText(this);
+    });
+  });
+
+
+  // Function to select all text within an element
+  function selectText(element) {
+    if (document.selection) {
+      // For IE
+      const range = document.body.createTextRange();
+      range.moveToElementText(element);
+      range.select();
+    } else if (window.getSelection) {
+      // For modern browsers
+      const range = document.createRange();
+      range.selectNodeContents(element);
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
+    }
+  }
+});
+
+
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const sortable = new Sortable(document.getElementById('sortable-list'), {
+      swap: true, // Enable swap plugin
+	swapClass: '', // The class applied to the hovered swap item
+  ghostClass: 'highlight',
+  handle: ".sortable-icon",
+	animation: 150,
+      onEnd: function (evt) {
+        const item = evt.item;
+        const sortedItems = sortable.toArray();
+
+        console.log(sortedItems);
+
+        // Assuming you have a valid URL for your post request
+        $.post('/admin/exam/create/quiz/<%= data.exam_code %>/sort', { sortedItems }, function(res) {
+          console.log(res);
+        });
+      }
+    });
+  });
+
+
+  
+
+  $(document).on("click", ".insert-question", function(event) {
+    event.preventDefault();
+
+    const form = $(this).closest(".ajaxForm");
+
+    // Clone the closest form and insert it after the current form with animation
+    const clonedForm = form.clone();
+    clonedForm.insertAfter(form);
+
+    // Show the cloned form with a slide-down animation
+    clonedForm.addClass("clone-form").slideDown(400);
+
+    // Manually set the selected state for each <select> element in the cloned form
+    form.find('select').each(function(index, select) {
+      const clonedSelect = clonedForm.find('select').eq(index);
+      const selectedValue = $(select).val();
+      clonedSelect.val(selectedValue);
+    });
+
+    // Ajax call to handle question creation
+    $.ajax({
+      url: '/admin/exam/create/quiz/<%= data.exam_code %>/update?type=insert', // URL to handle question creation
+      type: "POST",
+      data: form.serialize(), // Serialize form data
+      
+      success: function(response) {
+     // Assuming the response has a property named 'questionId'
+     var questionId = response.questionId;
+
+// Update the 'action' attribute of the form with the new questionId
+form.attr('action', '/admin/exam/create/quiz/<%= data.exam_code %>/update?id=' + questionId);
+
+// Set the question ID to the form's data attribute
+form.attr('data-id', questionId);
+
+console.log('Response sent:', questionId);
+      }
+    });
+  });
+
+
+$(document).ready(function() {
+  var isFirstClick = true;
+
+  // Hide all initially
+  $('.selection1').hide();
+
+  $('.selection-hide').click(function() {
+    if (isFirstClick) {
+      var areAllVisible = $('.selection1:visible').length === $('.selection1').length;
+    
+      if (areAllVisible) {
+        // If all are visible, hide all
+        $('.selection1').slideUp();
+      } else {
+        // If any are hidden, show all
+        $('.selection1').slideDown();
+      }
+      isFirstClick = false;
+    } else {
+      // Toggle visibility on subsequent clicks
+      $('.selection1').slideToggle();
+    }
+  });
+});
+
+
+
+
+
+
+$(document).ready(function() {
+  $('.open-close').click(function() {
+    // Find the closest common parent and then target .selection1 within that parent
+    var closestParent = $(this).closest('.ajaxForm');
+    closestParent.find('.selection1').slideToggle();
+  });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // Get all anchor tags on the page
+var anchorTags = document.querySelectorAll('a');
+
+// Loop through each anchor tag
+anchorTags.forEach(function(anchor) {
+    // Check if the anchor's innerHTML contains the specified text
+    if (anchor.innerHTML.includes('Unlicensed copy of the Froala Editor. Use it legally by purchasing a license.')) {
+        // Remove the entire anchor tag
+        anchor.parentNode.removeChild(anchor);
+    }
+});
+
+
+
+
+
+// Check if the container exists
+if (container) {
+  // Get all <a> tags within the container
+  const anchorTags = container.querySelectorAll('a');
+
+  // Iterate through the anchor tags
+  anchorTags.forEach((aTag) => {
+    const href = aTag.getAttribute('href');
+
+    // Check if the href attribute matches the specified URL
+    if (href === 'https://www.froala.com/wysiwyg-editor?k=u') {
+      // Remove the matching <a> tag
+      aTag.remove();
+    }
+  });
+}
+
+
+
+
+
+
+
+
+// Function to process the HTML and extract relevant information
+function processHTML() {
+  const questions = [];
+
+  const totalQuestions = parseInt(document.querySelector('[aria-label^="Question"]:last-of-type')?.getAttribute('aria-label').replace('Question ', ''), 10) || 0;
+  const fileName = (document.getElementById('title')?.innerText || 'output').trim();
+
+  for (let i = 4; i <= totalQuestions; i++) {
+      const questionElement = document.querySelector(`[aria-label="Question ${i}"]`);
+
+      if (questionElement) {
+          const questionText = (questionElement.querySelector('.question')?.innerHTML || '').trim();
+          const explanationText = (questionElement.querySelector('.explanation')?.innerHTML || '').trim();
+          const options = [];
+          let wrongAnswerIndex = null;
+
+          const answerLabels = questionElement.querySelectorAll('.answer');
+
+          answerLabels.forEach((label, index) => {
+              const optionText = (label.querySelector('div p')?.innerHTML || '').trim();
+              options.push(optionText);
+
+              // Check if the label's child elements have the incorrect class
+              const hasWrongImage = label.querySelector('.incorrect');
+
+              if (hasWrongImage) {
+                  wrongAnswerIndex = index + 1;
+              }
+          });
+
+          questions.push({ question: questionText, options, wrong_answer: wrongAnswerIndex !== null ? wrongAnswerIndex : "No wrong answer found", explanation: explanationText });
+      }
+  }
+
+  const blob = new Blob([JSON.stringify(questions, null, 2)], { type: 'application/json' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = `${fileName}.json`;
+  link.click();
+}
+
+// Call the function in the browser console
+//processHTML();  
+  
+</script>
+
+<script>
+  // Function to remove specific <a> tags
+  function removeSpecificATags() {
+    // Get all anchor tags on the page
+    var anchorTags = document.querySelectorAll('a[href="https://www.froala.com/wysiwyg-editor?k=u"]');
+
+    // Iterate through each anchor tag
+    anchorTags.forEach(function(anchorTag) {
+      // Remove the anchor tag
+      anchorTag.parentNode.removeChild(anchorTag);
+    });
+  }
+
+  // Observer configuration
+  var observerConfig = { childList: true, subtree: true };
+
+  // Create a new observer with the callback function
+  var observer = new MutationObserver(removeSpecificATags);
+
+  // Observe changes in the document
+  observer.observe(document.body, observerConfig);
+
+  // Initial removal of specific <a> tags
+  removeSpecificATags();
+</script>
+
+

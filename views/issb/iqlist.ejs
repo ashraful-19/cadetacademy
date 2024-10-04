@@ -1,0 +1,230 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Cadet Academy is ready to fill your Mission by providing you support">
+    <meta property="og:title" content="Cadet Academy">
+    <meta property="og:description" content="Cadet Academy is ready to fill your Mission by providing you support">
+    <meta property="og:image" content="https://joinbangladesharmy.army.mil.bd/upl/img/slider/02.jpg"> <!-- URL to your specific preview image -->
+    <meta property="og:url" content="https://www.missionacademy.com.bd"> <!-- URL of your website -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Cadet Academy">
+    <title>Cadet Academy</title>
+    <link rel="stylesheet" href="/css/style.css" />
+
+    <!-- Compiled and minified JavaScript -->
+
+    <link
+      href="https://fonts.maateen.me/solaiman-lipi/font.css"
+      rel="stylesheet"
+    />
+
+    <!-- 9420 eii logota ekhn theke change korte hbe kaorn issb er logo  -->
+    <link
+      rel="shortcut icon"
+      href="https://issb-bd.org/imgs/logonew.png"
+      type="image/x-icon"
+    />
+    <!-- fontawesome link kora hoies kintu janina minified kina -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/regular.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/regular.min.css"
+    />
+  </head>
+  <body>
+
+	<section class="top-nav">
+		<div><h4><%= title %></h4></div>
+	 <img src="https://www.issb-bd.org/imgs/logonew.png" id="top-nav-icon-issb">
+	</section><br><br><br>
+
+	<section class="iqlist-container">
+		
+     
+ 
+
+		<div class="list-items">
+			<% for (const key in content) { %>
+			<div class="list-item">
+				
+				<div class="align-list"><span class="list-count"><i class="fa-solid fa-brain"></i></span><span class="name"><%= key %></span>
+         <div class="free-exam"> 
+				<span class="startbutton test-choice" data-exam-code="<%= content[key] %>" data-exam-name="<%= key %>"   data-time="<%= time %>" data-marks="<%= examMarks %>" >Start</span>
+      <span class="paid-content"></span>
+      </div>
+      </div>
+			</div>
+			
+      <% } %>
+		</div>
+		
+
+	</section>
+
+ <!-- bottom nagivatoin section  -->
+ <%- include('../partials/bottom-nav.ejs') %>
+<div class="modal-section">
+	<div class="modal">
+	 <div class="instruction">
+	 <h3 class="exam-name" style="text-align: center;"></h3>
+	 <p class="marks"></p>
+	 <p class="time"></p>
+	</div>
+<div class="practice-exam">
+	<a href="" class="practice-link loading">Practice</a>
+	<a href="" class="exam-link loading">Exam</a>
+</div>	
+</div>
+
+</div>
+
+
+
+<div class="modal-section">
+	<div class="modal-poster">
+    <img src="/img/mission-issb.jpg" width="100%" alt="">
+    <p>কোর্সটি কিনে নিলে সব গুলো প্রিমিয়াম ফিচার ব্যাবহারের সুযোগ পাবেন।</p>
+    <br>
+	<a href="/course-details/1" class="buy-btn">Enroll Now</a>
+  <br>
+</div>	
+</div>
+
+</div>
+  </body>
+  <br><br><br>
+  <script src="./script.js"></script>
+  <!-- Jquery Cnd minified -->
+	<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+<script>
+let modal = $('.modal');
+$(document).on('click', '.test-choice', function() {
+  let examCode = $(this).data('exam-code'); // Get the value of data-id attribute
+  $('.modal .exam-code').text(examCode);
+  $('.modal .practice-link').attr('href', '/practice/'+examCode); 
+  $('.modal .exam-link').attr('href', '/exam/'+examCode);
+
+  let examName = $(this).data('exam-name'); // Get the value of data-id attribute
+  $('.modal .exam-name').text(examName);
+  let instruction = $(this).closest('div').find('pre').text();  // Get the value of data-id attribute
+  $('.modal .instructions').text(instruction);
+  let time = $(this).data('time'); // Get the value of data-id attribute
+  $('.modal .time').text('Duration- '+ time+' min');
+  let marks = $(this).data('marks'); // Get the value of data-id attribute
+  $('.modal .marks').text('Total Questions- '+marks+' || Marks-' + marks);
+
+  $('.modal').fadeToggle(0);
+});
+
+$(document).mousedown(function(event) {
+  // Check if the target of the click event is not the modal element itself
+  if (!$(event.target).closest(".modal").length &&
+      !$(event.target).is('.test-choice')) {
+    $('.modal').fadeOut(100);
+  }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+<div class="loadbackground">
+  <div class="load">
+    <hr/><hr/><hr/><hr/>
+  </div>
+</div>
+<style>
+      .loadbackground {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #ffffff;
+      z-index: 9999455555555;
+      display: none; /* add this line */
+    }
+    .load{position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);
+      /*change these sizes to fit into your project*/
+      width:100px;
+      height:100px;
+    }
+    .load hr{border:0;margin:0;width:40%;height:40%;position:absolute;border-radius:50%;animation:spin 2s ease infinite}
+    
+    .load :first-child{background:#19A68C;animation-delay:-1.5s}
+    .load :nth-child(2){background:#F63D3A;animation-delay:-1s}
+    .load :nth-child(3){background:#FDA543;animation-delay:-0.5s}
+    .load :last-child{background:#193B48}
+    
+    @keyframes spin{
+      0%,100%{transform:translate(0)}
+      25%{transform:translate(160%)}
+      50%{transform:translate(160%, 160%)}
+      75%{transform:translate(0, 160%)}
+    }
+</style>
+
+
+<script>
+  $(document).ready(function(){
+      $(".loading").click(function(){
+          $(".loadbackground").fadeIn();
+      });
+  });
+
+
+  document.addEventListener('DOMContentLoaded', function() {
+  const isPayment = <%= isPayment %>; // Set this value based on your condition
+
+  // Check if isPayment is false before executing the script
+  if (!isPayment) {
+    const listItems = document.querySelectorAll('.list-item');
+
+    listItems.forEach(function(item, index) {
+      if (index >= 3) {
+        const freeContent = item.querySelector('.paid-content');
+        const startButton = item.querySelector('.startbutton');
+
+        freeContent.textContent = 'Premium';
+        startButton.classList.add('show-modal');
+      }
+    });
+  }
+});
+
+
+let modalPoster = $('.modal-poster');
+
+$(document).on('click', '.show-modal', function() {
+  modalPoster.fadeToggle(0);
+});
+
+$(document).mousedown(function(event) {
+  // Check if the target of the click event is not the modal-poster element itself or any image within it
+  if (!$(event.target).closest(".modal-poster").length &&
+      !$(event.target).is('.show-modal')) {
+    $('.modal-poster').fadeOut(100);
+  }
+});
+
+</script>

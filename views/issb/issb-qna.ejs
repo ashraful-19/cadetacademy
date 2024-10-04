@@ -1,0 +1,295 @@
+
+  <%- include('../partials/header.ejs') %>
+  <style>
+	  
+  .fr-dib,.fr-fic,.fr-dii {
+	width: 100%!important;
+	height: auto;
+  }
+  .accordion-content p:first-child{
+    margin-top: 0px;
+  }
+  [data-f-id="pbf"] {
+    display: none;
+}
+	</style>
+	
+  
+  <section class="top-nav">
+		  <div><h4><%= title %></h4></div>
+	   
+	   <img src="https://www.issb-bd.org/imgs/logonew.png" id="top-nav-icon-issb">
+	  </section>
+  
+  
+  
+  <br><br><br>
+  <style>
+  
+
+.explain{
+  border: 1px solid rgb(225 206 231 / 30%);
+  background-color: #ffffff;
+  color: black!important;
+}
+
+
+p{
+  margin: 2px!important;
+}
+
+.accordion-content a,.accordion-content p{
+  
+border: none;
+  border-radius: 8px;
+  width: 100%;
+  padding: 7px 10px;
+  width:95%;
+  margin: 0px auto;
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: #000000;
+  
+}
+.course-content-list{
+  width:95%;
+  margin: 0px auto;
+}
+
+
+
+.tabcontent{
+margin: 8px;
+
+}
+
+.accordion img{
+  width: 22px;
+  margin-right: 10px;
+}
+ 
+.accordion-content p{
+margin-bottom:20px;
+margin-top:0px;
+
+}
+
+
+  </style>
+  
+		  
+    <section class="course-content-list" style="font-family: SolaimanLipi!important">
+      <% content.forEach(function(data) { %>
+      <div class="tabcontent hide-show" style="margin: 8px 0px;">
+          <div class="accordion" style="padding: 15px 10px;"> 
+            <img src="/img/icon_qna.png" alt="">
+            <span> <%- data.question %></span>
+            <span class="paid"></span>
+              <i class="fa-solid fa-angle-down angle-right"></i>
+          </div>
+          <div class="accordion-content">
+          <div class="explain">  <%- data.explanation %></div>
+          </div>
+      </div>
+      <% }) %>
+</section> 
+
+
+
+  
+  <br>
+  
+				  
+  
+  
+	  <div class="pagination">
+		  <% if (currentPage > 1) { %>
+			<p><a href="/issb/qna?type=<%= type %>&text_type=<%= text_type %>&page=<%= currentPage - 1 %>">Prev</a></p>
+		  <% } %>
+		
+		  <% for (let i = Math.max(currentPage - 5, 1); i <= Math.min(currentPage + 5, totalPages); i++) { %>
+			<% if (i === currentPage) { %>
+			<p class="pagination-active" ><span><%= i %></span></p>
+			<% } else { %>
+			<p><a href="/issb/qna?type=<%= type %>&text_type=<%= text_type %>&page=<%= i %>"><%= i %></a></p>
+			<% } %>
+		  <% } %>
+		
+		  <% if (currentPage < totalPages) { %>
+		  <p><a href="/issb/qna?type=<%= type %>&text_type=<%= text_type %>&page=<%= currentPage + 1 %>">Next</a></p>
+		  <% } %>
+		</div>
+
+<br>
+    
+  <div class="modal-section">
+    <div class="modal-poster">
+      <img src="/img/mission-issb.jpg" width="100%" alt="">
+      <p style="font-family: Noto Serif Bengali;" >কোর্সটি কিনে নিলে সব গুলো প্রিমিয়াম ফিচার ব্যাবহারের সুযোগ পাবেন।</p>
+      <br>
+    <a href="/course-details/1" class="buy-btn">Enroll Now</a>
+    <br>
+  </div>	
+  </div>
+  
+  <br><br><br>
+  <script>
+
+
+var accordions = document.getElementsByClassName("accordion");
+var contents = document.getElementsByClassName("accordion-content");
+contents[0].previousElementSibling.querySelector('.angle-right').classList.add('rotate');
+
+for (var i = 0; i < accordions.length; i++) {
+  accordions[i].onclick = function() {
+    // Toggle open class
+    this.classList.toggle('is-open');
+
+    // Get the corresponding accordion content element
+    var content = this.nextElementSibling;
+
+    // Hide other accordion content elements
+    for (var j = 0; j < contents.length; j++) {
+      if (contents[j] !== content) {
+        contents[j].style.maxHeight = null;
+        contents[j].previousElementSibling.classList.remove('is-open');
+        var lastItem = contents[j].previousElementSibling.querySelector('.angle-right');
+        if (lastItem) {
+          lastItem.classList.remove('rotate');
+        }
+      }
+    }
+
+    // Toggle max-height and transition on the clicked accordion content element
+    if (content.style.maxHeight) {
+      content.style.maxHeight = null;
+    } else {
+      content.style.maxHeight = content.scrollHeight + "px";
+    }
+    content.style.transition = "max-height 0.2s ease-out";
+
+    // Toggle rotate class on the last item of the clicked accordion element
+    var lastItem = this.querySelector('.angle-right');
+    if (lastItem) {
+      lastItem.classList.toggle('rotate');
+    }
+  }
+}
+
+
+$(document).ready(function() {
+    $('[data-f-id="pbf"]').remove();
+});
+
+
+// Function to check the URL query parameters and modify anchor tags
+function modifyAnchorTags() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const pageQueryParam = urlParams.get('page');
+
+    const blogCards = document.querySelectorAll('.tabcontent');
+    blogCards.forEach((card, index) => {
+        if ((!pageQueryParam || pageQueryParam === '1') && index < 2) return;
+
+        const spanElement = card.querySelector('span.paid');
+        const accordionContents = card.querySelectorAll('.accordion-content');
+        const accordion = card.querySelector('.accordion');
+
+        // Set text content and styles for the span element
+        spanElement.textContent = 'Premium';
+        spanElement.style.color = 'rgb(255 179 0)';
+        spanElement.style.background = 'rgb(237 255 102 / 44%)';
+        spanElement.style.padding = '5px 15px';
+        spanElement.style.borderRadius = '5px';
+
+        // Remove content from accordion-content
+        accordionContents.forEach(accordionContent => {
+            accordionContent.textContent = '';
+        });
+
+        // Add the .show-modal class to the .accordion element
+        if (accordion) {
+            accordion.classList.add('show-modal');
+        }
+    });
+}
+
+// Call the function to modify anchor tags when the DOM is ready, only if isPayment is false
+document.addEventListener('DOMContentLoaded', function() {
+    const isPayment = <%= isPayment %>; // Set isPayment to true or false based on your condition
+    if (!isPayment) {
+        modifyAnchorTags();
+    }
+});
+
+	let modalPoster = $('.modal-poster');
+
+$(document).on('click', '.show-modal', function() {
+  modalPoster.fadeToggle(0);
+});
+
+$(document).mousedown(function(event) {
+  // Check if the target of the click event is not the modal-poster element itself or any image within it
+  if (!$(event.target).closest(".modal-poster").length &&
+      !$(event.target).is('.show-modal')) {
+    $('.modal-poster').fadeOut(100);
+  }
+});
+
+  </script>
+  
+  <!-- Add this script in your HTML file -->
+<script>
+  document.addEventListener('contextmenu', function (e) {
+      e.preventDefault();
+      e.stopPropagation(); // Stop the event from propagating
+  });
+
+  document.addEventListener('keydown', function (event) {
+      // Check if Ctrl+Shift+I or Cmd+Option+I is pressed
+      if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.key === 'I') {
+          event.preventDefault(); // Prevent the default behavior
+          event.stopPropagation(); // Stop the event from propagating
+      }
+
+      // Add more conditions for other shortcuts as needed
+      // For example, Ctrl+Shift+J or Cmd+Option+J
+      if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.key === 'J') {
+          event.preventDefault();
+          event.stopPropagation();
+      }
+      if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.key === 'C') {
+          event.preventDefault();
+          event.stopPropagation();
+      }
+  });
+
+  // Listen for screen capture
+  navigator.mediaDevices.getDisplayMedia = function() {
+      return new Promise(function(resolve, reject) {
+          reject(new Error('Screen capturing is disabled'));
+      });
+  };
+</script>
+
+  
+  
+  <%- include('../partials/bottom-nav.ejs') %>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+  
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  
+  
+  <!--Start of Tawk.to Script-->
+<script type="text/javascript">
+  var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+  (function(){
+  var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+  s1.async=true;
+  s1.src='https://embed.tawk.to/6438d6f24247f20fefeb8bae/1gtv0f90p';
+  s1.charset='UTF-8';
+  s1.setAttribute('crossorigin','*');
+  s0.parentNode.insertBefore(s1,s0);
+  })();
+  </script>
+  <!--End of Tawk.to Script-->

@@ -1,0 +1,73 @@
+<%- include('../partials/admin_sidenav.ejs') %>
+
+<style>
+    /* Styling for the button container */
+    .create-course-btn {
+      background-color: #4234db;
+      color: #fff!important;
+      margin: 10px 20px;
+      padding: 10px 20px;
+      text-decoration: none;
+      display: inline-block;
+      border-radius: 5px;
+    }
+  
+    /* Styling for the FontAwesome icon */
+    .fa-plus {
+      margin-right: 5px;
+    }
+          /* Container for each course card */
+     /* Container for all course cards */
+.course-cards-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around; /* Adjust this based on your preference */
+}
+
+/* Individual course card */
+.course-card {
+  width: 300px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 15px;
+  margin: 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  box-sizing: border-box; /* Ensure padding and border are included in width */
+}
+
+/* Styling for the course thumbnail image */
+.course-thumbnail {
+  max-width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+
+/* Styling for the course ID and name */
+.course-info {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+      </style>
+      <div>
+      <div>
+        <a href="/admin/course/create_course" class="create-course-btn">
+          <i class="fas fa-plus"></i>Create Course
+        </a>
+      </div>
+<div class="course-cards-container">
+      <% course.forEach(function(content) { %>
+        <a href="/admin/course/update/<%= content.course_id %>" class="course-card">
+          <div>
+            <img src="<%= content.thumbnail %>" alt="<%= content.course_name %> Thumbnail" class="course-thumbnail">
+          </div>
+          <div class="course-info">courseId # <%- content.course_id %></div>
+          <div class="course-info"><%- content.course_name %></div>
+        </a>
+      <% }) %>
+    </div>
+</div>
+</div>

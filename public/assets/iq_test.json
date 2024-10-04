@@ -1,0 +1,32 @@
+{
+  "Verbal Test": {
+    "Model Test 01": "82",
+    "Model Test 02": "84",
+    "Model Test 03": "86",
+    "Model Test 04": "88",
+    "Model Test 05": "90",
+    "Model Test 06": "92",
+    "Model Test 07": "94",
+    "Model Test 08": "96",
+    "Model Test 09": "98",
+    "Model Test 10": "100",
+    "Model Test 11": "102",
+    "Model Test 12": "104",
+    "Model Test 13": "106",
+    "Model Test 14": "108",
+    "Model Test 15": "110",
+    "Model Test 16": "112",
+    "Model Test 17": "114",
+    "Model Test 18": "116",
+    "Model Test 19": "118",
+    "Model Test 20": "120"
+},
+
+  "Non-Verbal Test": {
+    "Model Test 01": "130",
+    "Model Test 02": "132",
+    "Model Test 03": "134",
+    "Model Test 04": "136",
+    "Model Test 05": "138"
+  }
+}
