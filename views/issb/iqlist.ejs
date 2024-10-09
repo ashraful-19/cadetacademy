@@ -42,17 +42,16 @@
   </head>
   <body>
 
-	<section class="top-nav">
-		<div><h4><%= title %></h4></div>
-	 <img src="https://www.issb-bd.org/imgs/logonew.png" id="top-nav-icon-issb">
-	</section><br><br><br>
-
+    <%- include('../partials/top-nav.ejs') %>
+<br><br><br><br>
 	<section class="iqlist-container">
 		
      
  
 
+    <h3 style="text-align: center;"><%= title %> </h3>
 		<div class="list-items">
+      
 			<% for (const key in content) { %>
 			<div class="list-item">
 				
@@ -69,6 +68,7 @@
 		
 
 	</section>
+  <br><br><br>
 
  <!-- bottom nagivatoin section  -->
  <%- include('../partials/bottom-nav.ejs') %>

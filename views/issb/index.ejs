@@ -211,12 +211,6 @@ a, a:hover, a:active, a:link, a:visited {
     transition: .5s;
 }
 
-.con {
-  border: 1px solid rgb(16 15 22);
-  position: relative;
-  bottom: 1px;
-  height: auto;
-}
 .tab-con1 {
   height: auto;
   background: #000919 !important;
@@ -232,19 +226,9 @@ color: rgb(36, 36, 36) !important;
 .tab span{
   color: rgb(84, 84, 84)!important;
 }
-@media screen and (min-width: 1200px) {
 
-  nav.bottom-nav {
-    width: 40%!important;
-    margin: 0 auto;
-    position: fixed;
-    bottom: 10px!important;
-    border-radius: 10px;
-    left: 30%;
-    
-  }
 
-}
+
 /* .hero-header {
   background: linear-gradient(to top, rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.95)), url(/img/front_banner.jpg);
   background-position: center center!important;  
@@ -319,69 +303,6 @@ margin-top:20px;
 margin: 8px;
 
 }
-nav.bottom-nav{
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  position: fixed;
-  bottom: 0px;
-  border-top: 1px solid rgb(10, 10, 10 / 20%);
-  border-top-left-radius : 12px;
-border-top-right-radius : 12px;
-background-color:rgba(255, 255, 255, 0.8) !important;
-  z-index: 34;
-  backdrop-filter: blur(8px); /* add a blur effect */
-  box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px !important;
-
-}
-.nav-item{
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  padding: 10px 5px 10px 5px;
-  width: 100%;
-  color: white!important;
-
-}
-.nav-Item{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 14px 10px 8px 10px;
-  width: 100%;
-
-}
-.nav-Item i{
-  font-size: 20px;
-color: rgb(0, 0, 0);
-margin-bottom:5px;
-}
-.nav-Item span{
-  font-size: 12px;
-color: rgb(0, 0, 0);
-}
-/* ripple effect */
-.ripple {
-background-position: center;
-transition: background 0.8s;
-}
-
-.ripple:hover{
-background-color: #e4e4e4;
-background-image: radial-gradient(circle,transparent 1%,#e4e4e4 1%);
-background-position: center;
-outline: none;
-border-radius: 50px;
-background-size: 15000%;
-}
-
-.ripple:active{
-transition: background 0s;
-background-color: #949494;    
-background-size: 100%;
-}
 
 
   .accordion img{
@@ -419,18 +340,6 @@ background:#2d2d2d;
 }
 
 
-@media (min-width: 600px) {
-    nav.bottom-nav {
-    width: 40%!important;
-    margin: 0 auto;
-    position: fixed;
-    bottom: 10px!important;
-    border-radius: 10px;
-    left: 30%;
-    
-  }
- 
-}
 /********** Template CSS **********/
 :root {
     --primary: #050425;
@@ -612,193 +521,13 @@ text-shadow: 2px 2px 4px #50ff17;
   width: calc(32.33%)!important; 
  
 }  
-
-nav.bottom-nav {
-    width: 40%!important;
-    margin: 0 auto;
-    position: fixed;
-    bottom: 10px!important;
-    border-radius: 10px;
-    left: 30%;
-    
-  }
  
   }
-
-
-/* Navbar Styles */
-header {
-    width: 90%;
-    position: fixed;
-    top: 20px;
-    left: 0;
-    right: 0;
-    z-index: 1444!important;
-    font-family: 'Hind Siliguri', sans-serif;
-    margin: 0 auto;
-}
-
-
-div.nav-wrap {
-    padding: 5px 15px;
-    background-color: rgba(255, 255, 255, 0.7);
-    border-radius: 10px;
-    backdrop-filter: blur(10px) brightness(0.8) contrast(1.2) grayscale(0.5) hue-rotate(15deg) invert(0.1) opacity(0.9) saturate(1.5) sepia(0.3) !important;
-}
-
-.navbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    color: rgb(0, 0, 0);
-    margin: 0px auto;
-    position: relative;
-    width: 100%;
-}
-
-.logo img {
-    height: 40px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-}
-
-.nav-links a {
-    color: rgb(101 101 101);
-    text-decoration: none;
-    padding: 5px 10px;
-    margin-left: 10px;
-}
-
-.nav-links a:hover {
-    background-color: #f0f0f0;
-    border-radius: 4px;
-}
-
-.hamburger-menu {
-    display: none;
-    cursor: pointer;
-}
-.loader {
-  background: #000;
-  box-shadow: 0 0 0 0 #0004;
-  animation: l1 1s infinite;
-}
-@keyframes l1 {
-    100% {box-shadow: 0 0 0 10px #0000}
-}
-
-/* Mobile Nav Styles */
-.mobile-nav {
-    display: none;
-    flex-direction: column;
-    top: 60px;
-    right: 0;
-    width: 100%;
-    z-index: 1;
-}
-.mobile-nav.show {
-    display: flex;
-}
- 
-
-.mobile-nav a {
-    padding: 10px;
-    margin: 2px 0px;
-    color: rgb(0, 0, 0);
-    text-decoration: none;
-    display: block;
-    border-radius: 10px;
-}
-
-.mobile-nav a:hover {
-    background-color: #f8f8f8;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .nav-links {
-        display: none;
-    }
-
-    .hamburger-menu {
-        display: flex;
-    }
-
-    .mobile-nav.show {
-        display: flex;
-    }
-}
-
-@media (max-width: 480px) {
-    .mobile-nav a {
-        padding: 10px !important;
-        color: rgb(0, 0, 0);
-        text-decoration: none;
-        display: block;
-    }
-}
-
-.join-donner {
-    background-color: rgb(0, 0, 0);
-    border-radius: 5px !important;
-    color: white !important;
-}
-
-.join-donner:hover {
-    background-color: #212121 !important;
-    color: rgb(255, 255, 255) !important;
-}
-
 
 </style>        
 
+<%- include('../partials/top-nav.ejs') %>
 
-       <header>
-        <div class="nav-wrap">
-            <nav class="navbar">
-                <div class="logo">
-                    <a href="/">
-                        <img src="/img/cadetacademy_logo.png" alt="Logo">
-                    </a>                </div>
-                <div class="nav-links">
-                    <a href="/">Home</a>
-                    <a href="https://www.facebook.com/missionschoolbd">About</a>
-                    <a href="https://www.facebook.com/ashraful.ashik19">Contact</a>
-                    
-                    <% if (!req.user) { %>
-                    <a href="/auth/login" class="join-donner loader">Login</a>
-                    <% } else { %>
-                    <a href="/auth/logout" class="join-donner">Logout</a>
-                    <% } %>                    
-
-                      
-                </div>
-                <div class="hamburger-menu">
-                    <img width="30px" src="https://static.vecteezy.com/system/resources/previews/019/858/597/non_2x/list-flat-color-outline-icon-free-png.png" alt="">
-                </div>
-            </nav>
-            <div class="mobile-nav">
-          <div style="padding: 10px;">
-            <a href="/">Home</a>
-            <a href="https://www.facebook.com/missionschoolbd">About</a>
-            <a href="https://www.facebook.com/ashraful.ashik19">Contact</a>
-     
-            <% if (!req.user) { %>
-                    <a href="/auth/login"  class="join-donner loader">Login</a>
-                    <% } else { %>
-                    <a href="/auth/logout" class="join-donner">Logout</a>
-                    <% } %> 
-          </div>
-            </div>
-        </div>
-</header>
-
-
-
-<script>
-  </script>
 
           <div class="container-xxl py-5 hero-header" style="padding-bottom:0px!important">
               <div class="container my-5 py-5" style="padding-bottom: 0px!important;">

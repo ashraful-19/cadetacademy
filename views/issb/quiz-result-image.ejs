@@ -55,6 +55,45 @@
 }
 
 
+
+.questions-box {
+  word-wrap: break-word; 
+  border-radius: 4px;
+  margin: 0; 
+  flex: 2; 
+  font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  flex-wrap: wrap; 
+  gap: 20px; 
+  width: 90%;
+  margin: 0px auto;
+  
+}
+
+
+.qcontainer {
+  border-radius: 8px;
+  padding: 15px 15px 15px 15px;
+  font-size: 15px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  font-family: 'SolaimanLipi', Arial, sans-serif !important;
+  width: 100%!important;
+  margin: 0px!important;
+  margin-top: 15px!important;
+  line-height: 1.5;
+}
+
+@media (min-width: 768px) {
+
+.questions-box {
+  margin: 0px 5%;
+  justify-content: center;
+  width: 50%;
+  align-items: center; 
+  margin: 0px auto;
+}
+}
+
 table {
   border-collapse: collapse;
   width: 100%;
@@ -154,88 +193,91 @@ table tr:nth-child(even) {
 
   <body>
 	<br><br>
+  <div class="questions-box">
+    
     <div class="instruction">
 
-		<h2 style="text-align: center; padding: 10px 20px 10px 20px;"><%= examData.exam_name %></h2>
-		<p>Total Questions- <%= examData.questions.length %> || Marks- <%= examData.questions.length %></p>
-		<p>Duration- <%= examData.time %>min</p>
-	</div>
-
-  
-  <% if (examData.show_result) { %>
-    <div class="qcontainer score-board">
-      <svg id="wave" style="transform:rotate(180deg); transition: 0.3s; border-radius:5px;" viewBox="0 0 1440 330" version="1.1" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sw-gradient-0" x1="0" x2="0" y1="1" y2="0"><stop stop-color="rgba(108, 1, 255, 1)" offset="0%"></stop><stop stop-color="rgba(32.058, 230.325, 189.351, 1)" offset="100%"></stop></linearGradient></defs><path style="transform:translate(0, 0px); opacity:1" fill="url(#sw-gradient-0)" d="M0,264L48,264C96,264,192,264,288,269.5C384,275,480,286,576,280.5C672,275,768,253,864,203.5C960,154,1056,77,1152,49.5C1248,22,1344,44,1440,93.5C1536,143,1632,220,1728,258.5C1824,297,1920,297,2016,286C2112,275,2208,253,2304,214.5C2400,176,2496,121,2592,88C2688,55,2784,44,2880,38.5C2976,33,3072,33,3168,44C3264,55,3360,77,3456,77C3552,77,3648,55,3744,66C3840,77,3936,121,4032,126.5C4128,132,4224,99,4320,110C4416,121,4512,176,4608,170.5C4704,165,4800,99,4896,110C4992,121,5088,209,5184,214.5C5280,220,5376,143,5472,143C5568,143,5664,220,5760,258.5C5856,297,5952,297,6048,269.5C6144,242,6240,187,6336,137.5C6432,88,6528,44,6624,66C6720,88,6816,176,6864,220L6912,264L6912,330L6864,330C6816,330,6720,330,6624,330C6528,330,6432,330,6336,330C6240,330,6144,330,6048,330C5952,330,5856,330,5760,330C5664,330,5568,330,5472,330C5376,330,5280,330,5184,330C5088,330,4992,330,4896,330C4800,330,4704,330,4608,330C4512,330,4416,330,4320,330C4224,330,4128,330,4032,330C3936,330,3840,330,3744,330C3648,330,3552,330,3456,330C3360,330,3264,330,3168,330C3072,330,2976,330,2880,330C2784,330,2688,330,2592,330C2496,330,2400,330,2304,330C2208,330,2112,330,2016,330C1920,330,1824,330,1728,330C1632,330,1536,330,1440,330C1344,330,1248,330,1152,330C1056,330,960,330,864,330C768,330,672,330,576,330C480,330,384,330,288,330C192,330,96,330,48,330L0,330Z"></path><defs><linearGradient id="sw-gradient-1" x1="0" x2="0" y1="1" y2="0"><stop stop-color="rgba(108, 1, 255, 1)" offset="0%"></stop><stop stop-color="rgba(49.1, 52.791, 116.486, 1)" offset="100%"></stop></linearGradient></defs><path style="transform:translate(0, 50px); opacity:0.9" fill="url(#sw-gradient-1)" d="M0,132L48,126.5C96,121,192,110,288,88C384,66,480,33,576,27.5C672,22,768,44,864,77C960,110,1056,154,1152,176C1248,198,1344,198,1440,214.5C1536,231,1632,264,1728,280.5C1824,297,1920,297,2016,269.5C2112,242,2208,187,2304,170.5C2400,154,2496,176,2592,176C2688,176,2784,154,2880,170.5C2976,187,3072,242,3168,242C3264,242,3360,187,3456,154C3552,121,3648,110,3744,88C3840,66,3936,33,4032,44C4128,55,4224,110,4320,110C4416,110,4512,55,4608,77C4704,99,4800,198,4896,231C4992,264,5088,231,5184,203.5C5280,176,5376,154,5472,126.5C5568,99,5664,66,5760,93.5C5856,121,5952,209,6048,214.5C6144,220,6240,143,6336,126.5C6432,110,6528,154,6624,143C6720,132,6816,66,6864,33L6912,0L6912,330L6864,330C6816,330,6720,330,6624,330C6528,330,6432,330,6336,330C6240,330,6144,330,6048,330C5952,330,5856,330,5760,330C5664,330,5568,330,5472,330C5376,330,5280,330,5184,330C5088,330,4992,330,4896,330C4800,330,4704,330,4608,330C4512,330,4416,330,4320,330C4224,330,4128,330,4032,330C3936,330,3840,330,3744,330C3648,330,3552,330,3456,330C3360,330,3264,330,3168,330C3072,330,2976,330,2880,330C2784,330,2688,330,2592,330C2496,330,2400,330,2304,330C2208,330,2112,330,2016,330C1920,330,1824,330,1728,330C1632,330,1536,330,1440,330C1344,330,1248,330,1152,330C1056,330,960,330,864,330C768,330,672,330,576,330C480,330,384,330,288,330C192,330,96,330,48,330L0,330Z"></path></svg>
-  
-      <h3>Your Score Board</h3>
-      <ul>
-        <li><i class="fas fa-check"></i> Correct Answers: <span><%= finalResult.right %></span></li>
-        <li><i class="fas fa-times"></i> Wrong Answers: <span><%= finalResult.wrong %></span></li>
-        <li><i class="fas fa-forward"></i> Skipped Questions: <span><%= finalResult.skipped %></span></li>
-
-        <% if (examData.negative_marking) { %>
-          <li><i class="fa-solid fa-plus-minus"></i> Negative Marks: <span><%= finalResult.negativeMarks %></span></li>
-        <% } %>
-        
-        <li><i class="fas fa-crosshairs"></i> Obtained Marks: <span><%= finalResult.totalMarks %></span></li>
-        <li><i class="fas fa-list-ul"></i> Total Question: <span><%= finalResult.totalMCQ %></span></li>
-        <li><i class="fas fa-clock"></i> Total Time: <span><%= timeTaken %></span></li>
-      </ul>
+      <h2 style="text-align: center; padding: 10px 20px 10px 20px;"><%= examData.exam_name %></h2>
+      <p>Total Questions- <%= examData.questions.length %> || Marks- <%= examData.questions.length %></p>
+      <p>Duration- <%= examData.time %>min</p>
     </div>
-  <% } %>
   
-        
-  <% if (examData.custom_message) { %>
-    <div class="qcontainer">
-      <% 
-      const totalMarksPercentage = (finalResult.totalMarks / 100) * 100;
     
-      if (totalMarksPercentage >= examData.passing_score1) { %>
-
-        <%- examData.message_on_pass1 %>
-      <% } else if (totalMarksPercentage >= examData.passing_score2) { %>
-        <%- examData.message_on_pass2 %>
-      <% } else if (totalMarksPercentage < examData.failing_score) { %>
-        <%- examData.message_on_fail %>
-      <% } %>
-    </div>
-  <% } %>
-
- 
-  <div class="result-div"> 
-    <h2 style="color:white">Exam Results</h2>
-
-  <table>
-    <thead>
-      <tr>
-        <th>Merit</th>
-        <th>Obtained Marks</th>
-        <th>Name</th>
-        <th>Institute</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% 
-        
+    <% if (examData.show_result) { %>
+      <div class="qcontainer score-board">
+        <svg id="wave" style="transform:rotate(180deg); transition: 0.3s; border-radius:5px;" viewBox="0 0 1440 330" version="1.1" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sw-gradient-0" x1="0" x2="0" y1="1" y2="0"><stop stop-color="rgba(108, 1, 255, 1)" offset="0%"></stop><stop stop-color="rgba(32.058, 230.325, 189.351, 1)" offset="100%"></stop></linearGradient></defs><path style="transform:translate(0, 0px); opacity:1" fill="url(#sw-gradient-0)" d="M0,264L48,264C96,264,192,264,288,269.5C384,275,480,286,576,280.5C672,275,768,253,864,203.5C960,154,1056,77,1152,49.5C1248,22,1344,44,1440,93.5C1536,143,1632,220,1728,258.5C1824,297,1920,297,2016,286C2112,275,2208,253,2304,214.5C2400,176,2496,121,2592,88C2688,55,2784,44,2880,38.5C2976,33,3072,33,3168,44C3264,55,3360,77,3456,77C3552,77,3648,55,3744,66C3840,77,3936,121,4032,126.5C4128,132,4224,99,4320,110C4416,121,4512,176,4608,170.5C4704,165,4800,99,4896,110C4992,121,5088,209,5184,214.5C5280,220,5376,143,5472,143C5568,143,5664,220,5760,258.5C5856,297,5952,297,6048,269.5C6144,242,6240,187,6336,137.5C6432,88,6528,44,6624,66C6720,88,6816,176,6864,220L6912,264L6912,330L6864,330C6816,330,6720,330,6624,330C6528,330,6432,330,6336,330C6240,330,6144,330,6048,330C5952,330,5856,330,5760,330C5664,330,5568,330,5472,330C5376,330,5280,330,5184,330C5088,330,4992,330,4896,330C4800,330,4704,330,4608,330C4512,330,4416,330,4320,330C4224,330,4128,330,4032,330C3936,330,3840,330,3744,330C3648,330,3552,330,3456,330C3360,330,3264,330,3168,330C3072,330,2976,330,2880,330C2784,330,2688,330,2592,330C2496,330,2400,330,2304,330C2208,330,2112,330,2016,330C1920,330,1824,330,1728,330C1632,330,1536,330,1440,330C1344,330,1248,330,1152,330C1056,330,960,330,864,330C768,330,672,330,576,330C480,330,384,330,288,330C192,330,96,330,48,330L0,330Z"></path><defs><linearGradient id="sw-gradient-1" x1="0" x2="0" y1="1" y2="0"><stop stop-color="rgba(108, 1, 255, 1)" offset="0%"></stop><stop stop-color="rgba(49.1, 52.791, 116.486, 1)" offset="100%"></stop></linearGradient></defs><path style="transform:translate(0, 50px); opacity:0.9" fill="url(#sw-gradient-1)" d="M0,132L48,126.5C96,121,192,110,288,88C384,66,480,33,576,27.5C672,22,768,44,864,77C960,110,1056,154,1152,176C1248,198,1344,198,1440,214.5C1536,231,1632,264,1728,280.5C1824,297,1920,297,2016,269.5C2112,242,2208,187,2304,170.5C2400,154,2496,176,2592,176C2688,176,2784,154,2880,170.5C2976,187,3072,242,3168,242C3264,242,3360,187,3456,154C3552,121,3648,110,3744,88C3840,66,3936,33,4032,44C4128,55,4224,110,4320,110C4416,110,4512,55,4608,77C4704,99,4800,198,4896,231C4992,264,5088,231,5184,203.5C5280,176,5376,154,5472,126.5C5568,99,5664,66,5760,93.5C5856,121,5952,209,6048,214.5C6144,220,6240,143,6336,126.5C6432,110,6528,154,6624,143C6720,132,6816,66,6864,33L6912,0L6912,330L6864,330C6816,330,6720,330,6624,330C6528,330,6432,330,6336,330C6240,330,6144,330,6048,330C5952,330,5856,330,5760,330C5664,330,5568,330,5472,330C5376,330,5280,330,5184,330C5088,330,4992,330,4896,330C4800,330,4704,330,4608,330C4512,330,4416,330,4320,330C4224,330,4128,330,4032,330C3936,330,3840,330,3744,330C3648,330,3552,330,3456,330C3360,330,3264,330,3168,330C3072,330,2976,330,2880,330C2784,330,2688,330,2592,330C2496,330,2400,330,2304,330C2208,330,2112,330,2016,330C1920,330,1824,330,1728,330C1632,330,1536,330,1440,330C1344,330,1248,330,1152,330C1056,330,960,330,864,330C768,330,672,330,576,330C480,330,384,330,288,330C192,330,96,330,48,330L0,330Z"></path></svg>
+    
+        <h3>Your Score Board</h3>
+        <ul>
+          <li><i class="fas fa-check"></i> Correct Answers: <span><%= finalResult.right %></span></li>
+          <li><i class="fas fa-times"></i> Wrong Answers: <span><%= finalResult.wrong %></span></li>
+          <li><i class="fas fa-forward"></i> Skipped Questions: <span><%= finalResult.skipped %></span></li>
+  
+          <% if (examData.negative_marking) { %>
+            <li><i class="fa-solid fa-plus-minus"></i> Negative Marks: <span><%= finalResult.negativeMarks %></span></li>
+          <% } %>
+          
+          <li><i class="fas fa-crosshairs"></i> Obtained Marks: <span><%= finalResult.totalMarks %></span></li>
+          <li><i class="fas fa-list-ul"></i> Total Question: <span><%= finalResult.totalMCQ %></span></li>
+          <li><i class="fas fa-clock"></i> Total Time: <span><%= timeTaken %></span></li>
+        </ul>
+      </div>
+    <% } %>
+    
+          
+    <% if (examData.custom_message) { %>
+      <div class="qcontainer">
+        <% 
+        const totalMarksPercentage = (finalResult.totalMarks / 100) * 100;
       
-      // Sort user_result array by totalMarks in descending order
-        const sortedResults = examData.user_result.sort((a, b) => b.totalMarks - a.totalMarks);
-    
-        sortedResults.forEach(function(result, index) { 
-      %>
+        if (totalMarksPercentage >= examData.passing_score1) { %>
+  
+          <%- examData.message_on_pass1 %>
+        <% } else if (totalMarksPercentage >= examData.passing_score2) { %>
+          <%- examData.message_on_pass2 %>
+        <% } else if (totalMarksPercentage < examData.failing_score) { %>
+          <%- examData.message_on_fail %>
+        <% } %>
+      </div>
+    <% } %>
+  
+   
+    <div class="result-div"> 
+      <h2 style="color:white">Exam Results</h2>
+  
+    <table>
+      <thead>
         <tr>
-          <td><%= index + 1 %></td>
-          <td><%= result.totalMarks %></td>
-          <td><%= result.name %></td>
-          <td><%= result.institution %></td>
+          <th>Merit</th>
+          <th>Obtained Marks</th>
+          <th>Name</th>
+          <th>Institute</th>
         </tr>
-      <% }) %>
-    </tbody>
-    
-  </table>
-</div>
-  <div class="qcontainer"><%- examData.conclusion_text %></div>
- 
-
+      </thead>
+      <tbody>
+        <% 
+          
+        
+        // Sort user_result array by totalMarks in descending order
+          const sortedResults = examData.user_result.sort((a, b) => b.totalMarks - a.totalMarks);
+      
+          sortedResults.forEach(function(result, index) { 
+        %>
+          <tr>
+            <td><%= index + 1 %></td>
+            <td><%= result.totalMarks %></td>
+            <td><%= result.name %></td>
+            <td><%= result.institution %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+      
+    </table>
+  </div>
+    <div class="qcontainer"><%- examData.conclusion_text %></div>
+   
+  
+  </div>
 
 	<section class="questions-box">
         <% let counter = 1 %>
@@ -339,7 +381,7 @@ table tr:nth-child(even) {
 				</div>
        </div>
 </section>
-
+<br><br><br><br><br><br><br>
 	<div id="floatingMenu">
 		<div class="">
 			<div>

@@ -12,19 +12,7 @@
   [data-f-id="pbf"] {
     display: none;
 }
-	</style>
 	
-  
-  <section class="top-nav">
-		  <div><h4><%= title %></h4></div>
-	   
-	   <img src="https://www.issb-bd.org/imgs/logonew.png" id="top-nav-icon-issb">
-	  </section>
-  
-  
-  
-  <br><br><br>
-  <style>
   
 
 .explain{
@@ -56,8 +44,6 @@ border: none;
   margin: 0px auto;
 }
 
-
-
 .tabcontent{
 margin: 8px;
 
@@ -76,9 +62,12 @@ margin-top:0px;
 
 
   </style>
-  
-		  
+  <%- include('../partials/top-nav.ejs') %>
+
+<br><br><br><br>		  
     <section class="course-content-list" style="font-family: SolaimanLipi!important">
+      
+<h3 style="text-align: center;"><%= title %> </h3>
       <% content.forEach(function(data) { %>
       <div class="tabcontent hide-show" style="margin: 8px 0px;">
           <div class="accordion" style="padding: 15px 10px;"> 
@@ -120,7 +109,7 @@ margin-top:0px;
 		  <% } %>
 		</div>
 
-<br>
+<br><br><br>
     
   <div class="modal-section">
     <div class="modal-poster">

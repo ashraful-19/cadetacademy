@@ -1,0 +1,187 @@
+<style>
+
+
+
+/* Navbar Styles */
+header {
+    width: 100%;
+    position: fixed;
+    top: 0px;
+    left: 0;
+    right: 0;
+    z-index: 1444!important;
+    font-family: 'Hind Siliguri', sans-serif;
+    margin: 0 auto;
+    box-shadow: rgba(64, 54, 121, 0.1) 8px 7px 10px -10px;
+    background-color: white!important;
+
+}
+
+
+div.nav-wrap {
+    padding: 0px 15px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: rgb(0, 0, 0);
+    margin: 0px auto;
+    position: relative;
+    padding: 15px!important;
+  backdrop-filter: none!important;
+  background-color: white!important;
+width: 95%!important;
+
+}
+
+.logo img {
+    height: 35px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav-links a {
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+    padding: 8px 15px;
+    margin-left: 10px;
+}
+
+.nav-links a:hover {
+    background-color: #f0f0f0;
+    border-radius: 4px;
+}
+
+.hamburger-menu {
+    display: none;
+    cursor: pointer;
+}
+.loader {
+  background: #000;
+  box-shadow: 0 0 0 0 #0004;
+  animation: l1 1s infinite;
+}
+@keyframes l1 {
+    100% {box-shadow: 0 0 0 10px #0000}
+}
+
+/* Mobile Nav Styles */
+.mobile-nav {
+    display: none;
+    flex-direction: column;
+    top: 60px;
+    right: 0;
+    width: 100%;
+    z-index: 1;
+}
+.mobile-nav.show {
+    display: flex;
+}
+ 
+
+.mobile-nav a {
+    padding: 10px;
+    margin: 2px 0px;
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+    display: block;
+    border-radius: 10px;
+}
+
+.mobile-nav a:hover {
+    background-color: #f8f8f8;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+    }
+
+    .hamburger-menu {
+        display: flex;
+    }
+
+    .mobile-nav.show {
+        display: flex;
+    }
+}
+
+@media (max-width: 480px) {
+    .mobile-nav a {
+        padding: 10px !important;
+        color: rgb(0, 0, 0);
+        text-decoration: none;
+        display: block;
+    }
+}
+
+.login-logout-btn {
+    background-color: rgb(0, 0, 0);
+    border-radius: 10px !important;
+    color: white !important;
+}
+
+.login-logout-btn:hover {
+    background-color: #212121 !important;
+    color: rgb(255, 255, 255) !important;
+}
+
+</style>
+
+
+
+<header>
+    <div class="nav-wrap">
+        <nav class="navbar">
+            <div class="logo">
+                <a href="/">
+                    <img src="/img/cadetacademy_logo.png" alt="Logo">
+                </a>                </div>
+            <div class="nav-links">
+                <a href="/">Home</a>
+                <a href="https://www.facebook.com/missionschoolbd">About</a>
+                <a href="https://www.facebook.com/ashraful.ashik19">Contact</a>
+                
+                <% if (!req.user) { %>
+                <a href="/auth/login" class="login-logout-btn loader">Login <i class="fa fa-sign-in-alt"></i></a>
+                <% } else { %>
+                <a href="/auth/logout" class="login-logout-btn">Logout <i class="fa fa-sign-out"></i></a>
+                <% } %>                    
+
+                  
+            </div>
+            <div class="hamburger-menu">
+                <img width="30px" src="https://static-00.iconduck.com/assets.00/menu-button-icon-512x512-x86bgpt9.png" alt="">
+            </div>
+        </nav>
+        <div class="mobile-nav">
+      <div style="padding: 10px;">
+        <a href="/">Home</a>
+        <a href="https://www.facebook.com/missionschoolbd">About</a>
+        <a href="https://www.facebook.com/ashraful.ashik19">Contact</a>
+ 
+        <% if (!req.user) { %>
+                <a href="/auth/login"  class="login-logout-btn loader">Login</a>
+                <% } else { %>
+                <a href="/auth/logout" class="login-logout-btn">Logout</a>
+                <% } %> 
+      </div>
+        </div>
+    </div>
+</header>
+
+<script>
+  $(document).ready(function() {
+    $('.hamburger-menu').click(function() {
+        $('.mobile-nav').slideToggle(300); // 300ms for the slide animation
+    });
+});
+</script>

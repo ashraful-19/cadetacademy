@@ -4,13 +4,14 @@
     .content-box {
         background-color: #ffffff;
         box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
-        margin: 10px;
+        margin: 10px auto;
         padding: 10px;
         font-size: 16px;
         border-radius: 10px;
         font-family: Noto Serif Bengali;
         color: rgb(0, 0, 0);
         line-height: 2;
+        width: 90%;
 
     }
     .content-box ul {
@@ -48,17 +49,16 @@
 }
 </style>
 
-<section class="top-nav">
-    <div><h2><%= title %></h2></div>
- 
- <img src="https://www.issb-bd.org/imgs/logonew.png" id="top-nav-icon-issb">
-</section>
-<br><br><br>
+<%- include('../partials/top-nav.ejs') %>
+
+<br><br><br><br>
 <!-- stopwatch section -->
 <div id="timer" class="timer-right">
     <span id="countdown"></span>
     <i class="fa-solid fa-stopwatch"></i>
 </div>
+
+<h3 style="text-align: center;"><%= title %> </h3>
 <% data.forEach(item => { %>
     <div class="content-box" id="problem">
         <h3>Problem</h3>

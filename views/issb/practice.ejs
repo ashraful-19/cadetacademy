@@ -29,17 +29,15 @@
 
 </script>		
 
-	<section class="top-nav">
-		<div><h4><%= title %></h4></div>
-	 
-	 <img src="https://www.issb-bd.org/imgs/logonew.png" id="top-nav-icon-issb">
-	</section>
 
+<%- include('../partials/top-nav.ejs') %>
 
 
 <br><br><br>
 
 <section class="ppdt">
+  
+<h3 style="text-align: center;"><%= title %> </h3>
 	<% content.forEach(function(data) { %>
 	  <div class="ppdt_items">
 		<div class="ppdt_practice" >

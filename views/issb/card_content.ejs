@@ -7,55 +7,7 @@
 	height: auto;
   }
 
-	 .blog-card {
-		display: flex;
-    flex-direction: column;
-    margin: 10px auto;
-    width: 95%;
-    background-color: #fcfcfc;
-    border-radius: 5px;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
-    overflow: hidden;
-    box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
-    border: 1px solid #dfdfdf;  }
-  
-  .blog-card-heading-container {
-	  background-color: #f0f0f0;
-	  padding: 10px;
-  }
-  
-  .blog-card-content {
-	  padding: 20px;
 
-  }
-
-  .blog-card-heading {
-	  margin: 0;
-	  font-size: 20px;
-      font-weight: bold;
-      margin-bottom: 10px;
-  }
-  
-  .see-more-button {
-	  display: inline-block;
-	  margin-top: 10px;
-	  text-decoration: none;
-	  background-color: #633db3;
-	  color: #fff!important;
-	  padding: 5px 15px;
-	  border-radius: 5px;
-  }
-  
-  .main-card {
-	  margin-top: 10px;
-	  font-family: "SolaimanLipi", Arial, sans-serif!important;
-
-  }
-  .see-more-button:hover {
-      background-color: #2e2e43 ;
-	  cursor: pointer;
-    }
 
 	#floatingMenu ul>li:hover,.active{
 	background-color: rgb(6 14 24 / 48%);
@@ -74,18 +26,14 @@
 </script>		
   
   
-  <section class="top-nav">
-		  <div><h4><%= title %></h4></div>
-	   
-	   <img src="https://www.issb-bd.org/imgs/logonew.png" id="top-nav-icon-issb">
-	  </section>
+  
+<%- include('../partials/top-nav.ejs') %>
+
+  <br><br><br><br>
   
   
-  
-  <br><br><br>
-  
-  
-		  
+<h3 style="text-align: center;"><%= title %> </h3>
+<div class="main-blog">		  
   <% content.forEach(function(data) { %>
   <div class="blog-card">
 	  <%- data.question %>
@@ -107,9 +55,9 @@
 	</div>
 	
 	<% }) %>
+</div>
   
-  
-  
+
   
   <br>
   <script>

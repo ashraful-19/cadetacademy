@@ -2,29 +2,8 @@
 
 <%- include('../partials/header.ejs') %>
 
+<%- include('../partials/top-nav.ejs') %>
 
-
-<section class="top-nav">
-  <div><h4 style="font-family: SolaimanLipi">Courses</h4></div>
-  <div id="top-nav-left">
-    <svg stroke="currentColor" fill="none" stroke-width="0" viewBox="0 0 24 24" height="30" width="30" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16"></path></svg>
-   </div>
-</section>  
-<div id="menulist" >
-<a href="/"><i class="fa-solid fa-house"></i> Home</a>
-<a href="https://www.facebook.com/mission.academy23"><i class="fa-regular fa-address-card"></i> About</a>
-<a href="https://www.facebook.com/ashraful.ashik19"><i class="fa-regular fa-address-book"></i>Contact</a>
-<a href="/termandcondition"><i class="fa-solid fa-fan"></i> Terms & conditions</a>
-<a href="/privacy&policy"><i class="fa-solid fa-shield-halved"></i> Privacy and policy</a>
-  <% if (req.user) { %>
-      <a href="/auth/logout"><i class="fa-solid fa-arrow-right-from-bracket"></i>Logout</a>
-    <% } else { %>
-      <a href="/auth/login"><i class="fa-solid fa-arrow-right-to-bracket"></i>Login</a>
-    <% } %>
-    
-</div>
-
-<br><br><br>
 
 <section class="course-list">
   <% course.forEach(function(course) { %>
@@ -60,7 +39,6 @@
 </section>
 
 
-
  <%- include('../partials/bottom-nav.ejs') %>
 
 <script src="/js/script.js"></script>
@@ -88,20 +66,4 @@ banglaFees.forEach(banglaFee => {
   const bengaliPrice = convertToBengaliNumerals(englishPrice);
   banglaFee.textContent = bengaliPrice;
 });
-
-
-$(document).ready(function() {
-      // Toggle menu when top-nav-left is clicked
-      $("#top-nav-left").click(function() {
-        $("#menulist").toggle();
-      });
-    
-      // Hide menu when user clicks anywhere on the body
-      $("body").click(function(event) {
-        if(!$(event.target).closest("#top-nav-left, #menulist").length) {
-          $("#menulist").hide();
-        }
-      });
-    });
-    
 </script>

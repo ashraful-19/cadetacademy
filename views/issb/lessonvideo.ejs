@@ -1,17 +1,88 @@
 <%- include('../partials/header.ejs') %>
 <style>
-	.con {
-  position: relative;
-  bottom: -10px;
-  height: auto;
-  border: none;
+
+header{
+  display: none!important;
+}
+
+section.con {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.video-main-box, 
+.lecture-details, 
+.tabcontent {
+  width: 100%; /* Full width on smaller screens */
+}
+
+@media (min-width: 768px) {
+
+  header{
+  display: block!important;
+  }
+  nav.bottom-nav{
+  display: none!important;
+}
+  .con {
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    margin-top: 80px!important;
+    margin-left: 5%!important;  
+
+  }
+ 
+  
+  .video-main-box {
+    width: 60%; /* Second child taking 60% width on the right */
+    order: 1; /* Reordering second child to come after first and third */
+    margin: 0px;
+  }
+  .lecture-details {
+    position: fixed;
+    right: 5%;
+    top: 80px;
+    width: 30%;
+    height: 100%; /* Adjust height as necessary */
+    overflow-y: auto; /* Enables vertical scrolling */
+    overflow-x: hidden; /* Prevents horizontal scrolling */
+    /* Hides scrollbar */
+    scrollbar-width: none; /* For Firefox */
+}
+
+.lecture-details::-webkit-scrollbar {
+    display: none; /* For Chrome, Safari, and Opera */
 }
 
 
- 
+  #slide-menu{
+    flex-direction: column;
+    overflow-y: auto;
+    background-color: white;
+    padding-bottom: 200px;
+  }
+  div.item-menu{
+    margin-bottom: 5px;
+    padding: 10px;
+  }
+  .tabcontent {
+    width: 58%;
+    order: 3; 
+    margin-top: 20px;
+  }
+  #player {
+    border-radius: 10px!important;
+  }
+}
+
+
+div.accordion{
+  font-size: 16px;
+  font-weight: bold;
+}
 .accordion-content p{
   
-  border: 1px solid #4f3d993d;
+  border: 1px solid #4f3d990a;
   border-radius: 8px;
   width: 100%;
   padding: 7px 10px;
@@ -24,8 +95,7 @@
 
 .accordion-content a:hover{
   
-background-color: #1d0a30c7 !important;  
-color: white!important;
+background-color: #f9f9f9 !important;  
 }
 
 .accordion-content p:last-child{
@@ -37,6 +107,7 @@ margin-top:10px;
  .tabcontent{
 
   font-family: "SolaimanLipi", Arial, sans-serif!important;
+  padding: 10px;
 
 }
 
@@ -67,92 +138,20 @@ margin-top:10px;
             
 </style>
 <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css">
-<div class="video-main-box" style="z-index: 12;">
-  <div class="video-container-lesson plyr__video-embed" id="player">
-    <iframe id="video-iframe" width="100%" height="100%" src="https://www.youtube.com/embed/pd3NNun8KaI?origin=/issb/lessonvideo?type=IQ&amp;autoplay=1&amp;iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;enablejsapi=1" allowfullscreen></iframe>
-    <div class="custom-controls" id="custom-controls"></div>
+
+
+<%- include('../partials/top-nav.ejs') %>
+
+
+<section class="con">
+  <div class="video-main-box" style="z-index: 12;">
+    <div class="video-container-lesson plyr__video-embed" id="player">
+      <iframe id="video-iframe" width="100%" height="100%" src="https://www.youtube.com/embed/pd3NNun8KaI?origin=/issb/lessonvideo?type=IQ&amp;autoplay=1&amp;iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;enablejsapi=1" allowfullscreen></iframe>
+      <div class="custom-controls" id="custom-controls"></div>
+    </div>
   </div>
-</div>
 
-<script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
-<script>
- document.addEventListener('DOMContentLoaded', function () {
-    let player;
-
-    function initializePlyr(videoUrl) {
-      player = new Plyr('#player', {
-        controls: ['rewind', 'play', 'fast-forward', 'progress', 'current-time', 'mute', 'settings', 'pip', 'airplay', 'fullscreen', 'quality'],
-        quality: {
-          default: 720,
-          options: [1080, 720, 480, 360]
-        }
-      });
-
-      const customControls = document.getElementById('custom-controls');
-
-      customControls.addEventListener('click', function () {
-        // Toggle between play and pause
-        if (player.paused) {
-          player.play();
-        } else {
-          player.pause();
-        }
-      });
-
-      // Set the initial video source
-      document.getElementById('video-iframe').src = videoUrl + '?autoplay=1';
-    }
-
-    // Get the first video link and set its data-link to the iframe
-
- // Extract the type parameter from the URL
- const urlParams = new URLSearchParams(window.location.search);
-  const typeParam = urlParams.get('type');
-
-  // Find the tab content with a matching data-category attribute
-  const content = document.querySelector(`.tabcontent[data-category="${typeParam}"]`);
-  const firstVideoLink = content.querySelector('.video');
-
-    if (firstVideoLink) {
-      const firstVideoUrl = firstVideoLink.getAttribute('data-link')+'?autoplay=1';
-      firstVideoLink.classList.add('video-active');
-      initializePlyr(firstVideoUrl);
-
-      // Add click event listener for other video links
-      const videoLinks = document.querySelectorAll('.video');
-      let activeVideoLink = firstVideoLink;
-
-      videoLinks.forEach(link => {
-        link.addEventListener('click', function (event) {
-          event.preventDefault();
-
-          // Remove the active class from the previously clicked link
-          if (activeVideoLink) {
-            activeVideoLink.classList.remove('video-active');
-          }
-
-          // Add the active class to the clicked link
-          this.classList.add('video-active');
-          activeVideoLink = this;
-
-          const videoUrl = this.getAttribute('data-link');
-
-          // Destroy the existing Plyr instance
-          player.destroy();
-
-          // Update the iframe source to the video URL directly
-          document.getElementById('video-iframe').src = videoUrl + '?autoplay=1';
-
-          // Reinitialize Plyr with the new video
-          initializePlyr(videoUrl);
-        });
-      });
-    }
-  });
-</script>
-
-
-  <section class="con">
+  <div class="lecture-details">
     <% if (courseTypes && courseTypes.some(Boolean)) { %>
       <div id="slide-menu" style="font-family: SolaimanLipi!important">
         <% courseTypes.forEach(category => { %>
@@ -160,86 +159,29 @@ margin-top:10px;
         <% }); %>
       </div>
     <% } %>
-    
-    
+  </div>
 
-      <% for (const syllabusItem of course.course_syllabus) { %>
-        <div class="tabcontent hide-show" data-category="<%= syllabusItem.course_content_type %>">
-          <div class="accordion"> 
-            <img src="<%= syllabusItem.course_content_icon_url %>" alt="">
-
-            <span><%= syllabusItem.course_content_title %></span>
-            <i class="fa-solid fa-angle-down angle-right"></i>
-          </div>
-          <div class="accordion-content">
-            <% const detailsArray = syllabusItem.course_content_details ? JSON.parse(syllabusItem.course_content_details) : []; %>
-      
-            <% for (const detail of detailsArray) { %>
-              <% if (detail.type === 'video') { %>
-                <p data-link="<%= detail.link %>" class="video"><i class="fa-solid fa-play"></i>&nbsp;&nbsp;<%= detail.title %></p>
-              <% } else if (detail.type === 'pdf') { %>
-                <a href="<%= detail.link %>"><i class="fa-regular fa-file-lines"></i>&nbsp;&nbsp;<%= detail.title %></a>
-              <% } else { %>
-                <a href="<%= detail.link %>"><i class="fa-solid fa-indent"></i>&nbsp;&nbsp;<%= detail.title %></a>
-              <% } %>
-            <% } %>
-          </div>
-        </div>
-      <% } %>
-
-
-
-      <script>
-        document.addEventListener('DOMContentLoaded', function () {
-          const slideMenu = document.getElementById('slide-menu');
-          const itemMenus = document.querySelectorAll('.item-menu');
-          const questionContainers = document.querySelectorAll('.tabcontent');
-      
-          // Get the initial active category from server-side data (e.g., <%= type %>)
-          const initialActiveCategory = '<%= type %>';
-      
-          // Find the item-menu with the matching data-category and make it active
-          const initialActiveItem = Array.from(itemMenus).find(item => item.dataset.category === initialActiveCategory);
-          if (initialActiveItem) {
-            initialActiveItem.classList.add('active-doubts');
-            // Move the initially active item to the beginning of the slide-menu
-            slideMenu.insertBefore(initialActiveItem, slideMenu.firstChild);
-          }
-      
-         
-      
-          // Function to hide/show question containers based on the selected category
-          function updateContainers(selectedCategory) {
-            questionContainers.forEach(container => {
-              const containerCategory = container.dataset.category;
-      
-              if (selectedCategory === 'ALL' || selectedCategory === containerCategory) {
-                container.style.display = 'block';
-              } else {
-                container.style.display = 'none';
-              }
-            });
-          }
-      
-          // Initial update based on the dynamically set initial active category
-          updateContainers(initialActiveCategory);
-      
-          itemMenus.forEach(itemMenu => {
-            itemMenu.addEventListener('click', function () {
-              const selectedCategory = this.dataset.category;
-      
-              itemMenus.forEach(item => item.classList.remove('active-doubts'));
-              this.classList.add('active-doubts');
-      
-              // Update question containers based on the selected category
-              updateContainers(selectedCategory);
-            });
-          });
-        });
-      </script>
-      
-      
-
+  <% for (const syllabusItem of course.course_syllabus) { %>
+    <div class="tabcontent hide-show" data-category="<%= syllabusItem.course_content_type %>">
+      <div class="accordion"> 
+        <img src="<%= syllabusItem.course_content_icon_url %>" alt="">
+        <span><%= syllabusItem.course_content_title %></span>
+        <i class="fa-solid fa-angle-down angle-right"></i>
+      </div>
+      <div class="accordion-content">
+        <% const detailsArray = syllabusItem.course_content_details ? JSON.parse(syllabusItem.course_content_details) : []; %>
+        <% for (const detail of detailsArray) { %>
+          <% if (detail.type === 'video') { %>
+            <p data-link="<%= detail.link %>" class="video"><i class="fa-solid fa-play"></i>&nbsp;&nbsp;<%= detail.title %></p>
+          <% } else if (detail.type === 'pdf') { %>
+            <a href="<%= detail.link %>"><i class="fa-regular fa-file-lines"></i>&nbsp;&nbsp;<%= detail.title %></a>
+          <% } else { %>
+            <a href="<%= detail.link %>"><i class="fa-solid fa-indent"></i>&nbsp;&nbsp;<%= detail.title %></a>
+          <% } %>
+        <% } %>
+      </div>
+    </div>
+  <% } %>
 </section>
 
 
@@ -256,6 +198,132 @@ margin-top:10px;
  <!-- bottom nagivatoin section  -->
 
  <%- include('../partials/bottom-nav.ejs') %>
+
+ <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
+ <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const slideMenu = document.getElementById('slide-menu');
+    const itemMenus = document.querySelectorAll('.item-menu');
+    const questionContainers = document.querySelectorAll('.tabcontent');
+
+    // Get the initial active category from server-side data (e.g., <%= type %>)
+    const initialActiveCategory = '<%= type %>';
+
+    // Find the item-menu with the matching data-category and make it active
+    const initialActiveItem = Array.from(itemMenus).find(item => item.dataset.category === initialActiveCategory);
+    if (initialActiveItem) {
+      initialActiveItem.classList.add('active-doubts');
+      // Move the initially active item to the beginning of the slide-menu
+      slideMenu.insertBefore(initialActiveItem, slideMenu.firstChild);
+    }
+
+   
+
+    // Function to hide/show question containers based on the selected category
+    function updateContainers(selectedCategory) {
+      questionContainers.forEach(container => {
+        const containerCategory = container.dataset.category;
+
+        if (selectedCategory === 'ALL' || selectedCategory === containerCategory) {
+          container.style.display = 'block';
+        } else {
+          container.style.display = 'none';
+        }
+      });
+    }
+
+    // Initial update based on the dynamically set initial active category
+    updateContainers(initialActiveCategory);
+
+    itemMenus.forEach(itemMenu => {
+      itemMenu.addEventListener('click', function () {
+        const selectedCategory = this.dataset.category;
+
+        itemMenus.forEach(item => item.classList.remove('active-doubts'));
+        this.classList.add('active-doubts');
+
+        // Update question containers based on the selected category
+        updateContainers(selectedCategory);
+      });
+    });
+  });
+</script>
+ <script>
+  document.addEventListener('DOMContentLoaded', function () {
+     let player;
+ 
+     function initializePlyr(videoUrl) {
+       player = new Plyr('#player', {
+         controls: ['rewind', 'play', 'fast-forward', 'progress', 'current-time', 'mute', 'settings', 'pip', 'airplay', 'fullscreen', 'quality'],
+         quality: {
+           default: 720,
+           options: [1080, 720, 480, 360]
+         }
+       });
+ 
+       const customControls = document.getElementById('custom-controls');
+ 
+       customControls.addEventListener('click', function () {
+         // Toggle between play and pause
+         if (player.paused) {
+           player.play();
+         } else {
+           player.pause();
+         }
+       });
+ 
+       // Set the initial video source
+       document.getElementById('video-iframe').src = videoUrl + '?autoplay=1';
+     }
+ 
+     // Get the first video link and set its data-link to the iframe
+ 
+  // Extract the type parameter from the URL
+  const urlParams = new URLSearchParams(window.location.search);
+   const typeParam = urlParams.get('type');
+ 
+   // Find the tab content with a matching data-category attribute
+   const content = document.querySelector(`.tabcontent[data-category="${typeParam}"]`);
+   const firstVideoLink = content.querySelector('.video');
+ 
+     if (firstVideoLink) {
+       const firstVideoUrl = firstVideoLink.getAttribute('data-link')+'?autoplay=1';
+       firstVideoLink.classList.add('video-active');
+       initializePlyr(firstVideoUrl);
+ 
+       // Add click event listener for other video links
+       const videoLinks = document.querySelectorAll('.video');
+       let activeVideoLink = firstVideoLink;
+ 
+       videoLinks.forEach(link => {
+         link.addEventListener('click', function (event) {
+           event.preventDefault();
+ 
+           // Remove the active class from the previously clicked link
+           if (activeVideoLink) {
+             activeVideoLink.classList.remove('video-active');
+           }
+ 
+           // Add the active class to the clicked link
+           this.classList.add('video-active');
+           activeVideoLink = this;
+ 
+           const videoUrl = this.getAttribute('data-link');
+ 
+           // Destroy the existing Plyr instance
+           player.destroy();
+ 
+           // Update the iframe source to the video URL directly
+           document.getElementById('video-iframe').src = videoUrl + '?autoplay=1';
+ 
+           // Reinitialize Plyr with the new video
+           initializePlyr(videoUrl);
+         });
+       });
+     }
+   });
+ </script>
+ 
 
  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -317,18 +385,28 @@ $(document).ready(function(){
     };
   }
 
-
-const videoIframe = document.querySelector('.video-main-box');
+  const videoIframe = document.querySelector('.video-main-box');
 const con = document.querySelector('.con');
 
 function setMarginTop() {
-  con.style.marginTop = videoIframe.offsetHeight + 'px';
+  if (videoIframe && con) { // Check if elements exist
+    const windowWidth = window.innerWidth;
+    const iframeHeight = videoIframe.offsetHeight;
+
+    // Adjust margin based on screen size (you can modify the 768px as per your requirement)
+    if (windowWidth < 768) {
+      con.style.marginTop = iframeHeight + 'px';
+    } else {
+      con.style.marginTop = 0 + 'px'; // Adjust if needed for larger screens too
+    }
+  }
 }
 
-setMarginTop(); // initial setting
+// Initial setting
+setMarginTop();
 
+// Adjust on window resize
 window.addEventListener('resize', setMarginTop);
-
 
 </script>
 

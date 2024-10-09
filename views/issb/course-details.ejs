@@ -48,51 +48,26 @@ ul, ol {
           }
 
           .title-head{
-            font-size: 1.3rem;
+            font-size: 2rem;
             color: #320769;
             font-family: "Li Ador Noirrit",'SolaimanLipi', Arial, sans-serif !important;
-            font-weight: bold;
           }
     
 </style>
 
-<section class="top-nav">
-
-	<div id="top-nav-left">
-	<svg stroke="currentColor" fill="none" stroke-width="0" viewBox="0 0 24 24" height="30" width="30" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16"></path></svg>
- </div>
-<div>
-	<a id="militarian"	href="/"><img height="45px" style="margin:10px 0px 0px 0px;"  src="/img/cadetacademy_logo.png" alt=""></a>
-</div>
-</section>
+<%- include('../partials/top-nav.ejs') %>
 
 
 
-<div id="menulist" >
-	<a href="/"><i class="fa-solid fa-house"></i> Home</a>
-	<a href="https://www.facebook.com/mission.academy23"><i class="fa-regular fa-address-card"></i> About</a>
-	<a href="https://www.facebook.com/ashraful.ashik19"><i class="fa-regular fa-address-book"></i>Contact</a>
-	<a href="/termandcondition"><i class="fa-solid fa-fan"></i> Terms & conditions</a>
-	<a href="/privacy&policy"><i class="fa-solid fa-shield-halved"></i> Privacy and policy</a>
-    <% if (req.user) { %>
-        <a href="/auth/logout"><i class="fa-solid fa-arrow-right-from-bracket"></i>Logout</a>
-      <% } else { %>
-        <a href="/auth/login"><i class="fa-solid fa-arrow-right-to-bracket"></i>Login</a>
-      <% } %>
-      
-</div>
-
-
-
-
-
-<br><br><br>
 
 
 
 <section class="course-details">
 
-    <div class="course-video">
+  <div class="course-right">
+
+    <div class="course-intro">
+      <div class="course-video">
         <div class="course-video-container-svg">
           <iframe id="videosvg" width="100%" height="100%" src="<%= course.course_ads %>?autoplay=0" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
@@ -104,9 +79,9 @@ ul, ol {
             <path d="M41.0035 32.128C41.2901 32.2935 41.2901 32.7072 41.0035 32.8727L28.5673 40.0527C28.2807 40.2182 27.9223 40.0114 27.9223 39.6803L27.9223 25.3203C27.9223 24.9893 28.2807 24.7824 28.5673 24.9479L41.0035 32.128Z" fill="#EC1F27" />
           </svg>
         </div>
-      </div>
-      <div class="course-video">
-
+   </div>
+  <div class="course-video course-short-des">
+  
         <h2 style="margin-top: 15px;"><%= course.course_name %></h2>
         <!-- <%- course.course_description %> -->
         <div class="course-lectures" style="font-family: Noto Serif Bengali;">
@@ -118,24 +93,30 @@ ul, ol {
             <li><i class="fa-solid fa-stethoscope"></i>&nbsp;&nbsp; মেন্টাল প্রিপারেশন গাইড</li>
             <li><i class="fa-solid fa-shapes"></i>&nbsp;&nbsp; সাইকোলজিকাল ডেভেলপমেন্ট</li>
             <li><i class="fa-solid fa-file-contract"></i>&nbsp;&nbsp; বায়োডাটা কন্সালট্যান্সি</li>
-            <li><i class="fa-solid fa-headset"></i>&nbsp;&nbsp; সাপ্তাহিক লাইভ সেশন</li>
           </ul>
-        </div>
-      
-     
-        <div class="bar"></div>
-<div class="instructors course-content">
-  <div class="title-head">ক্লাস নিবেন যারা</div>
-  <div class="instructor-container" style="font-family: Noto Serif Bengali;">
-    <p>অভিজ্ঞ এক্স অফিস্যার ক্যাডেট ও গ্রিনকার্ড হোল্ডার তাদের মূল্যবান মতামত ও অভিজ্ঞতার আলোকে আইএসএসবি গাইডলাইন প্রদান করেছে।</p>
-  </div>
+        </div>  <hr><br>
+        <span style="font-weight: bold; font-size: 18px;">
+          কোর্স ফিঃ <strike style="color:rgb(211 31 95)";>৳&nbsp;<%= course.course_discount %></strike>&nbsp; 
+          ৳&nbsp;<%= course.course_fee %>
+        </span>
+    
+      </div>
+    
+    <div class="pay-button"><a href="/bkash-payment?course_id=<%= course.course_id %>" style="color: white; font-family: 'SolaimanLipi';" >কোর্সটি কিনুন</a></span>
 </div>
-        </div>
+ </div>
+  </div>
 
-
-        <div class="bar"></div>
+<div class="course-left">
      
-        
+
+  <div class="instructors course-content">
+    <div class="title-head">ক্লাস নিবেন যারা</div>
+    <div class="instructor-container" style="font-family: Noto Serif Bengali;">
+      <p>অভিজ্ঞ এক্স অফিস্যার ক্যাডেট ও গ্রিনকার্ড হোল্ডার তাদের মূল্যবান মতামত ও অভিজ্ঞতার আলোকে আইএসএসবি গাইডলাইন প্রদান করেছে।</p>
+    </div>
+    </div>
+    
         <div class="title-head">অফারটি থাকছে</div>
         <div class="countdown-container">
           <div class="timer-container" id="timer">
@@ -156,7 +137,6 @@ ul, ol {
           </div>
         </div>
      
-        <div class="bar"></div>
         <div class="learnings course-content">
           <div class="title-head"> Subscription এ যা যা পাবেন</div>
 
@@ -174,17 +154,12 @@ ul, ol {
           9 টা পরিক্ষায় আপনি অল্প সময়ে সর্বোচ্চ প্রস্তুতি নিতে পারবেন। 
            আইএসএসবি’র ২০ টা পরিক্ষায় QNA অর্থাৎ প্রশ্নের উত্তর গুলা আপনার লার্নিং কার্ভকে আরো বাড়িয়ে দিবে। উপরের সব কিছু ছিল সেলফ লার্নিং অংশ যা আপনি এই সাবস্ক্রিপশনে পেয়ে যাবেন আমাদের ওয়েবঅ্যাপে।  
                      </div>
-      </div>
-
-  
-    </div>
 
 
 
 
       
       
-        <div class="bar"></div>
         <div class="learnings course-content">
           <div class="title-head">সাবসক্রিপশন থেকে যা যা শিখবেন</div>
           <div style="font-family: Noto Serif Bengali;" >
@@ -194,9 +169,8 @@ ul, ol {
           <p><i class="fa-solid fa-circle-arrow-right"></i> আরো অনেক কিছু </p>
         </div>
       </div>
-        <div class="bar"></div>
-
-        <div class="about-details course-content">
+        
+      <div class="about-details course-content">
           <div class="title-head">সাবসক্রিপশনটি যাদের জন্য</div>
           <div style="font-family: Noto Serif Bengali;" >
           <p><i class="fa-solid fa-circle-arrow-right"></i> যারা আইএসএসবিতে পার্টিসিপেট করবে </p>
@@ -207,8 +181,7 @@ ul, ol {
           <p><i class="fa-solid fa-circle-arrow-right"></i> যাদের থাকা খাওয়ার সমস্যা আছে ঢাকা অফলাইন কোচিং করার ক্ষেত্রে </p>
         </div>
       </div> 
-        <div class="bar"></div>
-
+    
         <div class="lecture-details course-content">
           <div class="title-head">লেকচার ডিটেইলস</div>
           <div class="course-content-list">
@@ -243,8 +216,6 @@ ul, ol {
         </div> 
         </div>
 
-
-      <div class="bar"></div>         
          
    <div class="general-asking course-content">
           <div class="title-head">সাধারণ জিজ্ঞাসা</div>
@@ -276,6 +247,9 @@ ul, ol {
   </section> 
 </div>
 
+</div>
+
+</section>
 
 <style>
   .modal-iframe {
@@ -301,9 +275,7 @@ ul, ol {
     </div>
   </div>
 
-
-</section>
-  <br><br><br>
+<br><br><br>
 
 <div class="bottom-pay">
   <span><strike style="color:rgb(145 22 66)">৳&nbsp;<%= course.course_discount %></strike> <br> ৳&nbsp;<%= course.course_fee %></span> <span> <a href="/bkash-payment?course_id=<%= course.course_id %>">কোর্সটি কিনুন</a></span>
@@ -405,22 +377,6 @@ $(document).ready(function() {
 
 
 
-
-
-$(document).ready(function() {
-      // Toggle menu when top-nav-left is clicked
-      $("#top-nav-left").click(function() {
-        $("#menulist").toggle();
-      });
-    
-      // Hide menu when user clicks anywhere on the body
-      $("body").click(function(event) {
-        if(!$(event.target).closest("#top-nav-left, #menulist").length) {
-          $("#menulist").hide();
-        }
-      });
-    });
-    
 
   	
 
