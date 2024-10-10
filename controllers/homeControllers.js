@@ -18,7 +18,7 @@ const getIndex = async (req, res) => {
   const getDoubts = async (req, res) => {
     try {
       const page = parseInt(req.query.page) || 1; // current page, default to 1
-      const perPage = 5; // number of doubts per page
+      const perPage = 50; // number of doubts per page
   
       const data = await Doubt.findOne({ user: req.user }).populate({
         path: "question_ids",
