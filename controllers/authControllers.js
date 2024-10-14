@@ -109,11 +109,11 @@ const getLogin = async (req, res) => {
             console.log("OTP saved to database");
         
             // SMS SENDING TO USER
-            const api_key = 'MJM96MHLQ4XW9NN'; // Update with your API key
-            const senderid = '8809601004771'; // Update with your Sender Id
+            const api_key = 'I0PE1KJ5DXNV4GA'; // Update with your API key
+            const senderid = '8809617621077'; // Update with your Sender Id
             const url = 'https://api.mimsms.com/api/SmsSending/SMS';
             const data = {
-              "UserName": "jlhs0177@gmail.com", // Update with your username
+              "UserName": "ashrafulashik0177@gmail.com", // Update with your username
               "Apikey": api_key,
               "MobileNumber": "88" + phoneNumber, // Corrected format
               "CampaignId": "null",
