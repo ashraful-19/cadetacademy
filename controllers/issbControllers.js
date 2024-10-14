@@ -66,7 +66,7 @@ console.log(isPayment)
   const getPractice = async (req, res) => {
     try {
       const page = parseInt(req.query.page) || 1; // current page, default to 1
-      const perPage = 19; // number of users per page
+      const perPage = 18; // number of users per page
       const type = req.query.type; // ppdt
       const text_type = req.query.text_type; // bangla or english or both
   
