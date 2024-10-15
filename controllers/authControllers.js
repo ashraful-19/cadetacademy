@@ -119,7 +119,7 @@ const getLogin = async (req, res) => {
               "CampaignId": "null",
               "SenderName": senderid,
               "TransactionType": "T",
-              "Message": `${otpCode} is your OTP - Cadet Academy`,
+              "Message": `${otpCode} is your OTP - Mission Academy`,
             };
             // Send SMS
             const response = await axios.post(url, data, {
